@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://lua.ren/skills/2026-03-20-mac-mini-m4-qwen-tts/</loc>
+    
+    <lastmod>2026-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lua.ren/news/2026-03-23-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
     
     <lastmod>2026-03-24</lastmod>
@@ -21,15 +30,6 @@
   
   <url>
     <loc>https://lua.ren/news/2026-03-24-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
-    
-    <lastmod>2026-03-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/skills/2026-03-20-mac-mini-m4-qwen-tts/</loc>
     
     <lastmod>2026-03-24</lastmod>
     
@@ -110,7 +110,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/questions/procurement.json</loc>
+    <loc>https://lua.ren/data/questions/integration.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/questions/integration.json</loc>
+    <loc>https://lua.ren/data/questions/schedule.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/questions/schedule.json</loc>
+    <loc>https://lua.ren/data/questions/procurement.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -155,15 +155,6 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/questions/cost.json</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://lua.ren/data/questions/communication.json</loc>
     
     <lastmod>2026-03-19</lastmod>
@@ -173,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/questions/scope.json</loc>
+    <loc>https://lua.ren/data/questions/cost.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -182,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/kemuyi-questions/traffic-signals.json</loc>
+    <loc>https://lua.ren/data/questions/scope.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -209,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/kemuyi-questions/index.json</loc>
+    <loc>https://lua.ren/data/kemuyi-questions/traffic-signals.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -219,6 +210,15 @@
   
   <url>
     <loc>https://lua.ren/data/kemuyi-questions/emergency.json</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/data/kemuyi-questions/index.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -281,15 +281,6 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/ket-vocabulary/school.json</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://lua.ren/data/ket-vocabulary/sports.json</loc>
     
     <lastmod>2026-03-19</lastmod>
@@ -299,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/data/ket-vocabulary/family.json</loc>
+    <loc>https://lua.ren/data/ket-vocabulary/school.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -309,6 +300,15 @@
   
   <url>
     <loc>https://lua.ren/data/ket-vocabulary/food.json</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/data/ket-vocabulary/family.json</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -353,7 +353,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/11-backlinks.html</loc>
+    <loc>https://lua.ren/obsidian/13-tags.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -362,7 +362,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/13-tags.html</loc>
+    <loc>https://lua.ren/obsidian/11-backlinks.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -398,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/15-properties.html</loc>
+    <loc>https://lua.ren/obsidian/17-advanced-search.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -407,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/17-advanced-search.html</loc>
+    <loc>https://lua.ren/obsidian/15-properties.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -425,7 +425,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/34-text-generator-advanced.html</loc>
+    <loc>https://lua.ren/obsidian/35-smart-connections-intro.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -434,7 +434,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/35-smart-connections-intro.html</loc>
+    <loc>https://lua.ren/obsidian/34-text-generator-advanced.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -551,7 +551,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/45-prompt-engineering.html</loc>
+    <loc>https://lua.ren/obsidian/46-ai-best-practices.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -560,7 +560,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/46-ai-best-practices.html</loc>
+    <loc>https://lua.ren/obsidian/45-prompt-engineering.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -623,7 +623,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/43-chatgpt-md-advanced.html</loc>
+    <loc>https://lua.ren/obsidian/44-ai-writing-workflow.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -632,7 +632,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/44-ai-writing-workflow.html</loc>
+    <loc>https://lua.ren/obsidian/43-chatgpt-md-advanced.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -695,7 +695,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/49-knowledge-network.html</loc>
+    <loc>https://lua.ren/obsidian/48-zettelkasten.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -704,7 +704,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/48-zettelkasten.html</loc>
+    <loc>https://lua.ren/obsidian/49-knowledge-network.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -938,15 +938,6 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/prompt/01-prompt-basics.html</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://lua.ren/prompt/02-text-prompts.html</loc>
     
     <lastmod>2026-03-19</lastmod>
@@ -957,6 +948,15 @@
   
   <url>
     <loc>https://lua.ren/prompt/03-novel-prompts.html</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/prompt/01-prompt-basics.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1028,7 +1028,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/markdown-tutorial/index.html</loc>
+    <loc>https://lua.ren/markdown-tutorial/home.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1037,7 +1037,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/markdown-tutorial/home.html</loc>
+    <loc>https://lua.ren/markdown-tutorial/index.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1064,7 +1064,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/wiki/exa/index.html</loc>
+    <loc>https://lua.ren/wiki/lua/index.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1073,7 +1073,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/wiki/lua/index.html</loc>
+    <loc>https://lua.ren/wiki/exa/index.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1262,7 +1262,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/claude/07-mcp-python-sdk.html</loc>
+    <loc>https://lua.ren/claude/06-mcp-servers.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1271,7 +1271,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/claude/06-mcp-servers.html</loc>
+    <loc>https://lua.ren/claude/07-mcp-python-sdk.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1469,6 +1469,15 @@
   </url>
   
   <url>
+    <loc>https://lua.ren/obsidian/15-properties/</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lua.ren/obsidian/12-graph-view/</loc>
     
     <lastmod>2026-03-19</lastmod>
@@ -1488,15 +1497,6 @@
   
   <url>
     <loc>https://lua.ren/obsidian/20-template-variables/</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/obsidian/15-properties/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1559,7 +1559,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/45-prompt-engineering/</loc>
+    <loc>https://lua.ren/obsidian/46-ai-best-practices/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1568,7 +1568,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/46-ai-best-practices/</loc>
+    <loc>https://lua.ren/obsidian/45-prompt-engineering/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1631,6 +1631,15 @@
   </url>
   
   <url>
+    <loc>https://lua.ren/obsidian/55-project-tracking/</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lua.ren/obsidian/56-idea-collection/</loc>
     
     <lastmod>2026-03-19</lastmod>
@@ -1641,15 +1650,6 @@
   
   <url>
     <loc>https://lua.ren/obsidian/home/</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/obsidian/55-project-tracking/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1703,7 +1703,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/48-zettelkasten/</loc>
+    <loc>https://lua.ren/obsidian/49-knowledge-network/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1712,7 +1712,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/49-knowledge-network/</loc>
+    <loc>https://lua.ren/obsidian/48-zettelkasten/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1757,7 +1757,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/28-hotkeys/</loc>
+    <loc>https://lua.ren/obsidian/27-css-snippets/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1766,7 +1766,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/27-css-snippets/</loc>
+    <loc>https://lua.ren/obsidian/28-hotkeys/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1829,7 +1829,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/60-sync-solutions/</loc>
+    <loc>https://lua.ren/obsidian/54-gtd-system/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1838,7 +1838,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/obsidian/54-gtd-system/</loc>
+    <loc>https://lua.ren/obsidian/60-sync-solutions/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1964,7 +1964,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/news/2026-03-16-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
+    <loc>https://lua.ren/news/2026-03-11-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -1973,7 +1973,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/news/2026-03-11-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
+    <loc>https://lua.ren/news/2026-03-16-Freebuf%E6%AF%8F%E6%97%A5%E6%96%B0%E9%97%BB/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2027,7 +2027,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/2026-02-21-openclaw-tavily-skills-web-search/</loc>
+    <loc>https://lua.ren/openclaw/2025-03-06-openclaw-feishu-chatbot/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2036,7 +2036,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/2025-03-06-openclaw-feishu-chatbot/</loc>
+    <loc>https://lua.ren/openclaw/2026-02-21-openclaw-tavily-skills-web-search/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2081,7 +2081,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/2026-02-25-openclaw-create-skill/</loc>
+    <loc>https://lua.ren/openclaw/2026-02-15-openclaw-tutorial/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2099,16 +2099,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/2026-02-15-openclaw-tutorial/</loc>
-    
-    <lastmod>2026-03-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/openclaw/2026-03-05-openclaw-security-ClawJacked/</loc>
+    <loc>https://lua.ren/openclaw/2026-02-25-openclaw-create-skill/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2118,6 +2109,15 @@
   
   <url>
     <loc>https://lua.ren/openclaw/2026-02-28-openclaw-llm-add-provider/</loc>
+    
+    <lastmod>2026-03-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/openclaw/2026-03-05-openclaw-security-ClawJacked/</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2279,7 +2279,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/05-core-concepts.html</loc>
+    <loc>https://lua.ren/openclaw/10-skill-system.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -2288,7 +2288,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/openclaw/10-skill-system.html</loc>
+    <loc>https://lua.ren/openclaw/05-core-concepts.html</loc>
     
     <lastmod>2026-03-19</lastmod>
     
@@ -3206,6 +3206,27 @@
 
   
   <url>
+    <loc>https://lua.ren/tags/%E7%A7%91%E7%9B%AE%E4%B8%80/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/tags/%E4%BA%A4%E8%A7%84/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/tags/%E5%A4%87%E8%80%83/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://lua.ren/tags/Claude/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -3241,21 +3262,14 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/tags/%E7%A7%91%E7%9B%AE%E4%B8%80/</loc>
+    <loc>https://lua.ren/tags/JavaScript/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://lua.ren/tags/%E4%BA%A4%E8%A7%84/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/tags/%E5%A4%87%E8%80%83/</loc>
+    <loc>https://lua.ren/tags/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3297,14 +3311,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/tags/JavaScript/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/tags/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://lua.ren/tags/Freebuf%E6%96%B0%E9%97%BB/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3319,13 +3326,6 @@
   
   <url>
     <loc>https://lua.ren/tags/LLM/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/tags/Freebuf%E6%96%B0%E9%97%BB/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3374,14 +3374,21 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/tags/Skills/</loc>
+    <loc>https://lua.ren/tags/Agent/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://lua.ren/tags/Agent/</loc>
+    <loc>https://lua.ren/tags/Feishu/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/tags/Skills/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3396,13 +3403,6 @@
   
   <url>
     <loc>https://lua.ren/tags/Web-Search/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/tags/Feishu/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3460,6 +3460,13 @@
 
   
   <url>
+    <loc>https://lua.ren/categories/%E9%A9%BE%E8%80%83/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://lua.ren/categories/AIGC/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -3474,42 +3481,7 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/categories/%E9%A9%BE%E8%80%83/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/categories/AIGC/Claude/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lua.ren/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/categories/AIGC/Ollama/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lua.ren/categories/%E6%96%B0%E9%97%BB/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3523,7 +3495,21 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</loc>
+    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/categories/%E6%96%B0%E9%97%BB/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/categories/AIGC/Claude/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3531,6 +3517,20 @@
   
   <url>
     <loc>https://lua.ren/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/categories/AIGC/Ollama/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3558,13 +3558,6 @@
   </url>
   
   <url>
-    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lua.ren/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -3573,6 +3566,13 @@
   
   <url>
     <loc>https://lua.ren/categories/%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lua.ren/categories/AI%E5%B7%A5%E5%85%B7/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2026-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

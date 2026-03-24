@@ -265,7 +265,8 @@ if __name__ == &quot;__main__&quot;:
     print(get_a_stock_quote(&quot;600519&quot;))           # 贵州茅台
     print(&quot;\\n&quot; + &quot;=&quot;*50 + &quot;\\n&quot;)
     print(get_a_stock_quote([&quot;600519&quot;, &quot;601398&quot;]))  # 茅台 + 工商银行
-```</textarea><div class="editor-pane__tips"><span>快捷提示：支持表格、任务列表、代码块等 GFM 扩展语法。</span></div></div><div class="preview-pane"><label class="preview-pane__label" for="markdown-preview">实时预览</label><div class="preview-pane__surface" id="markdown-preview"></div></div></div><div class="markdown-editor__footer"><p class="footer-note">鼠标悬停按钮可查看操作提示，移动端自动切换为上下布局。</p></div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css"><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js" defer></script><script defer>document.addEventListener('DOMContentLoaded', () => {
+```</textarea><div class="editor-pane__tips"><span>快捷提示：支持表格、任务列表、代码块等 GFM 扩展语法。</span></div></div><div class="preview-pane"><label class="preview-pane__label" for="markdown-preview">实时预览</label><div class="preview-pane__surface" id="markdown-preview"></div></div></div><div class="markdown-editor__footer"><p class="footer-note">鼠标悬停按钮可查看操作提示，移动端自动切换为上下布局。</p></div></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>// 等待所有脚本加载完成
+function initMarkdownEditor() {
   const textarea = document.getElementById('markdown-input');
   const preview = document.getElementById('markdown-preview');
   const copyBtn = document.getElementById('copy-markdown');
@@ -275,6 +276,9 @@ if __name__ == &quot;__main__&quot;:
     console.error('Markdown 编辑器初始化失败：缺少依赖或目标元素。');
     return;
   }
+
+  // 检查 highlight.js 是否加载
+  console.log('highlight.js 状态:', window.hljs ? '已加载' : '未加载');
 
   // 初始化 Mermaid
   if (window.mermaid) {
@@ -286,31 +290,36 @@ if __name__ == &quot;__main__&quot;:
     });
   }
 
+  // 配置 marked（新版本不支持 highlight 选项，需要手动高亮）
   marked.setOptions({
     gfm: true,
-    breaks: true,
-    headerIds: true,
-    mangle: false
+    breaks: true
   });
 
   const renderMarkdown = async () => {
     const raw = textarea.value;
-    let html = window.DOMPurify
-      ? window.DOMPurify.sanitize(marked.parse(raw), {
-          ADD_TAGS: ['pre', 'span'],
-          ADD_ATTR: ['class', 'data-lang']
-        })
-      : marked.parse(raw);
+    // 先用 marked 解析
+    let html = marked.parse(raw);
     
+    // 不使用 DOMPurify，直接设置 HTML（DOMPurify 可能会清除 hljs 生成的 span）
     preview.innerHTML = html;
 
-    // 代码高亮
+    // 使用 highlight.js 对所有代码块进行高亮
     if (window.hljs) {
-      preview.querySelectorAll('pre code').forEach((block) => {
-        if (!block.classList.contains('language-mermaid')) {
-          hljs.highlightElement(block);
+      const codeBlocks = preview.querySelectorAll('pre code');
+      console.log('找到代码块数量:', codeBlocks.length);
+      codeBlocks.forEach((block, index) => {
+        // 跳过 mermaid 代码块
+        if (block.classList.contains('language-mermaid')) {
+          return;
         }
+        // 高亮代码块
+        console.log('高亮代码块', index, '类名:', block.className);
+        hljs.highlightElement(block);
+        console.log('高亮后类名:', block.className);
       });
+    } else {
+      console.warn('highlight.js 未加载，代码高亮不可用');
     }
 
     // 渲染 Mermaid 图表
@@ -377,7 +386,14 @@ if __name__ == &quot;__main__&quot;:
     document.body.removeChild(anchor);
     URL.revokeObjectURL(url);
   });
-});</script><style>/* 隐藏 page-title 标题 */
+}
+
+// 页面加载完成后初始化编辑器
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMarkdownEditor);
+} else {
+  initMarkdownEditor();
+}</script><style>/* 隐藏 page-title 标题 */
 #page h1.page-title {
   display: none;
 }
@@ -930,7 +946,7 @@ if __name__ == &quot;__main__&quot;:
 .editor-pane__input::-webkit-scrollbar-thumb:hover,
 .preview-pane__surface::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
-}</style></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Markdown在线编辑器</div><div class="footer_webinfo"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">99</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-24T09:46:56.913Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div><script>(function () {
+}</style></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Markdown在线编辑器</div><div class="footer_webinfo"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">99</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-24T10:17:10.986Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div><script>(function () {
   var meta = document.createElement('meta');
   meta.content = 'no-referrer';
   meta.name = 'referrer';
