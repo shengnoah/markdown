@@ -663,6 +663,147 @@ if __name__ == &quot;__main__&quot;:
   border-radius: 0;
 }
 
+/* ========== 代码语法高亮样式 (GitHub 风格) ========== */
+.preview-pane__surface pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  color: #24292e;
+  background: #f6f8fa;
+}
+
+/* 注释 */
+.preview-pane__surface .hljs-comment,
+.preview-pane__surface .hljs-quote {
+  color: #6a737d;
+  font-style: italic;
+}
+
+/* 关键字 */
+.preview-pane__surface .hljs-keyword,
+.preview-pane__surface .hljs-selector-tag,
+.preview-pane__surface .hljs-addition {
+  color: #d73a49;
+}
+
+/* 字符串 */
+.preview-pane__surface .hljs-string,
+.preview-pane__surface .hljs-meta .hljs-string,
+.preview-pane__surface .hljs-regexp,
+.preview-pane__surface .hljs-attribute {
+  color: #032f62;
+}
+
+/* 数字 */
+.preview-pane__surface .hljs-number,
+.preview-pane__surface .hljs-literal,
+.preview-pane__surface .hljs-variable,
+.preview-pane__surface .hljs-template-variable,
+.preview-pane__surface .hljs-tag .hljs-attr {
+  color: #005cc5;
+}
+
+/* 函数名 */
+.preview-pane__surface .hljs-title,
+.preview-pane__surface .hljs-section,
+.preview-pane__surface .hljs-selector-id {
+  color: #6f42c1;
+  font-weight: bold;
+}
+
+/* 类名、类型 */
+.preview-pane__surface .hljs-type,
+.preview-pane__surface .hljs-class .hljs-title,
+.preview-pane__surface .hljs-built_in,
+.preview-pane__surface .hljs-builtin-name {
+  color: #22863a;
+}
+
+/* 符号、操作符 */
+.preview-pane__surface .hljs-symbol,
+.preview-pane__surface .hljs-bullet,
+.preview-pane__surface .hljs-link {
+  color: #e36209;
+}
+
+/* 删除线 */
+.preview-pane__surface .hljs-deletion {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+/* 添加 */
+.preview-pane__surface .hljs-addition {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+/* 元信息 */
+.preview-pane__surface .hljs-meta {
+  color: #6f42c1;
+}
+
+/* 强调 */
+.preview-pane__surface .hljs-emphasis {
+  font-style: italic;
+}
+
+.preview-pane__surface .hljs-strong {
+  font-weight: bold;
+}
+
+/* 名称、属性名 */
+.preview-pane__surface .hljs-name,
+.preview-pane__surface .hljs-selector-class {
+  color: #22863a;
+}
+
+/* 参数 */
+.preview-pane__surface .hljs-params {
+  color: #24292e;
+}
+
+/* 标签 */
+.preview-pane__surface .hljs-tag {
+  color: #22863a;
+}
+
+/* 属性 */
+.preview-pane__surface .hljs-attr {
+  color: #6f42c1;
+}
+
+/* 子字符串 */
+.preview-pane__surface .hljs-subst {
+  color: #24292e;
+}
+
+/* 公式 */
+.preview-pane__surface .hljs-formula {
+  background-color: #f6f8fa;
+  font-style: italic;
+}
+
+/* 代码块行号区域 */
+.preview-pane__surface pre {
+  position: relative;
+}
+
+/* 代码语言标签 */
+.preview-pane__surface pre code[class*="language-"]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25em 0.5em;
+  font-size: 0.75em;
+  color: #6b7280;
+  background: #e5e7eb;
+  border-radius: 0 6px 0 6px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 .preview-pane__surface blockquote {
   margin: 1em 0;
   padding-left: 1em;
@@ -789,7 +930,7 @@ if __name__ == &quot;__main__&quot;:
 .editor-pane__input::-webkit-scrollbar-thumb:hover,
 .preview-pane__surface::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
-}</style></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Markdown在线编辑器</div><div class="footer_webinfo"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">99</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-24T09:35:09.991Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div><script>(function () {
+}</style></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Markdown在线编辑器</div><div class="footer_webinfo"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">99</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-24T09:46:56.913Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div><script>(function () {
   var meta = document.createElement('meta');
   meta.content = 'no-referrer';
   meta.name = 'referrer';
