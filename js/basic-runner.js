@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // PRINT 语句
       if (cmd.startsWith('PRINT ')) {
         const expr = statement.substring(6).trim();
-        const value = this.evaluateExpression(expr);
+        const value = this.evaluatePrintExpression(expr);
         this.addOutput(value);
       }
       // LET 语句
@@ -277,6 +277,50 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (error) {
         throw new Error(`表达式求值错误: ${expr}`);
       }
+    }
+
+    // 处理 PRINT 语句的表达式（支持分号拼接）
+    evaluatePrintExpression(expr) {
+      expr = expr.trim();
+      
+      // 如果没有分号，直接求值
+      if (!expr.includes(';')) {
+        return String(this.evaluateExpression(expr));
+      }
+      
+      // 解析分号分隔的表达式
+      const parts = [];
+      let current = '';
+      let inString = false;
+      
+      for (let i = 0; i < expr.length; i++) {
+        const char = expr[i];
+        
+        if (char === '"') {
+          inString = !inString;
+          current += char;
+        } else if (char === ';' && !inString) {
+          if (current.trim()) {
+            parts.push(current.trim());
+          }
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      
+      // 添加最后一部分
+      if (current.trim()) {
+        parts.push(current.trim());
+      }
+      
+      // 求值并拼接
+      const results = parts.map(part => {
+        const value = this.evaluateExpression(part);
+        return String(value);
+      });
+      
+      return results.join('');
     }
   }
 
