@@ -5419,6 +5419,8 @@ maxWidth500()
   -o-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
+  max-width: 80%;
+  white-space: nowrap;
 }
 #nav .menus_items .menus_item {
   position: relative;
