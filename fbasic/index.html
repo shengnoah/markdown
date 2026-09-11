@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在浏览器中体验 FC Family BASIC 风格的语法解释器。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>FBASIC 模拟器 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <section class="fbasic-page">
+  <div class="container">
+    <div class="fbasic-hero">
+      <p class="fbasic-kicker">Family BASIC Simulator</p>
+      <h1>FBASIC 语法解释器</h1>
+      <p>在浏览器中模拟 FC Family BASIC 风格的行号程序、基础语法和部分特有命令。当前支持 <code>PRINT</code>、<code>LET</code>、<code>INPUT</code>、<code>IF ... THEN</code>、<code>GOTO</code>、<code>GOSUB</code>、<code>RETURN</code>、<code>FOR/NEXT</code>、<code>END</code>、<code>REM</code>、<code>CLS</code>。</p>
+    </div>
+
+    <div class="fbasic-mode-tabs" role="tablist" aria-label="FBASIC 模式选择">
+      <button class="fbasic-mode-tab" id="fbasic-modern-tab" type="button">现代编辑器模式</button>
+      <button class="fbasic-mode-tab active" id="fbasic-console-tab" type="button">真实 FBASIC 模式</button>
+    </div>
+
+    <div class="fbasic-display-controls" aria-label="单色显示器设置">
+      <label>
+        显示颜色
+        <select id="fbasic-display-theme">
+          <option value="green">绿色</option>
+          <option value="amber">琥珀黄</option>
+          <option value="mono" selected>黑白</option>
+        </select>
+      </label>
+      <label>
+        显示字体
+        <select id="fbasic-display-font">
+          <option value="mono">等宽字体</option>
+          <option value="pixel">像素风字体</option>
+          <option value="crt">CRT 终端字体</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="fbasic-modern-mode" class="fbasic-mode-panel" hidden>
+      <div class="fbasic-workbench">
+        <div class="fbasic-editor-panel">
+          <div class="fbasic-panel-head">
+            <h2>程序编辑区</h2>
+            <span>输入带行号的 BASIC 程序</span>
+          </div>
+          <textarea id="fbasic-code" spellcheck="false">10 CLS
+20 PRINT "HELLO FAMILY BASIC"
+30 LET A = 1
+40 FOR I = 1 TO 5
+50 PRINT "I="; I; " A="; A
+60 LET A = A + I
+70 NEXT I
+80 INPUT "YOUR NAME"; N$
+90 IF N$ = "" THEN 120
+100 PRINT "NICE TO MEET YOU, "; N$
+110 GOTO 130
+120 PRINT "NO NAME? OK!"
+130 PRINT "READY."
+140 END</textarea>
+          <div class="fbasic-actions">
+            <button class="btn btn-primary" id="fbasic-run">RUN</button>
+            <button class="btn" id="fbasic-list">LIST</button>
+            <button class="btn" id="fbasic-clear">CLS</button>
+            <button class="btn btn-ghost" id="fbasic-reset">示例程序</button>
+          </div>
+        </div>
+
+        <div class="fbasic-screen-panel">
+          <div class="fbasic-panel-head">
+            <h2>模拟屏幕</h2>
+            <span>Family BASIC 输出</span>
+          </div>
+          <pre id="fbasic-screen" class="fbasic-screen"></pre>
+          <div class="fbasic-command-line">
+            <span class="fbasic-prompt">]</span>
+            <input id="fbasic-command" type="text" spellcheck="false" autocomplete="off" placeholder="输入 CLS / SYSTEM / LIST / RUN 后按 Enter">
+            <button class="btn btn-primary" id="fbasic-exec">执行</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fbasic-console-mode" class="fbasic-mode-panel">
+      <div class="fbasic-console-panel">
+        <div class="fbasic-panel-head">
+          <h2>真实 FBASIC 控制台</h2>
+          <span>同一输入区录入程序行或直接命令</span>
+        </div>
+        <pre id="fbasic-console-output" class="fbasic-console-output"></pre>
+        <div class="fbasic-console-input-row">
+          <span class="fbasic-prompt">]</span>
+          <input id="fbasic-console-input" type="text" spellcheck="false" autocomplete="off" placeholder="例如：10 PRINT "HELLO"、LIST、RUN、CLS、SYSTEM">
+        </div>
+      </div>
+    </div>
+
+    <div class="fbasic-help">
+      <h2>已支持语法</h2>
+      <div class="fbasic-help-grid">
+        <div><code>PRINT "TEXT"</code><span>输出文字或表达式</span></div>
+        <div><code>CLS</code><span>清屏，模拟 Family BASIC 特有命令</span></div>
+        <div><code>LET A = 10</code><span>变量赋值，<code>LET</code> 可省略</span></div>
+        <div><code>INPUT "NAME"; N$</code><span>读取用户输入</span></div>
+        <div><code>IF A > 3 THEN 100</code><span>条件跳转或执行语句</span></div>
+        <div><code>FOR I = 1 TO 10</code><span>循环，支持 <code>STEP</code></span></div>
+        <div><code>GOTO 100</code><span>跳转到指定行号</span></div>
+        <div><code>GOSUB 200</code><span>调用子程序，配合 <code>RETURN</code></span></div>
+        <div><code>LIST</code><span>直接命令：列出编辑区程序</span></div>
+        <div><code>SYSTEM</code><span>直接命令：重置模拟器状态</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/js/fbasic.js"></script>
+<script src="/js/fbasic-console.js"></script>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  
+<script src="/js/main.js"></script>
+
+</body>
+</html>
