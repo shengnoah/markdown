@@ -426,9 +426,9 @@ img {
   border: 0;
   outline: none;
   padding: 20px;
-  color: #e6fff0;
-  background: #08111f;
-  font: 15px/1.55 'SF Mono', Monaco, Consolas, monospace;
+  color: var(--fbasic-fg, #e6fff0);
+  background: var(--fbasic-bg, #08111f);
+  font: 15px/1.55 var(--fbasic-font, 'SF Mono', Monaco, Consolas, monospace);
 }
 .fbasic-actions {
   display: flex;
@@ -536,8 +536,8 @@ img {
   border-radius: 8px;
   outline: none;
   padding: 10px 12px;
-  color: #e6fff0;
-  background: #020804;
+  color: var(--fbasic-fg, #e6fff0);
+  background: var(--fbasic-bg, #020804);
   font: 15px/1.4 var(--fbasic-font, 'SF Mono', Monaco, Consolas, monospace);
 }
 #fbasic-console-input:focus {
