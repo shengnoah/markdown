@@ -52,7 +52,7 @@
     <div class="fbasic-hero">
       <p class="fbasic-kicker">Family BASIC Simulator</p>
       <h1>FBASIC 语法解释器</h1>
-      <p>在浏览器中模拟 FC Family BASIC 风格的行号程序、基础语法和部分特有命令。当前支持 <code>PRINT</code>、<code>LET</code>、<code>INPUT</code>、<code>IF ... THEN</code>、<code>GOTO</code>、<code>GOSUB</code>、<code>RETURN</code>、<code>FOR/NEXT</code>、<code>END</code>、<code>REM</code>、<code>CLS</code>。</p>
+      <p>在浏览器中模拟 FC Family BASIC 风格的行号程序、基础语法和部分特有命令。当前支持 <code>PRINT</code>、<code>LET</code>、<code>INPUT</code>、<code>IF ... THEN</code>、<code>GOTO</code>、<code>GOSUB</code>、<code>RETURN</code>、<code>FOR/NEXT</code>、<code>END</code>、<code>REM</code>、<code>CLS</code>，以及 <code>CHR$()</code>、<code>ASC()</code>、<code>LEN()</code>、<code>MID$()</code>、<code>LEFT$()</code>、<code>RIGHT$()</code>、<code>RND()</code>、<code>INT()</code>、<code>ABS()</code>、<code>VAL()</code>、<code>STR$()</code>。</p>
     </div>
 
     <div class="fbasic-mode-tabs" role="tablist" aria-label="FBASIC 模式选择">
@@ -77,6 +77,7 @@
           <option value="crt">CRT 终端字体</option>
         </select>
       </label>
+      <button class="btn btn-ghost" id="fbasic-fullscreen" type="button">全屏显示</button>
     </div>
 
     <div id="fbasic-modern-mode" class="fbasic-mode-panel" hidden>
@@ -130,6 +131,7 @@
           <span>同一输入区录入程序行或直接命令</span>
         </div>
         <pre id="fbasic-console-output" class="fbasic-console-output"></pre>
+        <div class="fbasic-resizer" id="fbasic-console-resizer"></div>
         <div class="fbasic-console-input-row">
           <span class="fbasic-prompt">]</span>
           <input id="fbasic-console-input" type="text" spellcheck="false" autocomplete="off" placeholder="例如：10 PRINT "HELLO"、LIST、RUN、CLS、SYSTEM">
@@ -150,10 +152,94 @@
         <div><code>GOSUB 200</code><span>调用子程序，配合 <code>RETURN</code></span></div>
         <div><code>LIST</code><span>直接命令：列出编辑区程序</span></div>
         <div><code>SYSTEM</code><span>直接命令：重置模拟器状态</span></div>
+        <div><code>CHR$()</code><span>按字符编码返回字符，例如 <code>CHR$(65)</code></span></div>
+        <div><code>ASC()</code><span>返回字符串首字符编码</span></div>
+        <div><code>LEN()</code><span>返回字符串长度</span></div>
+        <div><code>LEFT$()</code><span>返回字符串左侧指定长度</span></div>
+        <div><code>RIGHT$()</code><span>返回字符串右侧指定长度</span></div>
+        <div><code>MID$()</code><span>返回字符串中间片段</span></div>
+        <div><code>RND()</code><span>返回 0 到 1 之间的随机数</span></div>
+        <div><code>INT()</code><span>返回向下取整后的整数</span></div>
+        <div><code>ABS()</code><span>返回绝对值</span></div>
+        <div><code>VAL()</code><span>将字符串转换为数字</span></div>
+        <div><code>STR$()</code><span>将数字转换为字符串</span></div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(function() {
+  var btn = document.getElementById('fbasic-fullscreen');
+  var page = document.querySelector('.fbasic-page');
+  if (!btn || !page) return;
+
+  function toggleFullscreen() {
+    page.classList.toggle('fullscreen-mode');
+    if (page.classList.contains('fullscreen-mode')) {
+      btn.textContent = '退出全屏';
+      if (!document.getElementById('fbasic-exit-fullscreen')) {
+        var exitBtn = document.createElement('button');
+        exitBtn.id = 'fbasic-exit-fullscreen';
+        exitBtn.className = 'fbasic-exit-fullscreen';
+        exitBtn.textContent = '退出全屏';
+        exitBtn.addEventListener('click', toggleFullscreen);
+        page.appendChild(exitBtn);
+      }
+    } else {
+      btn.textContent = '全屏显示';
+      var exitBtn = document.getElementById('fbasic-exit-fullscreen');
+      if (exitBtn) exitBtn.remove();
+    }
+  }
+
+  btn.addEventListener('click', toggleFullscreen);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && page.classList.contains('fullscreen-mode')) {
+      toggleFullscreen();
+    }
+  });
+
+  // ===== 拖拽分隔条逻辑 =====
+  var resizer = document.getElementById('fbasic-console-resizer');
+  var output = document.getElementById('fbasic-console-output');
+  if (resizer && output) {
+    var isDragging = false;
+    var startY = 0;
+    var startHeight = 0;
+
+    resizer.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      startY = e.clientY;
+      startHeight = output.offsetHeight;
+      document.body.style.cursor = 'ns-resize';
+      document.body.style.userSelect = 'none';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      var delta = e.clientY - startY;
+      var newHeight = startHeight + delta;
+      var minHeight = 100;
+      var maxHeight = window.innerHeight - 120;
+      if (newHeight < minHeight) newHeight = minHeight;
+      if (newHeight > maxHeight) newHeight = maxHeight;
+      output.style.flex = 'none';
+      output.style.height = newHeight + 'px';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (isDragging) {
+        isDragging = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+    });
+  }
+})();
+</script>
 
 <script src="/js/fbasic.js"></script>
 <script src="/js/fbasic-console.js"></script>

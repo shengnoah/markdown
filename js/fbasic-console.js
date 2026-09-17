@@ -75,12 +75,47 @@
     if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) return Number(trimmed);
     if (/^[A-Z][A-Z0-9]*\$?$/i.test(trimmed)) return getVar(trimmed);
 
+    const builtinValue = evalBuiltinFunction(trimmed);
+    if (builtinValue !== null) return builtinValue;
+
     const replaced = trimmed.replace(/"([^"\\]|\\.)*"|[A-Z][A-Z0-9]*\$?/gi, (token) => {
       if (token.startsWith('"')) return token;
       return JSON.stringify(getVar(token));
     });
     if (!/^[\d\s+\-*/()."A-Za-z_,$]*$/.test(replaced)) throw new Error('SYNTAX ERROR');
     return Function(`"use strict"; return (${replaced});`)();
+  }
+
+  function evalBuiltinFunction(expr) {
+    const match = expr.match(/^([A-Z]+\$?)\((.*)\)$/i);
+    if (!match) return null;
+
+    const name = match[1].toUpperCase();
+    const args = splitPrint(match[2]).map((arg) => evalExpr(arg.trim()));
+
+    switch (name) {
+      case 'CHR$': return String.fromCharCode(Number(args[0]) || 0);
+      case 'ASC': return String(args[0] ?? '').charCodeAt(0) || 0;
+      case 'LEN': return String(args[0] ?? '').length;
+      case 'LEFT$': return String(args[0] ?? '').slice(0, Number(args[1]) || 0);
+      case 'RIGHT$': {
+        const text = String(args[0] ?? '');
+        const count = Number(args[1]) || 0;
+        return text.slice(Math.max(0, text.length - count));
+      }
+      case 'MID$': {
+        const text = String(args[0] ?? '');
+        const start = Math.max(1, Number(args[1]) || 1) - 1;
+        const length = args.length > 2 ? Number(args[2]) || 0 : text.length;
+        return text.slice(start, start + length);
+      }
+      case 'RND': return Math.random();
+      case 'INT': return Math.floor(Number(args[0]) || 0);
+      case 'ABS': return Math.abs(Number(args[0]) || 0);
+      case 'VAL': return Number.parseFloat(String(args[0] ?? '')) || 0;
+      case 'STR$': return String(Number(args[0]) || 0);
+      default: return null;
+    }
   }
 
   function splitPrint(expr) {

@@ -340,7 +340,42 @@
       if (this.isVariableName(trimmed.toUpperCase())) return this.getVariable(trimmed.toUpperCase());
       if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) return Number(trimmed);
 
+      const builtinValue = this.evalBuiltinFunction(trimmed);
+      if (builtinValue !== null) return builtinValue;
+
       return this.evalArithmetic(trimmed);
+    }
+
+    evalBuiltinFunction(expr) {
+      const match = expr.match(/^([A-Z]+\$?)\((.*)\)$/i);
+      if (!match) return null;
+
+      const name = match[1].toUpperCase();
+      const args = this.splitTopLevel(match[2], /,/g).map((arg) => this.evalExpression(arg.trim()));
+
+      switch (name) {
+        case 'CHR$': return String.fromCharCode(Number(args[0]) || 0);
+        case 'ASC': return String(args[0] ?? '').charCodeAt(0) || 0;
+        case 'LEN': return String(args[0] ?? '').length;
+        case 'LEFT$': return String(args[0] ?? '').slice(0, Number(args[1]) || 0);
+        case 'RIGHT$': {
+          const text = String(args[0] ?? '');
+          const count = Number(args[1]) || 0;
+          return text.slice(Math.max(0, text.length - count));
+        }
+        case 'MID$': {
+          const text = String(args[0] ?? '');
+          const start = Math.max(1, Number(args[1]) || 1) - 1;
+          const length = args.length > 2 ? Number(args[2]) || 0 : text.length;
+          return text.slice(start, start + length);
+        }
+        case 'RND': return Math.random();
+        case 'INT': return Math.floor(Number(args[0]) || 0);
+        case 'ABS': return Math.abs(Number(args[0]) || 0);
+        case 'VAL': return Number.parseFloat(String(args[0] ?? '')) || 0;
+        case 'STR$': return String(Number(args[0]) || 0);
+        default: return null;
+      }
     }
 
     evalArithmetic(expr) {
