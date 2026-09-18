@@ -266,6 +266,11 @@
     running = true;
     pc = 0;
     forStack.length = 0;
+    if (window.fbasicIncrementRuns) window.fbasicIncrementRuns();
+    if (window.fbasicAddHistory && lines.length) {
+      var code = lines.map(function(l) { return l.number + ' ' + l.code; }).join('\n');
+      window.fbasicAddHistory(code, 'console');
+    }
     let guard = 0;
     while (running && pc < lines.length) {
       if (++guard > 10000) throw new Error('BREAK IN LOOP');
@@ -324,7 +329,7 @@
   function applyDisplaySettings() {
     const theme = displayTheme?.value || 'green';
     const font = displayFont?.value || 'mono';
-    document.body.classList.remove('fbasic-theme-green', 'fbasic-theme-amber', 'fbasic-theme-mono');
+    document.body.classList.remove('fbasic-theme-green', 'fbasic-theme-amber', 'fbasic-theme-mono', 'fbasic-theme-fc');
     document.body.classList.remove('fbasic-font-mono', 'fbasic-font-pixel', 'fbasic-font-crt');
     document.body.classList.add(`fbasic-theme-${theme}`, `fbasic-font-${font}`);
   }

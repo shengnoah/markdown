@@ -60,13 +60,14 @@
       <button class="fbasic-mode-tab active" id="fbasic-console-tab" type="button">真实 FBASIC 模式</button>
     </div>
 
-    <div class="fbasic-display-controls" aria-label="单色显示器设置">
+    <div class="fbasic-display-controls" aria-label="显示器设置">
       <label>
-        显示颜色
+        显示风格
         <select id="fbasic-display-theme">
-          <option value="green">绿色</option>
+          <option value="green">绿色屏幕</option>
           <option value="amber">琥珀黄</option>
           <option value="mono" selected>黑白</option>
+          <option value="fc">红白机 FC</option>
         </select>
       </label>
       <label>
@@ -87,7 +88,9 @@
             <h2>程序编辑区</h2>
             <span>输入带行号的 BASIC 程序</span>
           </div>
-          <textarea id="fbasic-code" spellcheck="false">10 CLS
+          <div class="fbasic-editor-wrap">
+            <pre id="fbasic-code-highlight" class="fbasic-code-highlight language-basic" aria-hidden="true"></pre>
+            <textarea id="fbasic-code" spellcheck="false">10 CLS
 20 PRINT "HELLO FAMILY BASIC"
 30 LET A = 1
 40 FOR I = 1 TO 5
@@ -101,6 +104,7 @@
 120 PRINT "NO NAME? OK!"
 130 PRINT "READY."
 140 END</textarea>
+          </div>
           <div class="fbasic-actions">
             <button class="btn btn-primary" id="fbasic-run">RUN</button>
             <button class="btn" id="fbasic-list">LIST</button>
@@ -136,6 +140,23 @@
           <span class="fbasic-prompt">]</span>
           <input id="fbasic-console-input" type="text" spellcheck="false" autocomplete="off" placeholder="例如：10 PRINT "HELLO"、LIST、RUN、CLS、SYSTEM">
         </div>
+      </div>
+    </div>
+
+    <div class="fbasic-stats-bar">
+      <span class="fbasic-stat-item">访客计数: <strong id="fbasic-visitor-count">-</strong></span>
+      <span class="fbasic-stat-item">本机运行次数: <strong id="fbasic-local-runs">0</strong></span>
+      <button class="btn btn-ghost fbasic-history-btn" id="fbasic-toggle-history" type="button">历史代码</button>
+    </div>
+
+    <div class="fbasic-history-panel" id="fbasic-history-panel" hidden>
+      <div class="fbasic-panel-head">
+        <h2>历史代码记录</h2>
+        <span>本地保存的运行历史 (最多 20 条)</span>
+      </div>
+      <div class="fbasic-history-list" id="fbasic-history-list"></div>
+      <div class="fbasic-history-actions">
+        <button class="btn btn-ghost" id="fbasic-clear-history" type="button">清空历史</button>
       </div>
     </div>
 
@@ -238,6 +259,148 @@
       }
     });
   }
+})();
+
+// ===== 访客计数 & 历史代码 =====
+(function() {
+  // 访客计数 (使用 countapi 免费 API)
+  var countEl = document.getElementById('fbasic-visitor-count');
+  if (countEl) {
+    fetch('https://api.countapi.xyz/hit/markdown-ren-fbasic/visits')
+      .then(function(r) { return r.json(); })
+      .then(function(d) { if (d && d.value) countEl.textContent = d.value; })
+      .catch(function() { countEl.textContent = 'N/A'; });
+  }
+
+  // 本机运行次数 (localStorage)
+  var runsEl = document.getElementById('fbasic-local-runs');
+  var localRuns = parseInt(localStorage.getItem('fbasic-local-runs') || '0', 10);
+  if (runsEl) runsEl.textContent = localRuns;
+
+  // 暴露给外部调用: 每次运行程序时 +1
+  window.fbasicIncrementRuns = function() {
+    localRuns += 1;
+    localStorage.setItem('fbasic-local-runs', String(localRuns));
+    if (runsEl) runsEl.textContent = localRuns;
+  };
+
+  // 历史代码 (localStorage, 最多 20 条)
+  var HISTORY_KEY = 'fbasic-code-history';
+  var historyPanel = document.getElementById('fbasic-history-panel');
+  var historyList = document.getElementById('fbasic-history-list');
+  var toggleBtn = document.getElementById('fbasic-toggle-history');
+  var clearBtn = document.getElementById('fbasic-clear-history');
+
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+
+  function saveHistory(arr) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(arr));
+  }
+
+  window.fbasicAddHistory = function(code, mode) {
+    if (!code || !code.trim()) return;
+    var history = getHistory();
+    history.unshift({ code: code.trim(), mode: mode || 'console', time: new Date().toISOString() });
+    if (history.length > 20) history = history.slice(0, 20);
+    saveHistory(history);
+    renderHistory();
+  };
+
+  function renderHistory() {
+    if (!historyList) return;
+    var history = getHistory();
+    if (!history.length) {
+      historyList.innerHTML = '<div class="fbasic-history-empty">暂无历史记录，运行程序后会自动保存</div>';
+      return;
+    }
+    historyList.innerHTML = history.map(function(item, idx) {
+      var t = new Date(item.time);
+      var timeStr = t.getMonth()+1 + '/' + t.getDate() + ' ' + t.getHours() + ':' + String(t.getMinutes()).padStart(2,'0');
+      var modeLabel = item.mode === 'modern' ? '编辑器' : '控制台';
+      return '<div class="fbasic-history-item">' +
+        '<div class="fbasic-history-code">' + escapeHtml(item.code) + '</div>' +
+        '<div class="fbasic-history-meta">' +
+          '<span class="fbasic-history-time">' + timeStr + '</span>' +
+          '<span class="fbasic-history-mode">' + modeLabel + '</span>' +
+          '<button class="fbasic-history-copy" data-idx="' + idx + '" type="button">复制</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    // 绑定复制按钮事件
+    var copyBtns = historyList.querySelectorAll('.fbasic-history-copy');
+    copyBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx = parseInt(this.getAttribute('data-idx'), 10);
+        var h = getHistory();
+        if (!h[idx]) return;
+        var text = h[idx].code;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(function() {
+            btn.textContent = '已复制';
+            setTimeout(function() { btn.textContent = '复制'; }, 1500);
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          btn.textContent = '已复制';
+          setTimeout(function() { btn.textContent = '复制'; }, 1500);
+        }
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>');
+  }
+
+  if (toggleBtn && historyPanel) {
+    toggleBtn.addEventListener('click', function() {
+      historyPanel.hidden = !historyPanel.hidden;
+      if (!historyPanel.hidden) renderHistory();
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      saveHistory([]);
+      renderHistory();
+    });
+  }
+
+  renderHistory();
+})();
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-basic.min.js"></script>
+<script>
+// 代码高亮同步逻辑
+(function() {
+  var textarea = document.getElementById('fbasic-code');
+  var highlight = document.getElementById('fbasic-code-highlight');
+  if (!textarea || !highlight) return;
+
+  function syncHighlight() {
+    highlight.textContent = textarea.value + '\n';
+    if (window.Prism) Prism.highlightElement(highlight);
+  }
+
+  textarea.addEventListener('input', syncHighlight);
+  textarea.addEventListener('scroll', function() {
+    highlight.scrollTop = textarea.scrollTop;
+    highlight.scrollLeft = textarea.scrollLeft;
+  });
+
+  syncHighlight();
 })();
 </script>
 

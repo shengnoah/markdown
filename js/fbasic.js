@@ -467,6 +467,10 @@
   runButton.addEventListener('click', async () => {
     try {
       await interpreter.run(code.value);
+      if (window.fbasicIncrementRuns) window.fbasicIncrementRuns();
+      if (window.fbasicAddHistory && code.value.trim()) {
+        window.fbasicAddHistory(code.value, 'modern');
+      }
     } catch (error) {
       interpreter.print(`ERROR: ${error.message}`);
     }
