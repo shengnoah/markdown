@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="6502 常用指令速查：数据传送、算术、逻辑、比较分支、移位、跳转、栈操作，附寻址方式与常见代码模板。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>6502 指令速查手册 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <article class="section post">
+  <div class="container container-narrow">
+    <h1 class="post-title">6502 指令速查手册</h1>
+    <div class="post-content">
+      <h1 id="6502-常用指令速查手册"><a href="#6502-常用指令速查手册" class="headerlink" title="6502 常用指令速查手册"></a>6502 常用指令速查手册</h1><blockquote>
+<p>适用于 NES (FC) 开发，配合 ca65 汇编器使用</p>
+<p>6502 共 56 条指令，本文收录开发中最常用的 ~40 条，按功能分类</p>
+</blockquote>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8E%E5%91%BD%E5%90%8D%E8%A7%84%E5%BE%8B">寄存器与命名规律</a></li>
+<li><a href="#2-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4">数据传送指令</a></li>
+<li><a href="#3-%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4">算术运算指令</a></li>
+<li><a href="#4-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4">逻辑运算指令</a></li>
+<li><a href="#5-%E6%AF%94%E8%BE%83%E4%B8%8E%E5%88%86%E6%94%AF%E6%8C%87%E4%BB%A4">比较与分支指令</a></li>
+<li><a href="#6-%E7%A7%BB%E4%BD%8D%E6%8C%87%E4%BB%A4">移位指令</a></li>
+<li><a href="#7-%E8%B7%B3%E8%BD%AC%E4%B8%8E%E5%AD%90%E7%A8%8B%E5%BA%8F">跳转与子程序</a></li>
+<li><a href="#8-%E6%A0%88%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4">栈操作指令</a></li>
+<li><a href="#9-%E6%A0%87%E5%BF%97%E4%BD%8D%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4">标志位操作指令</a></li>
+<li><a href="#10-%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%E9%80%9F%E6%9F%A5">寻址方式速查</a></li>
+<li><a href="#11-%E5%B8%B8%E8%A7%81%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F">常见组合模式</a></li>
+</ol>
+<hr>
+<h2 id="1-寄存器与命名规律"><a href="#1-寄存器与命名规律" class="headerlink" title="1. 寄存器与命名规律"></a>1. 寄存器与命名规律</h2><h3 id="寄存器总览"><a href="#寄存器总览" class="headerlink" title="寄存器总览"></a>寄存器总览</h3><p>6502 只有 6 个寄存器——正是这种极简设计让 NES 的 CPU 高效而强大：</p>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>全称</th>
+<th align="center">位数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A</strong></td>
+<td>Accumulator 累加器</td>
+<td align="center">8</td>
+<td>唯一的通用运算寄存器，数据中转站</td>
+</tr>
+<tr>
+<td><strong>X</strong></td>
+<td>Index 变址寄存器</td>
+<td align="center">8</td>
+<td>循环计数、数组下标</td>
+</tr>
+<tr>
+<td><strong>Y</strong></td>
+<td>Index 变址寄存器</td>
+<td align="center">8</td>
+<td>第二个变址寄存器，配合间接寻址</td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td>Stack Pointer 栈指针</td>
+<td align="center">8</td>
+<td>指向硬件栈顶（$0100-$01FF）</td>
+</tr>
+<tr>
+<td><strong>PC</strong></td>
+<td>Program Counter 程序计数器</td>
+<td align="center">16</td>
+<td>下一条指令的地址</td>
+</tr>
+<tr>
+<td><strong>P</strong></td>
+<td>Processor Status 状态寄存器</td>
+<td align="center">8</td>
+<td>标志位集合（N V - B D I Z C）</td>
+</tr>
+</tbody></table>
+<h3 id="累加器-A-——-数据中转站"><a href="#累加器-A-——-数据中转站" class="headerlink" title="累加器 A —— 数据中转站"></a>累加器 A —— 数据中转站</h3><p>一切算术&#x2F;逻辑运算<strong>只能在 A 中进行</strong>；内存之间不能直接传送数据，必须经过 A：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lda $<span class="number">10</span>         <span class="comment">; 内存 → A (取变量)</span></span><br><span class="line"><span class="keyword">clc</span></span><br><span class="line"><span class="keyword">adc</span> <span class="meta">#$05        ; A = A + 5 (在A中运算)</span></span><br><span class="line">sta $<span class="number">20</span>         <span class="comment">; A → 内存 (存回)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="变址寄存器-X-Y-——-计数器与下标"><a href="#变址寄存器-X-Y-——-计数器与下标" class="headerlink" title="变址寄存器 X &#x2F; Y —— 计数器与下标"></a>变址寄存器 X &#x2F; Y —— 计数器与下标</h3><p>两个独立的 8 位寄存器，三大用途：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 用途1: 循环计数</span></span><br><span class="line">ldx <span class="meta">#$00            ; X = 0</span></span><br><span class="line"><span class="symbol">loop:</span></span><br><span class="line">    inx             <span class="comment">; X + 1</span></span><br><span class="line">    cpx <span class="meta">#$10        ; 到 16 了吗?</span></span><br><span class="line">    bne loop</span><br><span class="line"></span><br><span class="line"><span class="comment">; 用途2: 数组下标 (变址寻址)</span></span><br><span class="line">lda ARRAY,<span class="built_in">x</span>         <span class="comment">; A = ARRAY[X] ← X 就是数组下标</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 用途3: Y 配合间接寻址, 访问任意地址</span></span><br><span class="line">lda (ptr),<span class="built_in">y</span>         <span class="comment">; A = [指针ptr + Y] 处的值</span></span><br></pre></td></tr></table></figure>
+
+<p>X&#x2F;Y 功能基本相同。惯例：<strong>X 做数组下标，Y 配合 (zp),Y 寻址</strong>。</p>
+<h3 id="栈指针-S-——-硬件栈管理员"><a href="#栈指针-S-——-硬件栈管理员" class="headerlink" title="栈指针 S —— 硬件栈管理员"></a>栈指针 S —— 硬件栈管理员</h3><ul>
+<li>6502 硬件栈固定在内存 $0100-$01FF（256 字节）</li>
+<li>S 保存栈顶位置的低字节（高字节恒为 $01）</li>
+<li>栈向下增长：压栈 S 减 1，出栈 S 加 1</li>
+<li>JSR&#x2F;RTS&#x2F;PHA&#x2F;PLA&#x2F;中断自动操作栈，无需手动管理</li>
+<li>开机必须初始化：</li>
+</ul>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldx <span class="meta">#$FF</span></span><br><span class="line">txs             <span class="comment">; S = $FF → 栈顶 = $01FF (从最高处开始)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="程序计数器-PC-——-执行位置跟踪器"><a href="#程序计数器-PC-——-执行位置跟踪器" class="headerlink" title="程序计数器 PC —— 执行位置跟踪器"></a>程序计数器 PC —— 执行位置跟踪器</h3><ul>
+<li>16 位寄存器，永远指向”下一条要执行的指令”</li>
+<li>顺序执行时自动递增（按指令长度）</li>
+<li>所有跳转的本质都是修改 PC：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>对 PC 的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>顺序执行</td>
+<td>自动 + 指令长度</td>
+</tr>
+<tr>
+<td><code>JMP $C000</code></td>
+<td>PC ← $C000</td>
+</tr>
+<tr>
+<td><code>JSR</code> &#x2F; <code>RTS</code></td>
+<td>返回地址入栈 &#x2F; 出栈</td>
+</tr>
+<tr>
+<td><code>BNE loop</code></td>
+<td>条件成立时 PC ← loop</td>
+</tr>
+</tbody></table>
+<h3 id="状态寄存器-P-——-标志位集合"><a href="#状态寄存器-P-——-标志位集合" class="headerlink" title="状态寄存器 P —— 标志位集合"></a>状态寄存器 P —— 标志位集合</h3><p>P 的每一位是独立的标志，运算指令自动设置它们，分支指令根据它们决定跳转：</p>
+<table>
+<thead>
+<tr>
+<th align="center">位</th>
+<th align="center">标志</th>
+<th>名称</th>
+<th>置 1 的条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">7</td>
+<td align="center"><strong>N</strong></td>
+<td>Negative 负数</td>
+<td>结果最高位为 1（负数）</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center"><strong>V</strong></td>
+<td>oVerflow 溢出</td>
+<td>有符号运算溢出</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">—</td>
+<td>（未用）</td>
+<td>恒为 1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center"><strong>B</strong></td>
+<td>Break</td>
+<td>BRK 软中断指令</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><strong>D</strong></td>
+<td>Decimal 十进制</td>
+<td>BCD 模式（NES 不用，开机 CLD 清 0）</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"><strong>I</strong></td>
+<td>Interrupt 中断禁止</td>
+<td>IRQ 禁用（SEI 置 1 &#x2F; CLI 清 0）</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center"><strong>Z</strong></td>
+<td>Zero 零</td>
+<td>结果为 0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center"><strong>C</strong></td>
+<td>Carry 进位</td>
+<td>加法进位 &#x2F; 减法无借位 &#x2F; 移位移出</td>
+</tr>
+</tbody></table>
+<p><strong>条件分支的硬件基础</strong>——CMP 比较后看 Z 和 C 标志：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$05</span></span><br><span class="line">cmp <span class="meta">#$03        ; 计算 5-3 (只设标志): 结果2 → Z=0, C=1</span></span><br><span class="line">beq equal       <span class="comment">; Z=0 → 不相等, 不跳</span></span><br><span class="line">bcc less        <span class="comment">; C=1 → 5&gt;=3, 不跳</span></span><br><span class="line">                <span class="comment">; 两个分支都没跳 → 说明 A &gt; 3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="指令命名规律"><a href="#指令命名规律" class="headerlink" title="指令命名规律"></a>指令命名规律</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">动词缩写 + 寄存器/对象</span><br><span class="line"></span><br><span class="line">LD  = LoaD     读入        ST  = STore    写出</span><br><span class="line">T   = Transfer 寄存器传送   AD  = ADd      加法</span><br><span class="line">SB  = SuBtract 减法        CP  = ComPare  比较</span><br><span class="line">IN  = INcrement 加1        DE  = DEcrement 减1</span><br><span class="line">J   = Jump     跳转        R   = Return   返回</span><br></pre></td></tr></table></figure>
+
+<p>例：<code>LDA</code> &#x3D; <strong>L</strong>oa<strong>D</strong> <strong>A</strong>ccumulator（装入累加器）</p>
+<hr>
+<h2 id="2-数据传送指令"><a href="#2-数据传送指令" class="headerlink" title="2. 数据传送指令"></a>2. 数据传送指令</h2><p>最常用的指令组，占程序中大部分篇幅。</p>
+<h3 id="LDA-LDX-LDY-—-读入"><a href="#LDA-LDX-LDY-—-读入" class="headerlink" title="LDA &#x2F; LDX &#x2F; LDY — 读入"></a>LDA &#x2F; LDX &#x2F; LDY — 读入</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LDA</code></td>
+<td><strong>L</strong>oa<strong>D</strong> <strong>A</strong>ccumulator</td>
+<td>累加器 A ← 数据</td>
+</tr>
+<tr>
+<td><code>LDX</code></td>
+<td><strong>L</strong>oa<strong>D</strong> <strong>X</strong> register</td>
+<td>变址寄存器 X ← 数据</td>
+</tr>
+<tr>
+<td><code>LDY</code></td>
+<td><strong>L</strong>oa<strong>D</strong> <strong>Y</strong> register</td>
+<td>变址寄存器 Y ← 数据</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$0A        ; A = 10          (立即寻址: 数值本身)</span></span><br><span class="line">lda $<span class="number">10</span>         <span class="comment">; A = 内存$10的值  (零页寻址)</span></span><br><span class="line">lda $<span class="number">8000</span>       <span class="comment">; A = 内存$8000的值 (绝对寻址)</span></span><br><span class="line">ldx <span class="meta">#$00        ; X = 0</span></span><br><span class="line">ldy <span class="meta">#$20        ; Y = $20</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="STA-STX-STY-—-写出"><a href="#STA-STX-STY-—-写出" class="headerlink" title="STA &#x2F; STX &#x2F; STY — 写出"></a>STA &#x2F; STX &#x2F; STY — 写出</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>STA</code></td>
+<td><strong>ST</strong>ore <strong>A</strong>ccumulator</td>
+<td>内存 ← 累加器 A</td>
+</tr>
+<tr>
+<td><code>STX</code></td>
+<td><strong>ST</strong>ore <strong>X</strong> register</td>
+<td>内存 ← 变址寄存器 X</td>
+</tr>
+<tr>
+<td><code>STY</code></td>
+<td><strong>ST</strong>ore <strong>Y</strong> register</td>
+<td>内存 ← 变址寄存器 Y</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sta $<span class="number">10</span>         <span class="comment">; 内存$10 = A</span></span><br><span class="line">sta $<span class="number">2007</span>       <span class="comment">; PPU数据口 = A (写VRAM)</span></span><br><span class="line">stx $<span class="number">00</span>         <span class="comment">; 内存$00 = X</span></span><br><span class="line">sty $<span class="number">01</span>         <span class="comment">; 内存$01 = Y</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：LDA&#x2F;STA 没有”立即寻址的 STA”——立即数只能作为源，不能作为目标</p>
+</blockquote>
+<h3 id="TAX-TXA-TAY-TYA-—-寄存器间传送"><a href="#TAX-TXA-TAY-TYA-—-寄存器间传送" class="headerlink" title="TAX &#x2F; TXA &#x2F; TAY &#x2F; TYA — 寄存器间传送"></a>TAX &#x2F; TXA &#x2F; TAY &#x2F; TYA — 寄存器间传送</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TAX</code></td>
+<td><strong>T</strong>ransfer <strong>A</strong> to <strong>X</strong></td>
+<td>X ← A</td>
+</tr>
+<tr>
+<td><code>TXA</code></td>
+<td><strong>T</strong>ransfer <strong>X</strong> to <strong>A</strong></td>
+<td>A ← X</td>
+</tr>
+<tr>
+<td><code>TAY</code></td>
+<td><strong>T</strong>ransfer <strong>A</strong> to <strong>Y</strong></td>
+<td>Y ← A</td>
+</tr>
+<tr>
+<td><code>TYA</code></td>
+<td><strong>T</strong>ransfer <strong>Y</strong> to <strong>A</strong></td>
+<td>A ← Y</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$FF</span></span><br><span class="line">tax             <span class="comment">; X = A = $FF</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TSX-TXS-—-栈指针传送"><a href="#TSX-TXS-—-栈指针传送" class="headerlink" title="TSX &#x2F; TXS — 栈指针传送"></a>TSX &#x2F; TXS — 栈指针传送</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TSX</code></td>
+<td><strong>T</strong>ransfer <strong>S</strong> to <strong>X</strong></td>
+<td>X ← 栈指针 S</td>
+</tr>
+<tr>
+<td><code>TXS</code></td>
+<td><strong>T</strong>ransfer <strong>X</strong> to <strong>S</strong></td>
+<td>栈指针 S ← X</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldx <span class="meta">#$FF</span></span><br><span class="line">txs             <span class="comment">; 初始化栈指针 = $FF (栈顶$01FF) ← 开机必做</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-算术运算指令"><a href="#3-算术运算指令" class="headerlink" title="3. 算术运算指令"></a>3. 算术运算指令</h2><p>所有运算都在累加器 A 中进行。</p>
+<h3 id="ADC-—-带进位加法"><a href="#ADC-—-带进位加法" class="headerlink" title="ADC — 带进位加法"></a>ADC — 带进位加法</h3><p><code>ADC</code> &#x3D; <strong>AD</strong>d with <strong>C</strong>arry</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">clc</span>             <span class="comment">; 清进位 (加法前必做!)</span></span><br><span class="line">lda <span class="meta">#$05</span></span><br><span class="line"><span class="keyword">adc</span> <span class="meta">#$03        ; A = 5 + 3 + 0 = 8</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="SBC-—-带借位减法"><a href="#SBC-—-带借位减法" class="headerlink" title="SBC — 带借位减法"></a>SBC — 带借位减法</h3><p><code>SBC</code> &#x3D; <strong>S</strong>u<strong>B</strong>tract with <strong>C</strong>arry</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sec</span>             <span class="comment">; 置进位 (减法前必做! 6502的借位是反的)</span></span><br><span class="line">lda <span class="meta">#$05</span></span><br><span class="line"><span class="keyword">sbc</span> <span class="meta">#$03        ; A = 5 - 3 = 2</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>易错点</strong>：6502 减法前要 <code>SEC</code>（不是 CLC），因为 C&#x3D;1 表示”无借位”</p>
+</blockquote>
+<h3 id="16-位加减法（进位链接高低字节）"><a href="#16-位加减法（进位链接高低字节）" class="headerlink" title="16 位加减法（进位链接高低字节）"></a>16 位加减法（进位链接高低字节）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 16位加法: $0200:$0201 += 1</span></span><br><span class="line"><span class="keyword">inc</span> $<span class="number">0200</span>       <span class="comment">; 低字节+1</span></span><br><span class="line">bne @done       <span class="comment">; 低字节没回绕到0 → 完成</span></span><br><span class="line"><span class="keyword">inc</span> $<span class="number">0201</span>       <span class="comment">; 低字节回绕了 → 高字节+1 (进位)</span></span><br><span class="line">@done:</span><br><span class="line"></span><br><span class="line"><span class="comment">; 16位加法: AX = AX + $0100</span></span><br><span class="line"><span class="keyword">clc</span></span><br><span class="line"><span class="keyword">adc</span> <span class="meta">#$00        ; 低字节相加</span></span><br><span class="line">tax             <span class="comment">; 暂存低字节</span></span><br><span class="line">lda $<span class="number">01</span>         <span class="comment">; 取高字节... (示意)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="INC-DEC-—-内存加1-减1"><a href="#INC-DEC-—-内存加1-减1" class="headerlink" title="INC &#x2F; DEC — 内存加1&#x2F;减1"></a>INC &#x2F; DEC — 内存加1&#x2F;减1</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INC</code></td>
+<td><strong>INC</strong>rement</td>
+<td>内存值 +1</td>
+</tr>
+<tr>
+<td><code>DEC</code></td>
+<td><strong>DEC</strong>rement</td>
+<td>内存值 -1</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inc</span> $<span class="number">10</span>         <span class="comment">; 内存$10 += 1 (不需要经过累加器!)</span></span><br><span class="line"><span class="keyword">dec</span> $<span class="number">0200</span>       <span class="comment">; 内存$0200 -= 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="INX-INY-DEX-DEY-—-寄存器加1-减1"><a href="#INX-INY-DEX-DEY-—-寄存器加1-减1" class="headerlink" title="INX &#x2F; INY &#x2F; DEX &#x2F; DEY — 寄存器加1&#x2F;减1"></a>INX &#x2F; INY &#x2F; DEX &#x2F; DEY — 寄存器加1&#x2F;减1</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INX</code></td>
+<td><strong>IN</strong>crement <strong>X</strong></td>
+<td>X +&#x3D; 1</td>
+</tr>
+<tr>
+<td><code>INY</code></td>
+<td><strong>IN</strong>crement <strong>Y</strong></td>
+<td>Y +&#x3D; 1</td>
+</tr>
+<tr>
+<td><code>DEX</code></td>
+<td><strong>DE</strong>crement <strong>X</strong></td>
+<td>X -&#x3D; 1</td>
+</tr>
+<tr>
+<td><code>DEY</code></td>
+<td><strong>DE</strong>crement <strong>Y</strong></td>
+<td>Y -&#x3D; 1</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ldx <span class="meta">#$00</span></span><br><span class="line"><span class="symbol">loop:</span></span><br><span class="line">    <span class="comment">; ...处理...</span></span><br><span class="line">    inx         <span class="comment">; X += 1</span></span><br><span class="line">    cpx <span class="meta">#$10    ; 到16了吗?</span></span><br><span class="line">    bne loop    <span class="comment">; 没到继续</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-逻辑运算指令"><a href="#4-逻辑运算指令" class="headerlink" title="4. 逻辑运算指令"></a>4. 逻辑运算指令</h2><p>按位运算，结果放回累加器。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AND</code></td>
+<td>logical <strong>AND</strong></td>
+<td>按位与</td>
+<td><code>and #$80</code> 取最高位</td>
+</tr>
+<tr>
+<td><code>ORA</code></td>
+<td><strong>OR</strong> <strong>A</strong>ccumulator</td>
+<td>按位或</td>
+<td><code>ora #$01</code> 置最低位</td>
+</tr>
+<tr>
+<td><code>EOR</code></td>
+<td><strong>E</strong>xclusive <strong>OR</strong></td>
+<td>按位异或</td>
+<td><code>eor #$FF</code> 全部位取反</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lda $<span class="number">2002</span>       <span class="comment">; 读PPU状态</span></span><br><span class="line"><span class="keyword">and</span> <span class="meta">#$80        ; 只保留bit7 (VBlank标志) → A = 0或$80</span></span><br><span class="line">beq not_vblank  <span class="comment">; 结果为0 → 不在VBlank</span></span><br><span class="line"></span><br><span class="line">lda <span class="meta">#$0F</span></span><br><span class="line">ora <span class="meta">#$30        ; A = $3F (置位bit4,5)</span></span><br><span class="line"><span class="keyword">eor</span> <span class="meta">#$FF        ; A = $C0 (取反)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="BIT-—-位测试"><a href="#BIT-—-位测试" class="headerlink" title="BIT — 位测试"></a>BIT — 位测试</h3><p><code>BIT</code> &#x3D; 位测试，测试内存与累加器的公共位，<strong>不改变 A</strong>。</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$80</span></span><br><span class="line">bit $<span class="number">2002</span>       <span class="comment">; 测试PPU状态的bit7</span></span><br><span class="line">bpl wait        <span class="comment">; N标志 = bit7 → 为0说明不在VBlank</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-比较与分支指令"><a href="#5-比较与分支指令" class="headerlink" title="5. 比较与分支指令"></a>5. 比较与分支指令</h2><h3 id="CMP-CPX-CPY-—-比较"><a href="#CMP-CPX-CPY-—-比较" class="headerlink" title="CMP &#x2F; CPX &#x2F; CPY — 比较"></a>CMP &#x2F; CPX &#x2F; CPY — 比较</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CMP</code></td>
+<td><strong>CMP</strong>are A</td>
+<td>A 与操作数比较</td>
+</tr>
+<tr>
+<td><code>CPX</code></td>
+<td><strong>C</strong>om<strong>P</strong>are <strong>X</strong></td>
+<td>X 与操作数比较</td>
+</tr>
+<tr>
+<td><code>CPY</code></td>
+<td><strong>C</strong>om<strong>P</strong>are <strong>Y</strong></td>
+<td>Y 与操作数比较</td>
+</tr>
+</tbody></table>
+<p>比较即做减法（A - 操作数）但<strong>不保存结果</strong>，只设置标志位：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lda $<span class="number">10</span></span><br><span class="line">cmp <span class="meta">#$0A        ; A 与 10 比较</span></span><br><span class="line"><span class="comment">; A = 10 → Z=1 (相等)</span></span><br><span class="line"><span class="comment">; A &lt; 10 → C=0 (借位)</span></span><br><span class="line"><span class="comment">; A &gt;= 10 → C=1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分支指令（相对跳转，范围-±127-字节）"><a href="#分支指令（相对跳转，范围-±127-字节）" class="headerlink" title="分支指令（相对跳转，范围 ±127 字节）"></a>分支指令（相对跳转，范围 ±127 字节）</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>跳转条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BEQ</code></td>
+<td><strong>B</strong>ranch if <strong>E</strong>qual</td>
+<td>Z&#x3D;1（相等&#x2F;为零）</td>
+</tr>
+<tr>
+<td><code>BNE</code></td>
+<td><strong>B</strong>ranch if <strong>N</strong>ot <strong>E</strong>qual</td>
+<td>Z&#x3D;0（不等&#x2F;非零）</td>
+</tr>
+<tr>
+<td><code>BCS</code></td>
+<td><strong>B</strong>ranch if <strong>C</strong>arry <strong>S</strong>et</td>
+<td>C&#x3D;1（≥&#x2F;无借位）</td>
+</tr>
+<tr>
+<td><code>BCC</code></td>
+<td><strong>B</strong>ranch if <strong>C</strong>arry <strong>C</strong>lear</td>
+<td>C&#x3D;0（&lt;&#x2F;有借位）</td>
+</tr>
+<tr>
+<td><code>BMI</code></td>
+<td><strong>B</strong>ranch if <strong>M</strong>inus</td>
+<td>N&#x3D;1（负数）</td>
+</tr>
+<tr>
+<td><code>BPL</code></td>
+<td><strong>B</strong>ranch if <strong>P</strong>lus</td>
+<td>N&#x3D;0（正数&#x2F;零）</td>
+</tr>
+<tr>
+<td><code>BVS</code></td>
+<td><strong>B</strong>ranch if o<strong>V</strong>erflow <strong>S</strong>et</td>
+<td>V&#x3D;1（溢出）</td>
+</tr>
+<tr>
+<td><code>BVC</code></td>
+<td><strong>B</strong>ranch if o<strong>V</strong>erflow <strong>C</strong>lear</td>
+<td>V&#x3D;0（无溢出）</td>
+</tr>
+</tbody></table>
+<h3 id="比较后的分支组合（最常用）"><a href="#比较后的分支组合（最常用）" class="headerlink" title="比较后的分支组合（最常用）"></a>比较后的分支组合（最常用）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; if A == 10</span></span><br><span class="line">cmp <span class="meta">#$0A</span></span><br><span class="line">beq equal</span><br><span class="line"></span><br><span class="line"><span class="comment">; if A &lt; 10  (无符号)</span></span><br><span class="line">cmp <span class="meta">#$0A</span></span><br><span class="line">bcc less</span><br><span class="line"></span><br><span class="line"><span class="comment">; if A &gt;= 10 (无符号)</span></span><br><span class="line">cmp <span class="meta">#$0A</span></span><br><span class="line">bcs greater_equal</span><br><span class="line"></span><br><span class="line"><span class="comment">; if A &gt; 10</span></span><br><span class="line">cmp <span class="meta">#$0B</span></span><br><span class="line">bcs greater</span><br><span class="line"></span><br><span class="line"><span class="comment">; if 内存$10 != 0</span></span><br><span class="line">lda $<span class="number">10</span></span><br><span class="line">bne nonzero</span><br><span class="line"></span><br><span class="line"><span class="comment">; if X == Y</span></span><br><span class="line">cpx <span class="meta">#$10</span></span><br><span class="line">beq same</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-移位指令"><a href="#6-移位指令" class="headerlink" title="6. 移位指令"></a>6. 移位指令</h2><p>对累加器或内存单字节操作。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ASL</code></td>
+<td><strong>A</strong>rithmetic <strong>S</strong>hift <strong>L</strong>eft</td>
+<td>左移1位，bit0补0，bit7→C</td>
+</tr>
+<tr>
+<td><code>LSR</code></td>
+<td><strong>L</strong>ogical <strong>S</strong>hift <strong>R</strong>ight</td>
+<td>右移1位，bit7补0，bit0→C</td>
+</tr>
+<tr>
+<td><code>ROL</code></td>
+<td><strong>RO</strong>tate <strong>L</strong>eft</td>
+<td>循环左移，C→bit0，bit7→C</td>
+</tr>
+<tr>
+<td><code>ROR</code></td>
+<td><strong>RO</strong>tate <strong>R</strong>ight</td>
+<td>循环右移，C→bit7，bit0→C</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$05</span></span><br><span class="line">asl             <span class="comment">; A = $0A (×2)</span></span><br><span class="line">asl             <span class="comment">; A = $14 (×4)</span></span><br><span class="line"></span><br><span class="line">lda <span class="meta">#$10</span></span><br><span class="line"><span class="keyword">lsr</span>             <span class="comment">; A = $08 (÷2)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>用途</strong>：乘除 2 的幂、逐位检测、乘法算法的核心。</p>
+<hr>
+<h2 id="7-跳转与子程序"><a href="#7-跳转与子程序" class="headerlink" title="7. 跳转与子程序"></a>7. 跳转与子程序</h2><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>JMP</code></td>
+<td><strong>J</strong>u<strong>MP</strong></td>
+<td>无条件跳转（绝对地址）</td>
+</tr>
+<tr>
+<td><code>JSR</code></td>
+<td><strong>J</strong>ump to <strong>S</strong>ub<strong>R</strong>outine</td>
+<td>调用子程序（返回地址入栈）</td>
+</tr>
+<tr>
+<td><code>RTS</code></td>
+<td><strong>R</strong>e<strong>T</strong>urn from <strong>S</strong>ubroutine</td>
+<td>子程序返回（地址出栈）</td>
+</tr>
+<tr>
+<td><code>RTI</code></td>
+<td><strong>R</strong>e<strong>T</strong>urn from <strong>I</strong>nterrupt</td>
+<td>中断返回</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">main:</span></span><br><span class="line">    jsr init_ppu      <span class="comment">; 调用子程序</span></span><br><span class="line">    jsr draw_screen</span><br><span class="line"><span class="symbol">forever:</span></span><br><span class="line">    <span class="keyword">jmp</span> forever       <span class="comment">; 死循环</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">init_ppu:</span></span><br><span class="line">    <span class="comment">; ...初始化...</span></span><br><span class="line">    rts               <span class="comment">; 返回调用处</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>JSR&#x2F;RTS 是 6502 的函数调用机制</strong>：JSR 把返回地址压入硬件栈，RTS 弹出并跳回。</p>
+</blockquote>
+<hr>
+<h2 id="8-栈操作指令"><a href="#8-栈操作指令" class="headerlink" title="8. 栈操作指令"></a>8. 栈操作指令</h2><p>6502 硬件栈固定在内存 <code>$0100-$01FF</code>，栈指针 S 从 $FF 递减。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PHA</code></td>
+<td><strong>PH</strong>ush <strong>A</strong>ccumulator</td>
+<td>A 入栈</td>
+</tr>
+<tr>
+<td><code>PLA</code></td>
+<td><strong>PL</strong>ull <strong>A</strong>ccumulator</td>
+<td>A 出栈</td>
+</tr>
+<tr>
+<td><code>PHP</code></td>
+<td><strong>PH</strong>ush <strong>P</strong>rocessor status</td>
+<td>状态寄存器入栈</td>
+</tr>
+<tr>
+<td><code>PLP</code></td>
+<td><strong>PL</strong>ull <strong>P</strong>rocessor status</td>
+<td>状态寄存器出栈</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 保存/恢复累加器 (子程序中防止破坏调用者的A)</span></span><br><span class="line">pha             <span class="comment">; 保存A</span></span><br><span class="line"><span class="comment">; ...使用A做别的事...</span></span><br><span class="line">pla             <span class="comment">; 恢复A</span></span><br><span class="line">rts</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：6502 栈只能直接操作 A 和标志位，X&#x2F;Y 不能入栈（需经 TAX→PHA 间接保存）</p>
+</blockquote>
+<hr>
+<h2 id="9-标志位操作指令"><a href="#9-标志位操作指令" class="headerlink" title="9. 标志位操作指令"></a>9. 标志位操作指令</h2><p>状态寄存器 P 的标志位：<strong>C</strong>arry、<strong>Z</strong>ero、<strong>I</strong>nterrupt、<strong>D</strong>ecimal、o<strong>V</strong>erflow、<strong>N</strong>egative</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CLC</code></td>
+<td><strong>CL</strong>ear <strong>C</strong>arry</td>
+<td>C&#x3D;0（加法前）</td>
+</tr>
+<tr>
+<td><code>SEC</code></td>
+<td><strong>SE</strong>t <strong>C</strong>arry</td>
+<td>C&#x3D;1（减法前）</td>
+</tr>
+<tr>
+<td><code>CLI</code></td>
+<td><strong>CL</strong>ear <strong>I</strong>nterrupt</td>
+<td>允许IRQ中断</td>
+</tr>
+<tr>
+<td><code>SEI</code></td>
+<td><strong>SE</strong>t <strong>I</strong>nterrupt</td>
+<td>禁止IRQ中断</td>
+</tr>
+<tr>
+<td><code>CLD</code></td>
+<td><strong>CL</strong>ear <strong>D</strong>ecimal</td>
+<td>关闭BCD模式（NES必做）</td>
+</tr>
+<tr>
+<td><code>SED</code></td>
+<td><strong>SE</strong>t <strong>D</strong>ecimal</td>
+<td>开启BCD模式（NES不用）</td>
+</tr>
+<tr>
+<td><code>CLV</code></td>
+<td><strong>CL</strong>ear o<strong>V</strong>erflow</td>
+<td>V&#x3D;0</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 开机标准初始化</span></span><br><span class="line"><span class="keyword">sei</span>             <span class="comment">; 禁中断</span></span><br><span class="line">cld             <span class="comment">; 关BCD</span></span><br><span class="line">ldx <span class="meta">#$FF</span></span><br><span class="line">txs             <span class="comment">; 栈指针 = $FF</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="10-寻址方式速查"><a href="#10-寻址方式速查" class="headerlink" title="10. 寻址方式速查"></a>10. 寻址方式速查</h2><p>同一指令配合不同寻址方式，是 6502 汇编的核心。</p>
+<table>
+<thead>
+<tr>
+<th>寻址方式</th>
+<th>语法示例</th>
+<th>含义</th>
+<th>速度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>立即寻址</td>
+<td><code>lda #$0A</code></td>
+<td>数值 10 本身</td>
+<td>快</td>
+</tr>
+<tr>
+<td>零页寻址</td>
+<td><code>lda $10</code></td>
+<td>读内存 $0010</td>
+<td>最短</td>
+</tr>
+<tr>
+<td>零页,X</td>
+<td><code>lda $10,x</code></td>
+<td>读内存 $0010+X</td>
+<td>快</td>
+</tr>
+<tr>
+<td>绝对寻址</td>
+<td><code>lda $8000</code></td>
+<td>读内存 $8000</td>
+<td>中</td>
+</tr>
+<tr>
+<td>绝对,X</td>
+<td><code>lda $8000,x</code></td>
+<td>读内存 $8000+X</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>绝对,Y</td>
+<td><code>lda $8000,y</code></td>
+<td>读内存 $8000+Y</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>间接索引</td>
+<td><code>lda ($10),y</code></td>
+<td>读”指针$10指向的地址+Y”</td>
+<td>慢但灵活</td>
+</tr>
+<tr>
+<td>隐含寻址</td>
+<td><code>txs</code> &#x2F; <code>rts</code></td>
+<td>操作数隐含</td>
+<td>最快</td>
+</tr>
+<tr>
+<td>相对寻址</td>
+<td><code>bne loop</code></td>
+<td>跳转 ±127 字节内</td>
+<td>快</td>
+</tr>
+<tr>
+<td>间接寻址</td>
+<td><code>jmp ($1000)</code></td>
+<td>跳到”指针指向的地址”</td>
+<td>仅JMP</td>
+</tr>
+</tbody></table>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 间接索引寻址 —— 遍历数组的利器</span></span><br><span class="line">lda <span class="meta">#&lt;mydata     ; 指针低字节</span></span><br><span class="line">sta $<span class="number">10</span></span><br><span class="line">lda <span class="meta">#&gt;mydata     ; 指针高字节</span></span><br><span class="line">sta $<span class="number">11</span></span><br><span class="line">ldy <span class="meta">#$00</span></span><br><span class="line">lda ($<span class="number">10</span>),<span class="built_in">y</span>      <span class="comment">; A = mydata[0]</span></span><br><span class="line">iny</span><br><span class="line">lda ($<span class="number">10</span>),<span class="built_in">y</span>      <span class="comment">; A = mydata[1]</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="11-常见组合模式"><a href="#11-常见组合模式" class="headerlink" title="11. 常见组合模式"></a>11. 常见组合模式</h2><h3 id="模式-1：变量赋值（BASIC-A-10）"><a href="#模式-1：变量赋值（BASIC-A-10）" class="headerlink" title="模式 1：变量赋值（BASIC: A &#x3D; 10）"></a>模式 1：变量赋值（BASIC: A &#x3D; 10）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#$0A        ; 常量进累加器</span></span><br><span class="line">sta VAR_A       <span class="comment">; 累加器存入变量</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="模式-2：变量运算（BASIC-A-A-5）"><a href="#模式-2：变量运算（BASIC-A-A-5）" class="headerlink" title="模式 2：变量运算（BASIC: A &#x3D; A + 5）"></a>模式 2：变量运算（BASIC: A &#x3D; A + 5）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lda VAR_A       <span class="comment">; 取变量</span></span><br><span class="line"><span class="keyword">clc</span>             <span class="comment">; 清进位</span></span><br><span class="line"><span class="keyword">adc</span> <span class="meta">#$05        ; +5</span></span><br><span class="line">sta VAR_A       <span class="comment">; 存回</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="模式-3：循环-256-次"><a href="#模式-3：循环-256-次" class="headerlink" title="模式 3：循环 256 次"></a>模式 3：循环 256 次</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ldx <span class="meta">#$00</span></span><br><span class="line"><span class="symbol">loop:</span></span><br><span class="line">    <span class="comment">; ...循环体...</span></span><br><span class="line">    inx         <span class="comment">; X += 1</span></span><br><span class="line">    bne loop    <span class="comment">; X回绕到0前继续 (恰好256次)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="模式-4：等待硬件状态（轮询-VBlank）"><a href="#模式-4：等待硬件状态（轮询-VBlank）" class="headerlink" title="模式 4：等待硬件状态（轮询 VBlank）"></a>模式 4：等待硬件状态（轮询 VBlank）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">wait:</span></span><br><span class="line">    bit $<span class="number">2002</span>   <span class="comment">; 读PPU状态</span></span><br><span class="line">    bpl wait    <span class="comment">; bit7=0 → 还没到VBlank, 继续</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="模式-5：数组遍历（零页指针）"><a href="#模式-5：数组遍历（零页指针）" class="headerlink" title="模式 5：数组遍历（零页指针）"></a>模式 5：数组遍历（零页指针）</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">lda <span class="meta">#&lt;array</span></span><br><span class="line">sta $<span class="number">10</span></span><br><span class="line">lda <span class="meta">#&gt;array</span></span><br><span class="line">sta $<span class="number">11</span>         <span class="comment">; $10:$11 = 数组地址</span></span><br><span class="line">ldy <span class="meta">#$00</span></span><br><span class="line"><span class="symbol">loop:</span></span><br><span class="line">    lda ($<span class="number">10</span>),<span class="built_in">y</span> <span class="comment">; 读 array[Y]</span></span><br><span class="line">    <span class="comment">; ...处理...</span></span><br><span class="line">    iny</span><br><span class="line">    cpy <span class="meta">#$10    ; 处理16个</span></span><br><span class="line">    bne loop</span><br></pre></td></tr></table></figure>
+
+<h3 id="模式-6：16位比较"><a href="#模式-6：16位比较" class="headerlink" title="模式 6：16位比较"></a>模式 6：16位比较</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 比较 $10:$11 与 #$000A</span></span><br><span class="line">lda $<span class="number">11</span>         <span class="comment">; 先比高字节</span></span><br><span class="line">cmp <span class="meta">#$00</span></span><br><span class="line">bne done</span><br><span class="line">lda $<span class="number">10</span>         <span class="comment">; 高字节相等 → 比低字节</span></span><br><span class="line">cmp <span class="meta">#$0A</span></span><br><span class="line"><span class="symbol">done:</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="附：完整指令集分类总表"><a href="#附：完整指令集分类总表" class="headerlink" title="附：完整指令集分类总表"></a>附：完整指令集分类总表</h2><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传送</td>
+<td>LDA LDX LDY STA STX STY TAX TXA TAY TYA TSX TXS</td>
+</tr>
+<tr>
+<td>算术</td>
+<td>ADC SBC INC DEC INX INY DEX DEY</td>
+</tr>
+<tr>
+<td>逻辑</td>
+<td>AND ORA EOR BIT</td>
+</tr>
+<tr>
+<td>移位</td>
+<td>ASL LSR ROL ROR</td>
+</tr>
+<tr>
+<td>比较</td>
+<td>CMP CPX CPY</td>
+</tr>
+<tr>
+<td>分支</td>
+<td>BEQ BNE BCS BCC BMI BPL BVS BVC</td>
+</tr>
+<tr>
+<td>跳转</td>
+<td>JMP JSR RTS RTI</td>
+</tr>
+<tr>
+<td>栈</td>
+<td>PHA PLA PHP PLP</td>
+</tr>
+<tr>
+<td>标志</td>
+<td>CLC SEC CLI SEI CLD SED CLV</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>NOP BRK</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.masswerk.at/6502/6502_instruction_set.html">6502 指令集完整参考</a> · <a target="_blank" rel="noopener" href="https://www.nesdev.org/wiki/6502_instructions">NESdev Wiki</a></p>
+</blockquote>
+
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>

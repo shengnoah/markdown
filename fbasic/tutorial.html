@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FBASIC 语言教程：变量赋值、算术表达式优先级、逻辑表达式、循环、函数、数组，附 IF/FOR 结构的 6502 汇编实现详解。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>FBASIC 教程 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <article class="section post">
+  <div class="container container-narrow">
+    <h1 class="post-title">FBASIC 教程</h1>
+    <div class="post-content">
+      <h1 id="FBASIC-教程-—-从-BASIC-语句到-6502-汇编"><a href="#FBASIC-教程-—-从-BASIC-语句到-6502-汇编" class="headerlink" title="FBASIC 教程 — 从 BASIC 语句到 6502 汇编"></a>FBASIC 教程 — 从 BASIC 语句到 6502 汇编</h1><blockquote>
+<p>FBASIC 是一个 Family BASIC 风格的 BASIC 方言，有三个实现版本。<br>本教程介绍语言本身，并深入讲解 <code>IF</code> 和 <code>FOR</code> 结构对应的 6502 汇编实现——这是通往 NES 版解释器的必经之路。</p>
+</blockquote>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-fbasic-%E7%AE%80%E4%BB%8B">FBASIC 简介</a></li>
+<li><a href="#2-%E5%8F%98%E9%87%8F%E4%B8%8E%E8%B5%8B%E5%80%BC">变量与赋值</a></li>
+<li><a href="#3-%E7%AE%97%E6%9C%AF%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E4%BC%98%E5%85%88%E7%BA%A7">算术表达式与优先级</a></li>
+<li><a href="#4-%E9%80%BB%E8%BE%91%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E-if-%E7%BB%93%E6%9E%84">逻辑表达式与 IF 结构</a></li>
+<li><a href="#5-%E5%BE%AA%E7%8E%AF%E4%B8%8E-for-%E7%BB%93%E6%9E%84">循环与 FOR 结构</a></li>
+<li><a href="#6-%E5%87%BD%E6%95%B0">函数</a></li>
+<li><a href="#7-%E6%95%B0%E7%BB%84">数组</a></li>
+<li><a href="#8-%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E7%A8%8B%E5%BA%8F">完整示例程序</a></li>
+<li><a href="#9-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E7%89%88%E6%9C%AC%E6%94%AF%E6%8C%81%E6%80%BB%E8%A1%A8">语句与版本支持总表</a></li>
+</ol>
+<hr>
+<h2 id="1-FBASIC-简介"><a href="#1-FBASIC-简介" class="headerlink" title="1. FBASIC 简介"></a>1. FBASIC 简介</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>语言</th>
+<th>平台</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JS 版</td>
+<td>JavaScript</td>
+<td>浏览器（本站）</td>
+<td>✅ 功能最全</td>
+</tr>
+<tr>
+<td>C 版</td>
+<td>C99</td>
+<td>PC 终端</td>
+<td>✅ 算术表达式待完善</td>
+</tr>
+<tr>
+<td>NES 版</td>
+<td>6502 汇编</td>
+<td>红白机 ROM</td>
+<td>📐 设计中</td>
+</tr>
+</tbody></table>
+<p><strong>程序格式</strong>：每行以行号开头，按行号升序执行。</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">PRINT</span> <span class="string">&quot;HELLO&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">GOTO</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>直接命令</strong>（不写行号立即执行）：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RUN</code></td>
+<td>运行程序</td>
+</tr>
+<tr>
+<td><code>LIST</code></td>
+<td>列出程序</td>
+</tr>
+<tr>
+<td><code>NEW</code></td>
+<td>清空程序</td>
+</tr>
+<tr>
+<td><code>CLS</code></td>
+<td>清屏</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2-变量与赋值"><a href="#2-变量与赋值" class="headerlink" title="2. 变量与赋值"></a>2. 变量与赋值</h2><h3 id="2-1-数值变量"><a href="#2-1-数值变量" class="headerlink" title="2.1 数值变量"></a>2.1 数值变量</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>A = <span class="number">10</span>            ; 赋值 (<span class="keyword">LET</span> 可省略)</span><br><span class="line"><span class="symbol">20 </span><span class="keyword">LET</span> B = <span class="number">25</span>        ; 显式 <span class="keyword">LET</span>, 效果相同</span><br><span class="line"><span class="symbol">30 </span>C = A             ; 变量间赋值</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> A; B; C     ; 输出: <span class="number">10</span>  <span class="number">25</span>  <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>变量名：字母开头，可含数字（如 <code>COUNT</code>、<code>X1</code>）。未赋值的数值变量默认为 <strong>0</strong>。</p>
+<h3 id="2-2-字符串变量"><a href="#2-2-字符串变量" class="headerlink" title="2.2 字符串变量"></a>2.2 字符串变量</h3><p>变量名以 <code>$</code> 结尾即为字符串类型：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>N$ = <span class="string">&quot;FAMILY BASIC&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> N$          ; 输出: FAMILY BASIC</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> <span class="keyword">LEN</span>(N$)     ; 输出: <span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p>未赋值的字符串变量默认为<strong>空串</strong> <code>&quot;&quot;</code>。</p>
+<h3 id="2-3-INPUT-输入赋值"><a href="#2-3-INPUT-输入赋值" class="headerlink" title="2.3 INPUT 输入赋值"></a>2.3 INPUT 输入赋值</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">INPUT</span> <span class="string">&quot;YOUR NAME&quot;</span>; N$</span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;HELLO, &quot;</span>; N$</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-对应的-6502-汇编"><a href="#2-4-对应的-6502-汇编" class="headerlink" title="2.4 对应的 6502 汇编"></a>2.4 对应的 6502 汇编</h3><p><code>A = 10</code> 在 6502 上就是<strong>两条指令</strong>：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VAR_A = $<span class="number">10</span>          <span class="comment">; 变量A = 零页地址 $10</span></span><br><span class="line"></span><br><span class="line">lda <span class="meta">#$0A             ; 累加器 = 10        (立即寻址)</span></span><br><span class="line">sta VAR_A            <span class="comment">; 内存$10 = 累加器    (零页寻址) → A = 10 完成</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>NES 版变量表设计</strong>：每个变量 3 字节 <code>[变量名][值高][值低]</code>，16 位有符号整数，26 个变量（A-Z）放在 $0600。赋值由 <code>var_set</code> 例程完成。</p>
+<hr>
+<h2 id="3-算术表达式与优先级"><a href="#3-算术表达式与优先级" class="headerlink" title="3. 算术表达式与优先级"></a>3. 算术表达式与优先级</h2><h3 id="3-1-运算符与优先级"><a href="#3-1-运算符与优先级" class="headerlink" title="3.1 运算符与优先级"></a>3.1 运算符与优先级</h3><table>
+<thead>
+<tr>
+<th align="center">优先级</th>
+<th align="center">运算符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1（最高）</td>
+<td align="center"><code>( )</code></td>
+<td>括号</td>
+<td><code>(2+3)*4 = 20</code></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"><code>-</code>（一元）</td>
+<td>负号</td>
+<td><code>-5 + 3 = -2</code></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><code>*</code> <code>/</code></td>
+<td>乘、除</td>
+<td><code>2+3*4 = 14</code></td>
+</tr>
+<tr>
+<td align="center">4（最低）</td>
+<td align="center"><code>+</code> <code>-</code></td>
+<td>加、减</td>
+<td><code>10-4-3 = 3</code></td>
+</tr>
+</tbody></table>
+<p><strong>同级运算从左到右</strong>（左结合）：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">PRINT</span> <span class="number">2</span> + <span class="number">3</span> * <span class="number">4</span>       ; <span class="number">14</span>  (先算 <span class="number">3</span>*<span class="number">4</span>)</span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> (<span class="number">2</span> + <span class="number">3</span>) * <span class="number">4</span>     ; <span class="number">20</span>  (括号优先)</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> <span class="number">20</span> / <span class="number">5</span> / <span class="number">2</span>      ; <span class="number">2</span>   (从左到右: <span class="number">20</span>/<span class="number">5</span>=<span class="number">4</span>, <span class="number">4</span>/<span class="number">2</span>=<span class="number">2</span>)</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="number">10</span> - <span class="number">4</span> - <span class="number">3</span>      ; <span class="number">3</span>   (从左到右: <span class="number">10</span>-<span class="number">4</span>=<span class="number">6</span>, <span class="number">6</span>-<span class="number">3</span>=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-变量参与运算"><a href="#3-2-变量参与运算" class="headerlink" title="3.2 变量参与运算"></a>3.2 变量参与运算</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>A = <span class="number">10</span></span><br><span class="line"><span class="symbol">20 </span>B = A * <span class="number">2</span> + <span class="number">5</span>         ; B = <span class="number">25</span></span><br><span class="line"><span class="symbol">30 </span>C = (A + B) / <span class="number">7</span>       ; C = <span class="number">5</span></span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> B; C</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-对应的-6502-汇编"><a href="#3-3-对应的-6502-汇编" class="headerlink" title="3.3 对应的 6502 汇编"></a>3.3 对应的 6502 汇编</h3><p>6502 没有乘除指令，加减用 <code>ADC</code>&#x2F;<code>SBC</code>，乘除用移位实现：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B = <span class="number">2</span> + <span class="number">3</span> * <span class="number">4</span>            ; 结果 <span class="number">14</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; --- 按优先级求值: 先算 3*4, 再加 2 ---</span></span><br><span class="line"><span class="comment">; 第1步: 3 * 4 = 12 (乘法用移位: ×4 = 左移2次)</span></span><br><span class="line">    lda <span class="meta">#$03            ; 累加器A = 3 (立即寻址, 装入被乘数)</span></span><br><span class="line">    asl                 <span class="comment">; A 左移1位 = 6   (×2)</span></span><br><span class="line">    asl                 <span class="comment">; A 左移1位 = 12  (×4) → 3*4 完成</span></span><br><span class="line">    sta tmp1            <span class="comment">; 临时变量 tmp1 = 12 (保存中间结果)</span></span><br><span class="line"><span class="comment">; 第2步: 2 + 12 = 14</span></span><br><span class="line">    lda <span class="meta">#$02            ; 累加器A = 2 (装入被加数)</span></span><br><span class="line">    <span class="keyword">clc</span>                 <span class="comment">; 清进位标志 (6502加法带进位, 加法前必须清0!)</span></span><br><span class="line">    <span class="keyword">adc</span> tmp1            <span class="comment">; A = A + tmp1 + 0 = 2 + 12 = 14</span></span><br><span class="line">    sta VAR_B           <span class="comment">; 变量B = 14 (存回结果)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>关键点</strong>：高级语言的”优先级”在汇编层体现为<strong>求值顺序</strong>——解释器（或编译器）按优先级规则安排指令的先后次序，用临时变量（tmp1）保存中间结果。</p>
+<blockquote>
+<p><strong>版本说明</strong>：JS 版完整支持算术表达式；C 版当前只解析单个数值（<code>A+3</code> 会得到 A 的值），表达式求值待完善；NES 版按设计将实现 16 位整数的 <code>+ - * /</code>。</p>
+</blockquote>
+<hr>
+<h2 id="4-逻辑表达式与-IF-结构"><a href="#4-逻辑表达式与-IF-结构" class="headerlink" title="4. 逻辑表达式与 IF 结构"></a>4. 逻辑表达式与 IF 结构</h2><h3 id="4-1-比较运算符"><a href="#4-1-比较运算符" class="headerlink" title="4.1 比较运算符"></a>4.1 比较运算符</h3><table>
+<thead>
+<tr>
+<th align="center">运算符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>=</code></td>
+<td>等于</td>
+<td><code>A = 5</code></td>
+</tr>
+<tr>
+<td align="center"><code>&lt;&gt;</code></td>
+<td>不等于</td>
+<td><code>A &lt;&gt; 5</code></td>
+</tr>
+<tr>
+<td align="center"><code>&lt;</code></td>
+<td>小于</td>
+<td><code>A &lt; 5</code></td>
+</tr>
+<tr>
+<td align="center"><code>&gt;</code></td>
+<td>大于</td>
+<td><code>A &gt; 5</code></td>
+</tr>
+<tr>
+<td align="center"><code>&lt;=</code></td>
+<td>小于等于</td>
+<td><code>A &lt;= 5</code></td>
+</tr>
+<tr>
+<td align="center"><code>&gt;=</code></td>
+<td>大于等于</td>
+<td><code>A &gt;= 5</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-2-IF-THEN-语法"><a href="#4-2-IF-THEN-语法" class="headerlink" title="4.2 IF&#x2F;THEN 语法"></a>4.2 IF&#x2F;THEN 语法</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">IF</span> 条件 <span class="keyword">THEN</span> 语句</span><br><span class="line"><span class="keyword">IF</span> 条件 <span class="keyword">THEN</span> 行号      ; 条件成立则跳转到指定行</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>A = <span class="number">10</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">IF</span> A &gt; <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;BIG&quot;</span>     ; 输出: BIG</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">IF</span> A = <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;FIVE&quot;</span>    ; 不成立, 跳过</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">IF</span> A &lt; <span class="number">20</span> <span class="keyword">THEN</span> <span class="number">60</span>             ; 成立 → 跳到行<span class="number">60</span></span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> <span class="string">&quot;SKIPPED&quot;</span></span><br><span class="line"><span class="symbol">60 </span><span class="keyword">PRINT</span> <span class="string">&quot;DONE&quot;</span>                  ; 输出: DONE</span><br><span class="line"><span class="symbol">70 </span><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
+<p>字符串也能比较（按字典序）：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>N$ = <span class="string">&quot;APPLE&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">IF</span> N$ = <span class="string">&quot;APPLE&quot;</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;MATCH&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注</strong>：<code>AND</code>&#x2F;<code>OR</code>&#x2F;<code>NOT</code> 逻辑连接符当前版本未实现（规划中）。复合条件可用嵌套 IF 代替：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">IF</span> A &gt; <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">IF</span> A &lt; <span class="number">10</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;IN RANGE&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="4-3-★-IF-结构的-6502-汇编实现"><a href="#4-3-★-IF-结构的-6502-汇编实现" class="headerlink" title="4.3 ★ IF 结构的 6502 汇编实现"></a>4.3 ★ IF 结构的 6502 汇编实现</h3><p><strong>BASIC 程序</strong>：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">IF</span> A &gt; <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;BIG&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;DONE&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>6502 汇编</strong>（条件跳转 &#x3D; 比较指令 + 分支指令）：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; --- 行10: IF A &gt; 5 THEN PRINT &quot;BIG&quot; ---</span></span><br><span class="line">    lda VAR_A           <span class="comment">; ① 取变量A的值到累加器 (零页寻址)</span></span><br><span class="line">    cmp <span class="meta">#6              ; ② A - 6, 只设标志不存结果 (A&gt;5 等价于 A&gt;=6)</span></span><br><span class="line">    bcc @line20         <span class="comment">; ③ 进位C=0 说明 A&lt;6 → 条件假, 跳过THEN部分</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">; ④ 条件真: 执行 THEN 后面的语句 PRINT &quot;BIG&quot;</span></span><br><span class="line">    lda <span class="meta">#&lt;msg_big       ;    A = 字符串地址低字节 (#&lt; 取16位地址的低8位)</span></span><br><span class="line">    ldy <span class="meta">#&gt;msg_big       ;    Y = 字符串地址高字节 (#&gt; 取16位地址的高8位)</span></span><br><span class="line">    jsr print_string    <span class="comment">;    调用打印例程 (约定: A/Y = 字符串地址)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; --- 行20: PRINT &quot;DONE&quot; ---</span></span><br><span class="line">@line20:                <span class="comment">; ⑤ 条件假从这里继续 (顺序执行下一行)</span></span><br><span class="line">    lda <span class="meta">#&lt;msg_done      ;    A = &quot;DONE&quot;字符串地址低字节</span></span><br><span class="line">    ldy <span class="meta">#&gt;msg_done      ;    Y = &quot;DONE&quot;字符串地址高字节</span></span><br><span class="line">    jsr print_string    <span class="comment">;    打印 DONE</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>执行流程图</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────┐</span><br><span class="line">│ lda VAR_A   │ 取A</span><br><span class="line">└──────┬──────┘</span><br><span class="line">┌──────▼──────┐</span><br><span class="line">│  cmp #6     │ A - 6 (只设标志, 不存结果)</span><br><span class="line">└──────┬──────┘</span><br><span class="line">       │</span><br><span class="line">进位C=0?──── 是 ──► @line20 (跳过THEN)</span><br><span class="line">       │</span><br><span class="line">       否 (A&gt;=6)</span><br><span class="line">┌──────▼──────┐</span><br><span class="line">│ PRINT &quot;BIG&quot; │ THEN 部分</span><br><span class="line">└──────┬──────┘</span><br><span class="line">┌──────▼──────┐</span><br><span class="line">│PRINT &quot;DONE&quot; │ 行20</span><br><span class="line">└─────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>六种比较运算的汇编对照表</strong>（无符号数）：</p>
+<table>
+<thead>
+<tr>
+<th>BASIC 条件</th>
+<th>6502 实现</th>
+<th align="center">分支指令</th>
+<th>跳转含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>A = B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp B</code></td>
+<td align="center"><code>beq</code></td>
+<td>相等跳</td>
+</tr>
+<tr>
+<td><code>A &lt;&gt; B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp B</code></td>
+<td align="center"><code>bne</code></td>
+<td>不等跳</td>
+</tr>
+<tr>
+<td><code>A &lt; B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp B</code></td>
+<td align="center"><code>bcc</code></td>
+<td>小于跳</td>
+</tr>
+<tr>
+<td><code>A &gt;= B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp B</code></td>
+<td align="center"><code>bcs</code></td>
+<td>大于等于跳</td>
+</tr>
+<tr>
+<td><code>A &gt; B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp #B+1</code></td>
+<td align="center"><code>bcs</code></td>
+<td>大于跳（技巧：比B+1）</td>
+</tr>
+<tr>
+<td><code>A &lt;= B</code></td>
+<td><code>lda A</code> &#x2F; <code>cmp #B+1</code></td>
+<td align="center"><code>bcc</code></td>
+<td>小于等于跳</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>原理</strong>：<code>CMP</code> 执行减法 <code>A - B</code> 但不保存结果，只设置标志位。<code>BCC</code>（进位清零跳转）&#x3D; 有借位 &#x3D; A &lt; B；<code>BEQ</code>（零标志）&#x3D; A &#x3D; B。</p>
+</blockquote>
+<hr>
+<h2 id="5-循环与-FOR-结构"><a href="#5-循环与-FOR-结构" class="headerlink" title="5. 循环与 FOR 结构"></a>5. 循环与 FOR 结构</h2><h3 id="5-1-FOR-NEXT-语法"><a href="#5-1-FOR-NEXT-语法" class="headerlink" title="5.1 FOR&#x2F;NEXT 语法"></a>5.1 FOR&#x2F;NEXT 语法</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FOR</span> 变量 = 初值 <span class="keyword">TO</span> 终值 [<span class="keyword">STEP</span> 步长]</span><br><span class="line">    ...循环体...</span><br><span class="line"><span class="keyword">NEXT</span> 变量</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;I=&quot;</span>; I</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="string">&quot;DONE&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">I=1</span><br><span class="line">I=2</span><br><span class="line">I=3</span><br><span class="line">I=4</span><br><span class="line">I=5</span><br><span class="line">DONE</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-STEP-步长"><a href="#5-2-STEP-步长" class="headerlink" title="5.2 STEP 步长"></a>5.2 STEP 步长</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">FOR</span> I = <span class="number">10</span> <span class="keyword">TO</span> <span class="number">1</span> <span class="keyword">STEP</span> -<span class="number">2</span>     ; 倒数, 步长-<span class="number">2</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> I;</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">NEXT</span> I</span><br></pre></td></tr></table></figure>
+
+<p>输出：<code>10 8 6 4 2</code></p>
+<p>步长为正：变量 ≤ 终值时继续；步长为负：变量 ≥ 终值时继续。</p>
+<h3 id="5-3-循环嵌套"><a href="#5-3-循环嵌套" class="headerlink" title="5.3 循环嵌套"></a>5.3 循环嵌套</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">3</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">FOR</span> J = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">2</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> I; <span class="string">&quot;,&quot;</span>; J</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">NEXT</span> J</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">NEXT</span> I</span><br></pre></td></tr></table></figure>
+
+<p>输出：<code>1,1  1,2  2,1  2,2  3,1  3,2</code></p>
+<h3 id="5-4-GOTO-无限循环"><a href="#5-4-GOTO-无限循环" class="headerlink" title="5.4 GOTO 无限循环"></a>5.4 GOTO 无限循环</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>C = C + <span class="number">1</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> C;</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">GOTO</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-5-★-FOR-结构的-6502-汇编实现"><a href="#5-5-★-FOR-结构的-6502-汇编实现" class="headerlink" title="5.5 ★ FOR 结构的 6502 汇编实现"></a>5.5 ★ FOR 结构的 6502 汇编实现</h3><p><strong>BASIC 程序</strong>：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> I</span><br><span class="line"><span class="symbol">30 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="string">&quot;DONE&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>6502 汇编</strong>（初始化 + 循环体 + 步进判断三段式）：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; --- 行10: FOR I = 1 TO 10 (初始化段) ---</span></span><br><span class="line">    lda <span class="meta">#$01            ; ① 累加器A = 1 (FOR的初值, 立即寻址)</span></span><br><span class="line">    sta VAR_I           <span class="comment">;    变量I = 1 (存入循环变量)</span></span><br><span class="line">    <span class="comment">; (解释器还会把 终值10/步长1/循环体地址 压入FOR栈)</span></span><br><span class="line"></span><br><span class="line">@loop:                  <span class="comment">; ② 循环体入口标号 (NEXT 判断后跳回这里)</span></span><br><span class="line"><span class="comment">; --- 行20: PRINT I (循环体) ---</span></span><br><span class="line">    lda VAR_I           <span class="comment">;    A = 循环变量I的当前值</span></span><br><span class="line">    jsr print_number    <span class="comment">;    调用打印例程, 显示 I</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; --- 行30: NEXT I (步进+判断段) ---</span></span><br><span class="line">    <span class="keyword">inc</span> VAR_I           <span class="comment">; ③ 内存VAR_I 直接+1 (I = I + 1, 步长1)</span></span><br><span class="line">    lda VAR_I           <span class="comment">;    A = 步进后的新 I 值</span></span><br><span class="line">    cmp <span class="meta">#$0B            ; ④ A - 11, 只设标志 (I&gt;10 等价于 I&gt;=11)</span></span><br><span class="line">    bcc @loop           <span class="comment">; ⑤ 进位=0 说明 I&lt;11 (即I&lt;=10) → 跳回②继续</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; --- 行40: PRINT &quot;DONE&quot; (循环出口) ---</span></span><br><span class="line">    lda <span class="meta">#&lt;msg_done      ;    A = &quot;DONE&quot;字符串地址低字节</span></span><br><span class="line">    ldy <span class="meta">#&gt;msg_done      ;    Y = &quot;DONE&quot;字符串地址高字节</span></span><br><span class="line">    jsr print_string    <span class="comment">;    打印 DONE, 循环结束</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>执行流程图</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    ┌──────────────┐</span><br><span class="line">    │ I = 1 (初始化)│</span><br><span class="line">    └──────┬───────┘</span><br><span class="line">    ┌──────▼───────┐</span><br><span class="line">┌──►│  循环体      │ PRINT I</span><br><span class="line">│   └──────┬───────┘</span><br><span class="line">│   ┌──────▼───────┐</span><br><span class="line">│   │ I = I + 1    │ inc (步进)</span><br><span class="line">│   └──────┬───────┘</span><br><span class="line">│   ┌──────▼───────┐</span><br><span class="line">│   │  I &lt;= 10 ?   │ cmp + bcc</span><br><span class="line">│   └──┬───────┬───┘</span><br><span class="line">│   是 │       │ 否</span><br><span class="line">└──────┘       ▼</span><br><span class="line">        ┌──────────────┐</span><br><span class="line">        │ 循环出口      │ PRINT &quot;DONE&quot;</span><br><span class="line">        └──────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>负步长版本</strong>（<code>FOR I = 10 TO 1 STEP -1</code>）：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    lda <span class="meta">#$0A            ; 累加器A = 10 (FOR初值, 立即寻址)</span></span><br><span class="line">    sta VAR_I           <span class="comment">; 变量I = 10</span></span><br><span class="line">@loop:                  <span class="comment">; 循环体入口</span></span><br><span class="line">    <span class="comment">; ...循环体...      ; (每轮执行的语句)</span></span><br><span class="line">    <span class="keyword">dec</span> VAR_I           <span class="comment">; 内存VAR_I 直接-1 (负步长-1用dec, 与inc对应)</span></span><br><span class="line">    lda VAR_I           <span class="comment">; A = 步进后的新 I 值</span></span><br><span class="line">    cmp <span class="meta">#$01            ; A - 1, 只设标志 (与终值1比较)</span></span><br><span class="line">    bcs @loop           <span class="comment">; 进位=1 说明 I&gt;=1 → 未超终值, 跳回继续</span></span><br><span class="line">                        <span class="comment">; (负步长的继续条件是&gt;=, 与正步长相反)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-解释器的-FOR-栈机制"><a href="#5-6-解释器的-FOR-栈机制" class="headerlink" title="5.6 解释器的 FOR 栈机制"></a>5.6 解释器的 FOR 栈机制</h3><p>FBASIC 解释器（JS&#x2F;C 版）用<strong>栈</strong>保存每个活跃循环的状态，支持嵌套：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">执行 FOR 时压栈:</span><br><span class="line">┌─────────────────────────────┐</span><br><span class="line">│ 变量名 │ 终值 │ 步长 │ 返回行号 │  ← 一个栈帧</span><br><span class="line">└─────────────────────────────┘</span><br><span class="line"></span><br><span class="line">执行 NEXT 时:</span><br><span class="line">  1. 取栈顶帧</span><br><span class="line">  2. 变量 += 步长</span><br><span class="line">  3. 未超终值 → 跳回返回行号 (继续循环)</span><br><span class="line">  4. 超过终值 → 弹栈 (循环结束)</span><br></pre></td></tr></table></figure>
+
+<p><strong>NES 版设计</strong>：FOR 栈帧 7 字节 <code>[变量名][终值高][终值低][步长高][步长低][返回地址高][返回地址低]</code>，最多 4 层嵌套，放在 $0700-$077F。</p>
+<blockquote>
+<p><strong>为什么需要栈</strong>：嵌套循环 <code>FOR I ... FOR J ... NEXT J ... NEXT I</code> 时，内层 NEXT 只操作栈顶的 J 帧，外层 I 帧在下面等着——后进先出正好匹配循环的嵌套结构。</p>
+</blockquote>
+<hr>
+<h2 id="6-函数"><a href="#6-函数" class="headerlink" title="6. 函数"></a>6. 函数</h2><h3 id="6-1-内置数值函数"><a href="#6-1-内置数值函数" class="headerlink" title="6.1 内置数值函数"></a>6.1 内置数值函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>示例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ABS(x)</code></td>
+<td>绝对值</td>
+<td><code>ABS(-5)</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>INT(x)</code></td>
+<td>向下取整</td>
+<td><code>INT(3.7)</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>RND</code></td>
+<td>随机数 0~1</td>
+<td><code>INT(RND * 6) + 1</code></td>
+<td>1~6 随机</td>
+</tr>
+<tr>
+<td><code>ASC(s)</code></td>
+<td>首字符 ASCII 码</td>
+<td><code>ASC(&quot;A&quot;)</code></td>
+<td>65</td>
+</tr>
+<tr>
+<td><code>LEN(s)</code></td>
+<td>字符串长度</td>
+<td><code>LEN(&quot;ABC&quot;)</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>VAL(s)</code></td>
+<td>字符串转数值</td>
+<td><code>VAL(&quot;42&quot;)</code></td>
+<td>42</td>
+</tr>
+</tbody></table>
+<h3 id="6-2-内置字符串函数"><a href="#6-2-内置字符串函数" class="headerlink" title="6.2 内置字符串函数"></a>6.2 内置字符串函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>示例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CHR$(n)</code></td>
+<td>ASCII 码转字符</td>
+<td><code>CHR$(65)</code></td>
+<td>“A”</td>
+</tr>
+<tr>
+<td><code>STR$(n)</code></td>
+<td>数值转字符串</td>
+<td><code>STR$(42)</code></td>
+<td>“42”</td>
+</tr>
+<tr>
+<td><code>LEFT$(s,n)</code></td>
+<td>左取 n 字符</td>
+<td><code>LEFT$(&quot;HELLO&quot;,2)</code></td>
+<td>“HE”</td>
+</tr>
+<tr>
+<td><code>RIGHT$(s,n)</code></td>
+<td>右取 n 字符</td>
+<td><code>RIGHT$(&quot;HELLO&quot;,2)</code></td>
+<td>“LO”</td>
+</tr>
+<tr>
+<td><code>MID$(s,start[,len])</code></td>
+<td>中间取子串</td>
+<td><code>MID$(&quot;HELLO&quot;,2,3)</code></td>
+<td>“ELL”</td>
+</tr>
+</tbody></table>
+<h3 id="6-3-使用示例"><a href="#6-3-使用示例" class="headerlink" title="6.3 使用示例"></a>6.3 使用示例</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>S$ = <span class="string">&quot;FAMILY BASIC&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="keyword">LEN</span>(S$)              ; <span class="number">12</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> <span class="keyword">LEFT$</span>(S$, <span class="number">6</span>)         ; FAMILY</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="keyword">RIGHT$</span>(S$, <span class="number">5</span>)        ; BASIC</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> <span class="keyword">MID$</span>(S$, <span class="number">8</span>, <span class="number">3</span>)       ; BAS</span><br><span class="line"><span class="symbol">60 </span><span class="keyword">PRINT</span> <span class="keyword">ASC</span>(<span class="string">&quot;A&quot;</span>)             ; <span class="number">65</span></span><br><span class="line"><span class="symbol">70 </span><span class="keyword">PRINT</span> <span class="keyword">CHR$</span>(<span class="number">66</span>)             ; B</span><br><span class="line"><span class="symbol">80 </span><span class="keyword">PRINT</span> <span class="keyword">ABS</span>(-<span class="number">7</span>) + <span class="keyword">INT</span>(<span class="number">2.9</span>)   ; <span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-4-用户子程序：GOSUB-RETURN"><a href="#6-4-用户子程序：GOSUB-RETURN" class="headerlink" title="6.4 用户子程序：GOSUB&#x2F;RETURN"></a>6.4 用户子程序：GOSUB&#x2F;RETURN</h3><p>BASIC 没有 def 函数，用 <code>GOSUB</code>（跳转子程序）+ <code>RETURN</code>（返回）实现可复用代码块：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">GOSUB</span> <span class="number">100</span>              ; 调用子程序 (行<span class="number">100</span>)</span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;BACK AT 20&quot;</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">END</span></span><br><span class="line"><span class="symbol">100 </span><span class="keyword">PRINT</span> <span class="string">&quot;IN SUB&quot;</span>        ; 子程序开始</span><br><span class="line"><span class="symbol">110 </span><span class="keyword">RETURN</span>                ; 返回调用处的下一行 (行<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IN SUB</span><br><span class="line">BACK AT 20</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-5-对应的-6502-汇编"><a href="#6-5-对应的-6502-汇编" class="headerlink" title="6.5 对应的 6502 汇编"></a>6.5 对应的 6502 汇编</h3><p><code>GOSUB</code>&#x2F;<code>RETURN</code> 直接对应 6502 的 <code>JSR</code>&#x2F;<code>RTS</code>：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">100 </span><span class="keyword">GOSUB</span> <span class="number">500</span></span><br><span class="line"><span class="symbol">110 </span><span class="keyword">PRINT</span> <span class="string">&quot;BACK&quot;</span></span><br><span class="line">...</span><br><span class="line"><span class="symbol">500 </span><span class="keyword">PRINT</span> <span class="string">&quot;SUB&quot;</span></span><br><span class="line"><span class="symbol">510 </span><span class="keyword">RETURN</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    jsr sub_500         <span class="comment">; GOSUB 500: 返回地址(行110的地址)压入硬件栈, 再跳转</span></span><br><span class="line">    <span class="comment">; --- 行110: PRINT &quot;BACK&quot; ---   ← RTS 后回到这里继续</span></span><br><span class="line">    lda <span class="meta">#&lt;msg_back      ;    A = &quot;BACK&quot;字符串地址低字节</span></span><br><span class="line">    ldy <span class="meta">#&gt;msg_back      ;    Y = &quot;BACK&quot;字符串地址高字节</span></span><br><span class="line">    jsr print_string    <span class="comment">;    打印 BACK</span></span><br><span class="line"><span class="symbol">sub_500:</span>                <span class="comment">; 子程序入口 (对应 BASIC 行500)</span></span><br><span class="line">    <span class="comment">; --- 行500: PRINT &quot;SUB&quot; ---</span></span><br><span class="line">    lda <span class="meta">#&lt;msg_sub       ;    A = &quot;SUB&quot;字符串地址低字节</span></span><br><span class="line">    ldy <span class="meta">#&gt;msg_sub       ;    Y = &quot;SUB&quot;字符串地址高字节</span></span><br><span class="line">    jsr print_string    <span class="comment">;    打印 SUB</span></span><br><span class="line">    rts                 <span class="comment">; RETURN: 从硬件栈弹出返回地址 → 跳回行110</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原理</strong>：<code>JSR</code> 把”下一条指令的地址”压入 $0100-$01FF 的硬件栈再跳转；<code>RTS</code> 弹出该地址返回。这与 BASIC 解释器用软件栈（gosub_stack）保存”下一行行号”是同一思想——<strong>调用者位置入栈，返回时出栈</strong>。</p>
+<p>内置函数在 NES 版的实现则是查表 + 跳转：函数名 → 函数表索引 → <code>jmp (函数表)</code> 间接跳转到对应例程。</p>
+<hr>
+<h2 id="7-数组"><a href="#7-数组" class="headerlink" title="7. 数组"></a>7. 数组</h2><blockquote>
+<p><strong>状态</strong>：数组（DIM 语句）当前 JS&#x2F;C 版尚未实现，属于 NES 版规划功能。以下按标准 BASIC 语法介绍，并给出 6502 实现原理。</p>
+</blockquote>
+<h3 id="7-1-DIM-声明与使用"><a href="#7-1-DIM-声明与使用" class="headerlink" title="7.1 DIM 声明与使用"></a>7.1 DIM 声明与使用</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">DIM</span> A(<span class="number">5</span>)              ; 声明数组 A, 下标 <span class="number">0</span>~<span class="number">5</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">30 </span>A(I) = I * <span class="number">10</span>         ; 写数组元素</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> A(<span class="number">3</span>)            ; 读数组元素 → <span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-数组求和示例"><a href="#7-2-数组求和示例" class="headerlink" title="7.2 数组求和示例"></a>7.2 数组求和示例</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">DIM</span> S(<span class="number">4</span>)</span><br><span class="line"><span class="symbol">20 </span>S(<span class="number">1</span>) = <span class="number">95</span>: S(<span class="number">2</span>) = <span class="number">88</span>: S(<span class="number">3</span>) = <span class="number">76</span>: S(<span class="number">4</span>) = <span class="number">92</span></span><br><span class="line"><span class="symbol">30 </span>T = <span class="number">0</span></span><br><span class="line"><span class="symbol">40 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">4</span></span><br><span class="line"><span class="symbol">50 </span>T = T + S(I)</span><br><span class="line"><span class="symbol">60 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">70 </span><span class="keyword">PRINT</span> <span class="string">&quot;AVG =&quot;</span>; T / <span class="number">4</span>  ; <span class="number">87.75</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-对应的-6502-汇编"><a href="#7-3-对应的-6502-汇编" class="headerlink" title="7.3 对应的 6502 汇编"></a>7.3 对应的 6502 汇编</h3><p>数组的本质是<strong>连续内存 + 下标计算</strong>，6502 用<strong>变址寻址</strong>直接支持：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A(I) = I * <span class="number">10</span>        ; 写数组</span><br><span class="line">X = A(<span class="number">3</span>)             ; 读数组</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; --- 写: A(I) = I * 10 (8位元素版) ---</span></span><br><span class="line">    lda VAR_I        <span class="comment">; A = 下标I的值 (零页寻址取变量)</span></span><br><span class="line">    asl              <span class="comment">; A 左移 = I×2</span></span><br><span class="line">    sta tmp1         <span class="comment">; tmp1 = I×2 (暂存, 后面还要用)</span></span><br><span class="line">    asl              <span class="comment">; A 左移 = I×4</span></span><br><span class="line">    asl              <span class="comment">; A 左移 = I×8</span></span><br><span class="line">    <span class="keyword">clc</span>              <span class="comment">; 清进位 (加法前必做)</span></span><br><span class="line">    <span class="keyword">adc</span> tmp1         <span class="comment">; A = I×8 + I×2 = I×10  (乘10 = ×8+×2 分解)</span></span><br><span class="line">    ldx VAR_I        <span class="comment">; X = 下标 I (变址寄存器装下标)</span></span><br><span class="line">    sta ARRAY,<span class="built_in">X</span>      <span class="comment">; 内存[ARRAY+I] = A   ← 变址寻址一步到位!</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; --- 读: X = A(3) ---</span></span><br><span class="line">    ldx <span class="meta">#$03         ; X = 下标 3 (立即寻址)</span></span><br><span class="line">    lda ARRAY,<span class="built_in">X</span>      <span class="comment">; A = 内存[ARRAY+3] = A[3] (变址读)</span></span><br><span class="line">    sta VAR_X        <span class="comment">; 变量X = A[3] (存结果)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>关键指令</strong> <code>sta ARRAY,X</code>（绝对变址寻址）：有效地址 &#x3D; 数组基址 + X 寄存器。CPU 硬件完成”基址+下标”的加法，这正是数组下标访问的汇编本质。</p>
+<p><strong>NES 版数组设计</strong>：数组区放在变量表之后，元素为 16 位整数（2 字节），访问时下标 ×2 后变址：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 16 位数组: A(I) 的地址 = ARRAY_BASE + I*2</span></span><br><span class="line">    lda VAR_I        <span class="comment">; A = 下标 I</span></span><br><span class="line">    asl              <span class="comment">; A 左移 = I×2 (16位元素占2字节)</span></span><br><span class="line">    tax              <span class="comment">; X = I×2 (下标换算成字节偏移)</span></span><br><span class="line">    lda ARRAY_BASE,<span class="built_in">X</span>     <span class="comment">; A = A[I]的低字节 (基址+偏移)</span></span><br><span class="line">    sta tmp1         <span class="comment">; tmp1 = 低字节 (暂存)</span></span><br><span class="line">    lda ARRAY_BASE+<span class="number">1</span>,<span class="built_in">X</span>   <span class="comment">; A = A[I]的高字节 (基址+1+偏移)</span></span><br><span class="line">    sta tmp2         <span class="comment">; tmp2 = 高字节 (16位值凑齐)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-完整示例程序"><a href="#8-完整示例程序" class="headerlink" title="8. 完整示例程序"></a>8. 完整示例程序</h2><p>综合运用本教程所有特性（可在 JS 版直接运行）：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">CLS</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;=== FBASIC DEMO ===&quot;</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">LET</span> A = <span class="number">10</span></span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="string">&quot;A =&quot;</span>; A</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">60 </span><span class="keyword">PRINT</span> <span class="string">&quot;I=&quot;</span>; I; <span class="string">&quot; A+I=&quot;</span>; A + I</span><br><span class="line"><span class="symbol">70 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">80 </span><span class="keyword">IF</span> A &gt; <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;A IS BIG&quot;</span></span><br><span class="line"><span class="symbol">90 </span><span class="keyword">IF</span> A &lt; <span class="number">5</span> <span class="keyword">THEN</span> <span class="keyword">PRINT</span> <span class="string">&quot;A IS SMALL&quot;</span></span><br><span class="line"><span class="symbol">100 </span><span class="keyword">GOSUB</span> <span class="number">500</span></span><br><span class="line"><span class="symbol">110 </span>N$ = <span class="string">&quot;FAMILY&quot;</span></span><br><span class="line"><span class="symbol">120 </span><span class="keyword">PRINT</span> <span class="string">&quot;LEN(&quot;</span>; N$; <span class="string">&quot;) =&quot;</span>; <span class="keyword">LEN</span>(N$)</span><br><span class="line"><span class="symbol">130 </span><span class="keyword">PRINT</span> <span class="string">&quot;LEFT$ =&quot;</span>; <span class="keyword">LEFT$</span>(N$, <span class="number">3</span>)</span><br><span class="line"><span class="symbol">140 </span><span class="keyword">PRINT</span> <span class="string">&quot;DONE&quot;</span></span><br><span class="line"><span class="symbol">150 </span><span class="keyword">END</span></span><br><span class="line"><span class="symbol">500 </span><span class="keyword">PRINT</span> <span class="string">&quot;--- SUBROUTINE ---&quot;</span></span><br><span class="line"><span class="symbol">510 </span><span class="keyword">RETURN</span></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">=== FBASIC DEMO ===</span><br><span class="line">A = 10</span><br><span class="line">I=1 A+I=11</span><br><span class="line">I=2 A+I=12</span><br><span class="line">I=3 A+I=13</span><br><span class="line">I=4 A+I=14</span><br><span class="line">I=5 A+I=15</span><br><span class="line">A IS BIG</span><br><span class="line">--- SUBROUTINE ---</span><br><span class="line">LEN(FAMILY) = 6</span><br><span class="line">LEFT$ = FAM</span><br><span class="line">DONE</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行方式</strong>：</p>
+<ul>
+<li>JS 版：本站 FBASIC 页面粘贴后点 RUN</li>
+<li>C 版：<code>cd fbasic-c &amp;&amp; ./fbasic</code>，逐行输入后 <code>RUN</code></li>
+</ul>
+<hr>
+<h2 id="9-语句与版本支持总表"><a href="#9-语句与版本支持总表" class="headerlink" title="9. 语句与版本支持总表"></a>9. 语句与版本支持总表</h2><h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>语法</th>
+<th align="center">JS 版</th>
+<th align="center">C 版</th>
+<th align="center">NES 版(计划)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>赋值</td>
+<td><code>A = expr</code> &#x2F; <code>LET A = expr</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>输出</td>
+<td><code>PRINT expr[; expr...]</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>输入</td>
+<td><code>INPUT [&quot;提示&quot;;] var</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">阶段5</td>
+</tr>
+<tr>
+<td>跳转</td>
+<td><code>GOTO line</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>子程序</td>
+<td><code>GOSUB line</code> &#x2F; <code>RETURN</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>条件</td>
+<td><code>IF cond THEN stmt/line</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>循环</td>
+<td><code>FOR v = a TO b [STEP s]</code> &#x2F; <code>NEXT v</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>结束</td>
+<td><code>END</code> &#x2F; <code>STOP</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>注释</td>
+<td><code>REM text</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>清屏</td>
+<td><code>CLS</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>数组</td>
+<td><code>DIM A(n)</code></td>
+<td align="center">❌</td>
+<td align="center">❌</td>
+<td align="center">规划</td>
+</tr>
+</tbody></table>
+<h3 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th align="center">JS 版</th>
+<th align="center">C 版</th>
+<th align="center">NES 版(计划)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算术 <code>+ - * /</code></td>
+<td align="center">✅</td>
+<td align="center">⚠️ 待完善</td>
+<td align="center">✅ 16位整数</td>
+</tr>
+<tr>
+<td>括号 <code>( )</code></td>
+<td align="center">✅</td>
+<td align="center">⚠️</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>比较 <code>= &lt;&gt; &lt; &gt; &lt;= &gt;=</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>逻辑 <code>AND OR NOT</code></td>
+<td align="center">❌</td>
+<td align="center">❌</td>
+<td align="center">规划</td>
+</tr>
+<tr>
+<td>数值函数 (ABS&#x2F;INT&#x2F;RND…)</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">部分</td>
+</tr>
+<tr>
+<td>字符串函数 (CHR$&#x2F;LEFT$…)</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">阶段2</td>
+</tr>
+</tbody></table>
+<h3 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/fbasic/6502-instructions/">6502 指令速查手册</a></td>
+<td>6502 常用指令、寻址方式、代码模板</td>
+</tr>
+<tr>
+<td><a href="/fbasic/6502-addressing-modes/">6502 寻址方式详解</a></td>
+<td>12 种寻址方式原理与场景选择</td>
+</tr>
+<tr>
+<td><a href="/fbasic/">FBASIC 模拟器</a></td>
+<td>在浏览器中直接运行 BASIC 程序</td>
+</tr>
+</tbody></table>
+
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>
