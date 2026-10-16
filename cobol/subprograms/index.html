@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COBOL 子程序教程：内部/外部子程序、CALL 调用、LINKAGE SECTION 参数传递、BY REFERENCE/BY CONTENT/BY VALUE 调用约定、调用 C 库函数与编译链接。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>COBOL 子程序与调用 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">COBOL 子程序与调用</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="COBOL-子程序与调用"><a href="#COBOL-子程序与调用" class="headerlink" title="COBOL 子程序与调用"></a>COBOL 子程序与调用</h1><blockquote>
+<p>本章讲解如何将程序拆分为可复用的子程序（Subprogram），以及如何调用 C 库函数。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E5%AD%90%E7%A8%8B%E5%BA%8F%E6%A6%82%E8%BF%B0">子程序概述</a></li>
+<li><a href="#2-%E5%AE%9A%E4%B9%89%E5%AD%90%E7%A8%8B%E5%BA%8F">定义子程序</a></li>
+<li><a href="#3-%E8%B0%83%E7%94%A8%E5%AD%90%E7%A8%8B%E5%BA%8Fcall">调用子程序（CALL）</a></li>
+<li><a href="#4-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92linkage-section">参数传递（LINKAGE SECTION）</a></li>
+<li><a href="#5-%E8%B0%83%E7%94%A8-c-%E5%BA%93%E5%87%BD%E6%95%B0">调用 C 库函数</a></li>
+<li><a href="#6-%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5">编译与链接</a></li>
+<li><a href="#7-%E5%AE%9E%E6%88%98snakecob-%E8%B0%83%E7%94%A8-usleep">实战：snake.cob 调用 usleep</a></li>
+</ol>
+<hr>
+<h2 id="1-子程序概述"><a href="#1-子程序概述" class="headerlink" title="1. 子程序概述"></a>1. 子程序概述</h2><p>COBOL 支持模块化编程，一个程序可以调用另一个程序。子程序是<strong>独立编译</strong>的模块，通过 <code>CALL</code> 语句调用。</p>
+<p><strong>优势：</strong></p>
+<ul>
+<li>代码复用，避免重复</li>
+<li>模块化，便于维护</li>
+<li>可跨语言调用（如调用 C 函数）</li>
+</ul>
+<p><strong>两种形式：</strong></p>
+<ol>
+<li><strong>内部子程序</strong>：同一源文件中的多个 <code>PROGRAM-ID</code></li>
+<li><strong>外部子程序</strong>：独立编译为 <code>.so</code> 或 <code>.o</code> 模块</li>
+</ol>
+<hr>
+<h2 id="2-定义子程序"><a href="#2-定义子程序" class="headerlink" title="2. 定义子程序"></a>2. 定义子程序</h2><h3 id="内部子程序"><a href="#内部子程序" class="headerlink" title="内部子程序"></a>内部子程序</h3><p>一个源文件可包含多个程序，主程序在前，子程序在后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. MAIN-PROG.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">WORKING-STORAGE SECTION.</span><br><span class="line">01 WS-RESULT PIC 9(5).</span><br><span class="line">PROCEDURE DIVISION.</span><br><span class="line">MAIN-PROCEDURE.</span><br><span class="line">    CALL &quot;ADD-NUMBERS&quot; USING 10 20 WS-RESULT</span><br><span class="line">    DISPLAY &quot;结果: &quot; WS-RESULT</span><br><span class="line">    STOP RUN.</span><br><span class="line"></span><br><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. ADD-NUMBERS.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">LINKAGE SECTION.</span><br><span class="line">01 L-A PIC 9(5).</span><br><span class="line">01 L-B PIC 9(5).</span><br><span class="line">01 L-SUM PIC 9(5).</span><br><span class="line">PROCEDURE DIVISION USING L-A L-B L-SUM.</span><br><span class="line">    COMPUTE L-SUM = L-A + L-B</span><br><span class="line">    EXIT PROGRAM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="外部子程序"><a href="#外部子程序" class="headerlink" title="外部子程序"></a>外部子程序</h3><p>独立文件 <code>addnums.cob</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. ADD-NUMBERS.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">LINKAGE SECTION.</span><br><span class="line">01 L-A PIC 9(5).</span><br><span class="line">01 L-B PIC 9(5).</span><br><span class="line">01 L-SUM PIC 9(5).</span><br><span class="line">PROCEDURE DIVISION USING L-A L-B L-SUM.</span><br><span class="line">    COMPUTE L-SUM = L-A + L-B</span><br><span class="line">    EXIT PROGRAM.</span><br></pre></td></tr></table></figure>
+
+<p>编译为模块：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cobc -m addnums.cob        <span class="comment"># 生成 addnums.so</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-调用子程序（CALL）"><a href="#3-调用子程序（CALL）" class="headerlink" title="3. 调用子程序（CALL）"></a>3. 调用子程序（CALL）</h2><h3 id="基本调用"><a href="#基本调用" class="headerlink" title="基本调用"></a>基本调用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CALL &quot;SUB-PROG&quot;.</span><br><span class="line">CALL &quot;SUB-PROG&quot; USING 参数1 参数2.</span><br></pre></td></tr></table></figure>
+
+<h3 id="带返回码"><a href="#带返回码" class="headerlink" title="带返回码"></a>带返回码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CALL &quot;SUB-PROG&quot; USING WS-ARG</span><br><span class="line">    RETURNING WS-RETURN-CODE</span><br><span class="line">END-CALL.</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态调用（变量指定程序名）"><a href="#动态调用（变量指定程序名）" class="headerlink" title="动态调用（变量指定程序名）"></a>动态调用（变量指定程序名）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 WS-PROG-NAME PIC X(20) VALUE &quot;ADD-NUMBERS&quot;.</span><br><span class="line">CALL WS-PROG-NAME USING WS-A WS-B WS-SUM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CALL &quot;SUB-PROG&quot; USING BY REFERENCE WS-A    *&gt; 传引用（默认）</span><br><span class="line">CALL &quot;SUB-PROG&quot; USING BY CONTENT   WS-A    *&gt; 传值（只读）</span><br><span class="line">CALL &quot;SUB-PROG&quot; USING BY VALUE     WS-A    *&gt; 传值（C 风格）</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BY REFERENCE</code></td>
+<td>传地址，子程序可修改原变量（默认）</td>
+</tr>
+<tr>
+<td><code>BY CONTENT</code></td>
+<td>传副本，子程序不能修改原变量</td>
+</tr>
+<tr>
+<td><code>BY VALUE</code></td>
+<td>传值，用于调用 C 函数</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-参数传递（LINKAGE-SECTION）"><a href="#4-参数传递（LINKAGE-SECTION）" class="headerlink" title="4. 参数传递（LINKAGE SECTION）"></a>4. 参数传递（LINKAGE SECTION）</h2><p>子程序用 <code>LINKAGE SECTION</code> 接收参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. CALC-AREA.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">LINKAGE SECTION.</span><br><span class="line">01 L-WIDTH  PIC 9(5).</span><br><span class="line">01 L-HEIGHT PIC 9(5).</span><br><span class="line">01 L-AREA   PIC 9(10).</span><br><span class="line">PROCEDURE DIVISION USING L-WIDTH L-HEIGHT L-AREA.</span><br><span class="line">    COMPUTE L-AREA = L-WIDTH * L-HEIGHT</span><br><span class="line">    EXIT PROGRAM.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ul>
+<li><code>LINKAGE SECTION</code> 中的变量<strong>不分配存储</strong>，只是映射调用方传入的内存</li>
+<li><code>PROCEDURE DIVISION USING</code> 列出参数，顺序必须与 <code>CALL</code> 一致</li>
+<li><code>EXIT PROGRAM</code> 返回调用方（<code>STOP RUN</code> 会终止整个程序）</li>
+</ul>
+<h3 id="参数数量可变"><a href="#参数数量可变" class="headerlink" title="参数数量可变"></a>参数数量可变</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> PROCEDURE DIVISION USING L-A L-B L-C.</span><br><span class="line">*&gt; 调用方可以只传部分参数，未传的为未定义</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-调用-C-库函数"><a href="#5-调用-C-库函数" class="headerlink" title="5. 调用 C 库函数"></a>5. 调用 C 库函数</h2><p>GnuCOBOL 可直接调用 C 标准库函数，这是其强大之处。</p>
+<h3 id="调用示例"><a href="#调用示例" class="headerlink" title="调用示例"></a>调用示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*&gt; 调用 C 的 printf</span><br><span class="line"> CALL &quot;printf&quot; USING BY REFERENCE &quot;Hello %s\n&quot; </span><br><span class="line">                    BY REFERENCE &quot;COBOL&quot;</span><br><span class="line"> END-CALL.</span><br><span class="line"></span><br><span class="line">*&gt; 调用 C 的 usleep（微秒延时）</span><br><span class="line"> CALL &quot;usleep&quot; USING BY VALUE WS-DELAY-US</span><br><span class="line"> END-CALL.</span><br><span class="line"></span><br><span class="line">*&gt; 调用 C 的 system</span><br><span class="line"> CALL &quot;system&quot; USING BY REFERENCE &quot;ls -la&quot; &amp; x&quot;00&quot;</span><br><span class="line"> END-CALL.</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><strong>字符串需以 NUL 结尾</strong>：C 字符串以 <code>\x00</code> 结尾，COBOL 的 <code>PIC X</code> 不会自动添加<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01 WS-CMD PIC X(20) VALUE &quot;ls -la&quot; &amp; x&quot;00&quot;.</span><br></pre></td></tr></table></figure></li>
+<li>**数值用 <code>BY VALUE</code>**：C 函数通常按值接收数值参数</li>
+<li>**数值类型用 <code>COMP-5</code>**：确保二进制格式与 C 一致<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01 WS-DELAY-US PIC 9(6) COMP-5 VALUE 200000.</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="6-编译与链接"><a href="#6-编译与链接" class="headerlink" title="6. 编译与链接"></a>6. 编译与链接</h2><h3 id="编译主程序-子程序"><a href="#编译主程序-子程序" class="headerlink" title="编译主程序 + 子程序"></a>编译主程序 + 子程序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式一：一起编译</span></span><br><span class="line">cobc -x -o main main.cob addnums.cob</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式二：先编译子程序为模块，再链接</span></span><br><span class="line">cobc -m addnums.cob              <span class="comment"># 生成 addnums.so</span></span><br><span class="line">cobc -x -o main main.cob -L. -laddnums</span><br></pre></td></tr></table></figure>
+
+<h3 id="链接-C-库"><a href="#链接-C-库" class="headerlink" title="链接 C 库"></a>链接 C 库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cobc -x -o prog prog.cob -lm    <span class="comment"># 链接数学库</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行时查找模块"><a href="#运行时查找模块" class="headerlink" title="运行时查找模块"></a>运行时查找模块</h3><p>外部子程序（<code>.so</code>）需在运行时能被找到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> COB_LIBRARY_PATH=.:<span class="variable">$COB_LIBRARY_PATH</span></span><br><span class="line">./main</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-实战：snake-cob-调用-usleep"><a href="#7-实战：snake-cob-调用-usleep" class="headerlink" title="7. 实战：snake.cob 调用 usleep"></a>7. 实战：snake.cob 调用 usleep</h2><p><code>snake.cob</code> 通过调用 C 库函数 <code>usleep</code> 实现游戏延时：</p>
+<h3 id="数据声明"><a href="#数据声明" class="headerlink" title="数据声明"></a>数据声明</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*&gt; ---- 延时 (微秒) ----</span><br><span class="line"> 01 WS-DELAY-US         PIC 9(6) COMP-5 VALUE 200000.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>PIC 9(6)</code>：6 位数字，最大 999999 微秒</li>
+<li><code>COMP-5</code>：原生二进制格式，与 C 的 <code>unsigned int</code> 兼容</li>
+</ul>
+<h3 id="延时逻辑"><a href="#延时逻辑" class="headerlink" title="延时逻辑"></a>延时逻辑</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">*&gt; ---- 延时 (分数越高越快, 最低 60ms) ----</span><br><span class="line"> DELAY.</span><br><span class="line">     IF WS-SCORE &lt; 35</span><br><span class="line">        COMPUTE WS-DELAY-US = 200000 - WS-SCORE * 4000</span><br><span class="line">     ELSE</span><br><span class="line">        MOVE 60000 TO WS-DELAY-US</span><br><span class="line">     END-IF</span><br><span class="line">     CALL &quot;usleep&quot; USING BY VALUE WS-DELAY-US</span><br><span class="line">     END-CALL.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong></p>
+<ol>
+<li>分数 &lt; 35 时，延时 &#x3D; 200000 - 分数 × 4000 微秒（分数越高越快）</li>
+<li>分数 ≥ 35 时，固定 60000 微秒（60ms）</li>
+<li><code>CALL &quot;usleep&quot; USING BY VALUE</code> 调用 C 函数，<code>BY VALUE</code> 传递数值</li>
+</ol>
+<h3 id="为什么用-BY-VALUE？"><a href="#为什么用-BY-VALUE？" class="headerlink" title="为什么用 BY VALUE？"></a>为什么用 BY VALUE？</h3><p>C 函数 <code>usleep(useconds_t usec)</code> 按值接收参数。若用默认的 <code>BY REFERENCE</code>，C 函数会收到指针而非数值，导致错误。</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cobc -x -o build/snake snake.cob</span><br></pre></td></tr></table></figure>
+
+<p><code>usleep</code> 属于标准 C 库，无需额外链接参数。</p>
+<hr>
+<p><strong>上一章：</strong> <a href="../files/">文件处理</a><br><strong>下一章：</strong> <a href="../snake/">贪吃蛇实战解析</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#COBOL-%E5%AD%90%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%B0%83%E7%94%A8"><span class="toc-text">COBOL 子程序与调用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AD%90%E7%A8%8B%E5%BA%8F%E6%A6%82%E8%BF%B0"><span class="toc-text">1. 子程序概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9A%E4%B9%89%E5%AD%90%E7%A8%8B%E5%BA%8F"><span class="toc-text">2. 定义子程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%AD%90%E7%A8%8B%E5%BA%8F"><span class="toc-text">内部子程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%AD%90%E7%A8%8B%E5%BA%8F"><span class="toc-text">外部子程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%B0%83%E7%94%A8%E5%AD%90%E7%A8%8B%E5%BA%8F%EF%BC%88CALL%EF%BC%89"><span class="toc-text">3. 调用子程序（CALL）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%B0%83%E7%94%A8"><span class="toc-text">基本调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E8%BF%94%E5%9B%9E%E7%A0%81"><span class="toc-text">带返回码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E7%94%A8%EF%BC%88%E5%8F%98%E9%87%8F%E6%8C%87%E5%AE%9A%E7%A8%8B%E5%BA%8F%E5%90%8D%EF%BC%89"><span class="toc-text">动态调用（变量指定程序名）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="toc-text">调用约定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%EF%BC%88LINKAGE-SECTION%EF%BC%89"><span class="toc-text">4. 参数传递（LINKAGE SECTION）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E6%95%B0%E9%87%8F%E5%8F%AF%E5%8F%98"><span class="toc-text">参数数量可变</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%B0%83%E7%94%A8-C-%E5%BA%93%E5%87%BD%E6%95%B0"><span class="toc-text">5. 调用 C 库函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-text">调用示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%BC%96%E8%AF%91%E4%B8%8E%E9%93%BE%E6%8E%A5"><span class="toc-text">6. 编译与链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E4%B8%BB%E7%A8%8B%E5%BA%8F-%E5%AD%90%E7%A8%8B%E5%BA%8F"><span class="toc-text">编译主程序 + 子程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5-C-%E5%BA%93"><span class="toc-text">链接 C 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9F%A5%E6%89%BE%E6%A8%A1%E5%9D%97"><span class="toc-text">运行时查找模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%9E%E6%88%98%EF%BC%9Asnake-cob-%E8%B0%83%E7%94%A8-usleep"><span class="toc-text">7. 实战：snake.cob 调用 usleep</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E"><span class="toc-text">数据声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E9%80%BB%E8%BE%91"><span class="toc-text">延时逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-BY-VALUE%EF%BC%9F"><span class="toc-text">为什么用 BY VALUE？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a></li></ol></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js"></script>
+</body>
+</html>

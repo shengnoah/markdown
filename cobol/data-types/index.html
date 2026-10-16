@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COBOL 数据类型教程：层级编号、PIC 图像子句、常用数据类型、VALUE 初始化、USAGE 存储方式、常量与特殊字面量，并结合 snake.cob 实战分析。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>COBOL 数据类型与变量 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">COBOL 数据类型与变量</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="COBOL-数据类型与变量"><a href="#COBOL-数据类型与变量" class="headerlink" title="COBOL 数据类型与变量"></a>COBOL 数据类型与变量</h1><blockquote>
+<p>本章讲解 COBOL 的数据声明方式，重点掌握 <code>PIC</code> 子句、层级编号与常用数据类型。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E6%95%B0%E6%8D%AE%E5%B1%82%E7%BA%A7%E4%B8%8E%E7%BC%96%E5%8F%B7">数据层级与编号</a></li>
+<li><a href="#2-pic-%E5%AD%90%E5%8F%A5%E5%9B%BE%E5%83%8F%E5%AD%90%E5%8F%A5">PIC 子句（图像子句）</a></li>
+<li><a href="#3-%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">常用数据类型</a></li>
+<li><a href="#4-value-%E5%AD%90%E5%8F%A5%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96">VALUE 子句与初始化</a></li>
+<li><a href="#5-usage-%E5%AD%90%E5%8F%A5%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F">USAGE 子句（存储方式）</a></li>
+<li><a href="#6-%E5%B8%B8%E9%87%8F%E4%B8%8E%E7%89%B9%E6%AE%8A%E5%AD%97%E9%9D%A2%E9%87%8F">常量与特殊字面量</a></li>
+<li><a href="#7-%E5%AE%9E%E6%88%98snakecob-%E7%9A%84%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E">实战：snake.cob 的数据声明</a></li>
+</ol>
+<hr>
+<h2 id="1-数据层级与编号"><a href="#1-数据层级与编号" class="headerlink" title="1. 数据层级与编号"></a>1. 数据层级与编号</h2><p>COBOL 用<strong>层级编号（Level Number）</strong>组织数据，形成树状结构。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">01 WS-EMPLOYEE.</span><br><span class="line">   05 WS-NAME     PIC X(20).</span><br><span class="line">   05 WS-AGE      PIC 9(3).</span><br><span class="line">   05 WS-SALARY   PIC 9(7)V99.</span><br></pre></td></tr></table></figure>
+
+<p><strong>规则：</strong></p>
+<ul>
+<li><code>01</code> 是最高层（顶层记录），每个 <code>01</code> 是一个独立数据项</li>
+<li><code>02</code> ~ <code>49</code> 是子层级，数字越大层级越深</li>
+<li><code>05</code>、<code>10</code> 等只是习惯用法，关键是<strong>层级递增</strong></li>
+<li>特殊层级号：<ul>
+<li><code>66</code>：RENAMES 子句（重命名）</li>
+<li><code>77</code>：独立数据项（无子项，不能有下级）</li>
+<li><code>88</code>：条件名（Condition Name）</li>
+</ul>
+</li>
+</ul>
+<h3 id="组合项-vs-基本项"><a href="#组合项-vs-基本项" class="headerlink" title="组合项 vs 基本项"></a>组合项 vs 基本项</h3><ul>
+<li><strong>组合项（Group Item）</strong>：有下级的数据项，如 <code>WS-EMPLOYEE</code></li>
+<li><strong>基本项（Elementary Item）</strong>：最底层、有 <code>PIC</code> 的数据项，如 <code>WS-NAME</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">01 WS-DATE.                    *&gt; 组合项</span><br><span class="line">   05 WS-YEAR  PIC 9(4).       *&gt; 基本项</span><br><span class="line">   05 WS-MONTH PIC 9(2).       *&gt; 基本项</span><br><span class="line">   05 WS-DAY   PIC 9(2).       *&gt; 基本项</span><br></pre></td></tr></table></figure>
+
+<h3 id="77-层级"><a href="#77-层级" class="headerlink" title="77 层级"></a>77 层级</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">77 WS-COUNTER PIC 9(4) VALUE 0.</span><br></pre></td></tr></table></figure>
+
+<p>用于声明独立的简单变量，不能有子项。</p>
+<h3 id="88-条件名"><a href="#88-条件名" class="headerlink" title="88 条件名"></a>88 条件名</h3><p>为某个数据项定义”命名条件”，使代码更可读：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-FLAG PIC 9 VALUE 0.</span><br><span class="line">    88 GAME-OVER   VALUE 1.</span><br><span class="line">    88 GAME-ACTIVE VALUE 0.</span><br><span class="line"></span><br><span class="line">*&gt; 使用</span><br><span class="line">     IF GAME-OVER</span><br><span class="line">        DISPLAY &quot;游戏结束&quot;</span><br><span class="line">     END-IF</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-PIC-子句（图像子句）"><a href="#2-PIC-子句（图像子句）" class="headerlink" title="2. PIC 子句（图像子句）"></a>2. PIC 子句（图像子句）</h2><p><code>PIC</code>（PICTURE）定义数据的<strong>类型、长度和格式</strong>，是 COBOL 最核心的概念。</p>
+<h3 id="字符类型符号"><a href="#字符类型符号" class="headerlink" title="字符类型符号"></a>字符类型符号</h3><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>X</code></td>
+<td>任意字符（字母&#x2F;数字&#x2F;符号）</td>
+<td><code>PIC X(10)</code> &#x3D; 10 个字符</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>仅字母</td>
+<td><code>PIC A(5)</code></td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td>数字（显示用）</td>
+<td><code>PIC 9(3)</code> &#x3D; 3 位数字</td>
+</tr>
+<tr>
+<td><code>V</code></td>
+<td>隐含小数点（不占存储）</td>
+<td><code>PIC 9(3)V99</code></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>符号位（正负）</td>
+<td><code>PIC S9(5)</code></td>
+</tr>
+<tr>
+<td><code>P</code></td>
+<td>假定小数点（缩放）</td>
+<td><code>PIC 9(3)P(2)</code></td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>前导零替换为空格</td>
+<td><code>PIC ZZ9</code></td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>千位分隔符（编辑用）</td>
+<td><code>PIC Z,ZZ9</code></td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>实际小数点（编辑用）</td>
+<td><code>PIC 999.99</code></td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>货币符号</td>
+<td><code>PIC $9,999.99</code></td>
+</tr>
+<tr>
+<td><code>+</code> <code>-</code></td>
+<td>正负号（编辑用）</td>
+<td><code>PIC +999</code></td>
+</tr>
+</tbody></table>
+<h3 id="重复计数"><a href="#重复计数" class="headerlink" title="重复计数"></a>重复计数</h3><p>用括号表示重复次数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PIC X(30)      *&gt; 等价于 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span><br><span class="line">PIC 9(4)       *&gt; 等价于 9999</span><br><span class="line">PIC 9(3)V99    *&gt; 3 位整数 + 2 位小数</span><br></pre></td></tr></table></figure>
+
+<h3 id="数值型-vs-编辑型"><a href="#数值型-vs-编辑型" class="headerlink" title="数值型 vs 编辑型"></a>数值型 vs 编辑型</h3><ul>
+<li><strong>数值型（Numeric）</strong>：只含 <code>9</code>、<code>S</code>、<code>V</code>、<code>P</code>，可参与算术运算<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PIC 9(4)        *&gt; 0 ~ 9999</span><br><span class="line">PIC S9(5)V99    *&gt; 带符号，5 位整数 2 位小数</span><br></pre></td></tr></table></figure></li>
+<li><strong>编辑型（Edited）</strong>：含 <code>Z</code>、<code>,</code>、<code>.</code>、<code>$</code> 等，<strong>仅用于显示</strong>，不能运算<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PIC ZZZ9        *&gt; 显示时前导零变空格</span><br><span class="line">PIC $9,999.99   *&gt; 显示为 $1,234.56</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="3-常用数据类型"><a href="#3-常用数据类型" class="headerlink" title="3. 常用数据类型"></a>3. 常用数据类型</h2><h3 id="3-1-字符型"><a href="#3-1-字符型" class="headerlink" title="3.1 字符型"></a>3.1 字符型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 WS-NAME    PIC X(20)  VALUE &quot;Alice&quot;.</span><br><span class="line">01 WS-ADDRESS PIC X(50).</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-整数型"><a href="#3-2-整数型" class="headerlink" title="3.2 整数型"></a>3.2 整数型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 WS-COUNT   PIC 9(3)   VALUE 100.   *&gt; 0 ~ 999</span><br><span class="line">01 WS-SCORE   PIC 9(4)   VALUE 0.     *&gt; 0 ~ 9999</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-带符号数"><a href="#3-3-带符号数" class="headerlink" title="3.3 带符号数"></a>3.3 带符号数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01 WS-TEMP    PIC S9(3)  VALUE -50.   *&gt; -999 ~ 999</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-小数"><a href="#3-4-小数" class="headerlink" title="3.4 小数"></a>3.4 小数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-PRICE   PIC 9(5)V99 VALUE 12345.67.</span><br><span class="line">*&gt; V 是隐含小数点，不占存储空间</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-显示格式（编辑型）"><a href="#3-5-显示格式（编辑型）" class="headerlink" title="3.5 显示格式（编辑型）"></a>3.5 显示格式（编辑型）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-DISPLAY-AMT PIC Z,ZZ9.99.</span><br><span class="line">*&gt; 数值 1234.5 显示为 &quot; 1,234.50&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-VALUE-子句与初始化"><a href="#4-VALUE-子句与初始化" class="headerlink" title="4. VALUE 子句与初始化"></a>4. VALUE 子句与初始化</h2><p><code>VALUE</code> 为数据项指定初始值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">01 WS-COUNT   PIC 9(3)  VALUE 0.</span><br><span class="line">01 WS-NAME    PIC X(10) VALUE &quot;COBOL&quot;.</span><br><span class="line">01 WS-FLAG    PIC X     VALUE &quot;Y&quot;.</span><br><span class="line">01 WS-MSG     PIC X(20) VALUE SPACES.   *&gt; 全空格</span><br><span class="line">01 WS-NUM     PIC 9(3)  VALUE ZEROS.    *&gt; 全零</span><br></pre></td></tr></table></figure>
+
+<p><strong>特殊字面量：</strong></p>
+<table>
+<thead>
+<tr>
+<th>字面量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SPACES</code> &#x2F; <code>SPACE</code></td>
+<td>全空格</td>
+</tr>
+<tr>
+<td><code>ZEROS</code> &#x2F; <code>ZERO</code> &#x2F; <code>ZEROES</code></td>
+<td>全零</td>
+</tr>
+<tr>
+<td><code>HIGH-VALUES</code></td>
+<td>最大值（0xFF）</td>
+</tr>
+<tr>
+<td><code>LOW-VALUES</code></td>
+<td>最小值（0x00）</td>
+</tr>
+<tr>
+<td><code>QUOTES</code></td>
+<td>引号字符</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>注意：</strong> 组合项（有子项的 <code>01</code>）不能用 <code>VALUE</code>，只有基本项可以。</p>
+</blockquote>
+<hr>
+<h2 id="5-USAGE-子句（存储方式）"><a href="#5-USAGE-子句（存储方式）" class="headerlink" title="5. USAGE 子句（存储方式）"></a>5. USAGE 子句（存储方式）</h2><p><code>USAGE</code> 定义数据在内存中的存储格式，影响精度与性能。</p>
+<table>
+<thead>
+<tr>
+<th>USAGE</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DISPLAY</code></td>
+<td>默认，每个数字占 1 字节（字符形式）</td>
+<td><code>PIC 9(4)</code></td>
+</tr>
+<tr>
+<td><code>COMP</code> &#x2F; <code>BINARY</code></td>
+<td>二进制整数，运算快</td>
+<td><code>PIC 9(4) COMP</code></td>
+</tr>
+<tr>
+<td><code>COMP-1</code></td>
+<td>单精度浮点</td>
+<td><code>PIC ... COMP-1</code></td>
+</tr>
+<tr>
+<td><code>COMP-2</code></td>
+<td>双精度浮点</td>
+<td><code>PIC ... COMP-2</code></td>
+</tr>
+<tr>
+<td><code>COMP-3</code> &#x2F; <code>PACKED-DECIMAL</code></td>
+<td>压缩十进制，每字节 2 位数字</td>
+<td><code>PIC 9(5) COMP-3</code></td>
+</tr>
+<tr>
+<td><code>COMP-5</code></td>
+<td>原生二进制（按机器字节序）</td>
+<td><code>PIC 9(6) COMP-5</code></td>
+</tr>
+</tbody></table>
+<p><strong>示例（来自 <code>snake.cob</code>）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01 WS-DELAY-US PIC 9(6) COMP-5 VALUE 200000.</span><br></pre></td></tr></table></figure>
+
+<p><code>COMP-5</code> 用于传给 C 函数 <code>usleep</code>，因为需要原生二进制格式。</p>
+<hr>
+<h2 id="6-常量与特殊字面量"><a href="#6-常量与特殊字面量" class="headerlink" title="6. 常量与特殊字面量"></a>6. 常量与特殊字面量</h2><h3 id="数值字面量"><a href="#数值字面量" class="headerlink" title="数值字面量"></a>数值字面量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVE 100 TO WS-COUNT.</span><br><span class="line">COMPUTE WS-X = 3.14 * 2.</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符字面量"><a href="#字符字面量" class="headerlink" title="字符字面量"></a>字符字面量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVE &quot;Hello&quot; TO WS-NAME.</span><br><span class="line">MOVE &#x27;World&#x27; TO WS-NAME.   *&gt; 单双引号均可</span><br></pre></td></tr></table></figure>
+
+<h3 id="十六进制字面量"><a href="#十六进制字面量" class="headerlink" title="十六进制字面量"></a>十六进制字面量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-CLEAR-SEQ PIC X(7) VALUE X&quot;1B5B324A1B5B48&quot;.</span><br><span class="line">*&gt; X&quot;...&quot; 表示十六进制字节序列（ANSI 清屏转义）</span><br></pre></td></tr></table></figure>
+
+<h3 id="象征常量（Figurative-Constants）"><a href="#象征常量（Figurative-Constants）" class="headerlink" title="象征常量（Figurative Constants）"></a>象征常量（Figurative Constants）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVE SPACES TO WS-LINE.</span><br><span class="line">MOVE ZEROS  TO WS-COUNT.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-实战：snake-cob-的数据声明"><a href="#7-实战：snake-cob-的数据声明" class="headerlink" title="7. 实战：snake.cob 的数据声明"></a>7. 实战：snake.cob 的数据声明</h2><p>分析 <code>snake.cob</code> 中的关键数据声明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">*&gt; ---- 网格: 0=空 1=蛇身 2=食物 ----</span><br><span class="line"> 01 WS-GRID.</span><br><span class="line">    05 WS-ROW OCCURS 12 TIMES.</span><br><span class="line">       10 WS-CELL OCCURS 20 TIMES PIC 9.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 蛇的坐标数组 (最多 240 节, 索引1=头) ----</span><br><span class="line"> 01 WS-SNAKE.</span><br><span class="line">    05 WS-SEG OCCURS 240 TIMES.</span><br><span class="line">       10 WS-SX PIC 9(2).</span><br><span class="line">       10 WS-SY PIC 9(2).</span><br><span class="line"> 01 WS-SNAKE-LEN        PIC 9(3)  VALUE 3.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 方向: 1=上 2=下 3=左 4=右 ----</span><br><span class="line"> 01 WS-DIR              PIC 9     VALUE 4.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 显示用 ----</span><br><span class="line"> 01 WS-DISP-CHAR        PIC X.</span><br><span class="line"> 01 WS-BODY-CHAR        PIC X VALUE &quot;o&quot;.</span><br><span class="line"> 01 WS-FOOD-CHAR        PIC X VALUE &quot;*&quot;.</span><br><span class="line"> 01 WS-WALL-CHAR        PIC X VALUE &quot;#&quot;.</span><br><span class="line"> 01 WS-CLEAR-SEQ        PIC X(7)  VALUE X&quot;1B5B324A1B5B48&quot;.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 延时 (微秒) ----</span><br><span class="line"> 01 WS-DELAY-US         PIC 9(6) COMP-5 VALUE 200000.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ol>
+<li><code>WS-GRID</code> 是二维表（12 行 × 20 列），用嵌套 <code>OCCURS</code> 实现</li>
+<li><code>WS-SNAKE</code> 用 <code>OCCURS 240</code> 定义蛇身坐标数组</li>
+<li><code>PIC 9(2)</code> 表示 2 位数字，足够表示坐标 1~20</li>
+<li><code>PIC X</code> 单字符用于显示符号</li>
+<li><code>X&quot;...&quot;</code> 十六进制字面量存储 ANSI 转义序列</li>
+<li><code>COMP-5</code> 用于与 C 库函数交互</li>
+</ol>
+<hr>
+<p><strong>上一章：</strong> <a href="../basics/">基础入门</a><br><strong>下一章：</strong> <a href="../procedure/">过程部与语句</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#COBOL-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8F%98%E9%87%8F"><span class="toc-text">COBOL 数据类型与变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E5%B1%82%E7%BA%A7%E4%B8%8E%E7%BC%96%E5%8F%B7"><span class="toc-text">1. 数据层级与编号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%A1%B9-vs-%E5%9F%BA%E6%9C%AC%E9%A1%B9"><span class="toc-text">组合项 vs 基本项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#77-%E5%B1%82%E7%BA%A7"><span class="toc-text">77 层级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#88-%E6%9D%A1%E4%BB%B6%E5%90%8D"><span class="toc-text">88 条件名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-PIC-%E5%AD%90%E5%8F%A5%EF%BC%88%E5%9B%BE%E5%83%8F%E5%AD%90%E5%8F%A5%EF%BC%89"><span class="toc-text">2. PIC 子句（图像子句）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B%E7%AC%A6%E5%8F%B7"><span class="toc-text">字符类型符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%A4%8D%E8%AE%A1%E6%95%B0"><span class="toc-text">重复计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E5%9E%8B-vs-%E7%BC%96%E8%BE%91%E5%9E%8B"><span class="toc-text">数值型 vs 编辑型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">3. 常用数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%AD%97%E7%AC%A6%E5%9E%8B"><span class="toc-text">3.1 字符型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B4%E6%95%B0%E5%9E%8B"><span class="toc-text">3.2 整数型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%95%B0"><span class="toc-text">3.3 带符号数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%B0%8F%E6%95%B0"><span class="toc-text">3.4 小数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F%EF%BC%88%E7%BC%96%E8%BE%91%E5%9E%8B%EF%BC%89"><span class="toc-text">3.5 显示格式（编辑型）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-VALUE-%E5%AD%90%E5%8F%A5%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">4. VALUE 子句与初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-USAGE-%E5%AD%90%E5%8F%A5%EF%BC%88%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="toc-text">5. USAGE 子句（存储方式）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B8%B8%E9%87%8F%E4%B8%8E%E7%89%B9%E6%AE%8A%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">6. 常量与特殊字面量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">数值字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">字符字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">十六进制字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B1%A1%E5%BE%81%E5%B8%B8%E9%87%8F%EF%BC%88Figurative-Constants%EF%BC%89"><span class="toc-text">象征常量（Figurative Constants）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%9E%E6%88%98%EF%BC%9Asnake-cob-%E7%9A%84%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E"><span class="toc-text">7. 实战：snake.cob 的数据声明</span></a></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js"></script>
+</body>
+</html>
