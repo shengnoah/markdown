@@ -1,0 +1,379 @@
+/* ============================================================
+   Keyboard Test Styles（键盘测试 - 立体透明机械键帽）
+   风格与首页保持一致：白底、品牌蓝 #2D9CDB、圆角卡片
+   ============================================================ */
+
+.kb-page {
+  /* 突破 post 布局 720px 窄容器：相对视口居中，给 108 键足够宽度
+     键盘内容需求约 1200px（22u×50 + 分区间隔 + padding），取 1240px 留余量 */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1240px, calc(100vw - 64px));
+  padding: 8px 0 40px;
+}
+
+/* ===== 顶部统计栏 ===== */
+.kb-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.kb-stat-card {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid #e6e9ed;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  font-size: 14px;
+  color: #6a7684;
+}
+
+.kb-stat-card strong {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  font-variant-numeric: tabular-nums;
+}
+
+.kb-stat-card.is-active strong {
+  color: #2D9CDB;
+}
+
+/* ===== 键盘底座 ===== */
+.kb-deck {
+  background: linear-gradient(180deg, #f3faff 0%, #ffffff 100%);
+  border: 1px solid #e6e9ed;
+  border-radius: 16px;
+  padding: 26px 22px 30px;
+  box-shadow: 0 12px 32px rgba(45, 156, 219, 0.08);
+  /* 紧贴键盘内容宽度并水平居中，保证左右边框对称；
+     窄屏时收缩为容器宽度并内部横向滚动 */
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+/* 键盘内框（金属托盘质感） */
+.kb-tray {
+  background: linear-gradient(180deg, #eef3f8 0%, #e2eaf2 100%);
+  border: 1px solid #d5dee8;
+  border-radius: 12px;
+  padding: 16px 14px;
+  box-shadow:
+    inset 0 2px 6px rgba(120, 140, 160, 0.25),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* ===== 行布局 ===== */
+.kb-tray {
+  /* 1u = 一个标准键宽（含间隙），行内 gap 已由键宽公式扣除 */
+  --u-size: 50px;
+  /* 始终按键盘内容自适应宽度，避免被外层容器压缩导致溢出边框 */
+  width: max-content;
+}
+
+.kb-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.kb-row:last-child {
+  margin-bottom: 0;
+}
+
+/* 分区间隔 */
+.kb-gap {
+  flex: 0 0 14px;
+}
+
+/* 1u 宽空占位（编辑区无键的行，保证小键盘列对齐） */
+.kb-blank {
+  flex: 0 0 calc(1 * var(--u-size) - 6px);
+  width: calc(1 * var(--u-size) - 6px);
+  height: 46px;
+}
+
+/* ============================================================
+   立体透明机械键帽
+   - 顶面：半透明白色渐变 + 顶部内高光（玻璃/树脂质感）
+   - 侧壁：多层 box-shadow 形成厚度
+   - 按下：下沉 + 侧壁压缩 + 品牌蓝发光
+   ============================================================ */
+.kb-key {
+  --u: 4;                    /* 宽度单位（由 JS 设置） */
+  --wall: #c3d2de;           /* 侧壁颜色 */
+  --wall-dark: #9fb4c4;      /* 侧壁暗部 */
+  position: relative;
+  flex: 0 0 calc(var(--u) * var(--u-size) - 6px);
+  width: calc(var(--u) * var(--u-size) - 6px);
+  height: 46px;
+  border: 1px solid rgba(45, 156, 219, 0.22);
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* 透明键帽顶面：半透明白 + 玻璃高光 */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(243, 250, 255, 0.78) 45%,
+      rgba(228, 240, 250, 0.68) 100%
+    );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  /* 立体侧壁：厚度 5px + 底部投影 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -2px 3px rgba(140, 165, 190, 0.18),
+    0 5px 0 -1px var(--wall),
+    0 6px 0 -1px var(--wall-dark),
+    0 9px 14px rgba(30, 60, 90, 0.18);
+
+  transition:
+    transform 0.07s cubic-bezier(0.3, 0.9, 0.4, 1),
+    box-shadow 0.07s cubic-bezier(0.3, 0.9, 0.4, 1),
+    background 0.18s ease,
+    border-color 0.18s ease;
+
+  /* 键帽字符 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.15;
+  color: #2c3e50;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.kb-key .kb-sub {
+  font-size: 9px;
+  font-weight: 500;
+  color: #6a7684;
+  margin-top: 1px;
+}
+
+/* 小键（F 区等）字号略小 */
+.kb-key.kb-small {
+  font-size: 10px;
+}
+
+/* 竖向 2u 高键（小键盘 + / Enter）：占两行，负 margin 让下一行上移 */
+.kb-key.kb-tall {
+  height: 98px;
+  margin-bottom: -52px;
+  z-index: 2;
+}
+
+/* ===== 悬停（鼠标模拟按压前的轻浮起） ===== */
+.kb-key:hover {
+  border-color: rgba(45, 156, 219, 0.45);
+}
+
+/* ===== 按下状态：立体下沉 ===== */
+.kb-key.pressed {
+  transform: translateY(5px);
+
+  /* 按下瞬间立即变色（覆盖默认 0.18s 渐变，避免看到过渡中的旧颜色） */
+  transition:
+    transform 0.07s cubic-bezier(0.3, 0.9, 0.4, 1),
+    box-shadow 0.07s cubic-bezier(0.3, 0.9, 0.4, 1),
+    background 0.04s linear,
+    border-color 0.04s linear;
+
+  /* 侧壁压缩：厚度从 5px 变 1px，投影收紧 */
+  box-shadow:
+    inset 0 2px 5px rgba(45, 156, 219, 0.28),
+    inset 0 -1px 2px rgba(45, 156, 219, 0.2),
+    0 1px 0 -1px var(--wall-dark),
+    0 2px 5px rgba(30, 60, 90, 0.22);
+
+  /* 顶面被点亮：品牌蓝半透明发光 */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(45, 156, 219, 0.4) 0%,
+      rgba(45, 156, 219, 0.55) 55%,
+      rgba(45, 140, 204, 0.62) 100%
+    );
+
+  border-color: rgba(45, 156, 219, 0.75);
+  color: #ffffff;
+}
+
+.kb-key.pressed .kb-sub {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 按下时的外发光（RGB 氛围感） */
+.kb-key.pressed::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 11px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(45, 156, 219, 0.35) 0%,
+    rgba(45, 156, 219, 0.12) 55%,
+    transparent 75%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ===== 已按过的键（测试通过：更深的蓝色印记，与未按过的键帽明显区分） ===== */
+.kb-key.touched {
+  border-color: rgba(21, 101, 160, 0.85);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(45, 130, 190, 0.55) 0%,
+      rgba(20, 90, 150, 0.72) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -2px 3px rgba(10, 50, 90, 0.3),
+    0 5px 0 -1px #6b96ba,
+    0 6px 0 -1px #5a83a6,
+    0 9px 14px rgba(30, 60, 90, 0.22);
+  color: #ffffff;
+}
+
+.kb-key.touched .kb-sub {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== 按键记录区 ===== */
+.kb-history {
+  margin-top: 22px;
+  background: #fff;
+  border: 1px solid #e6e9ed;
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.kb-history h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kb-reset-btn {
+  border: 1px solid #e6e9ed;
+  background: #fff;
+  color: #6a7684;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kb-reset-btn:hover {
+  border-color: #2D9CDB;
+  color: #2D9CDB;
+  transform: translateY(-1px);
+}
+
+.kb-history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 34px;
+  align-items: center;
+}
+
+.kb-history-list .kb-hint {
+  color: #a0a7b0;
+  font-size: 13px;
+}
+
+.kb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(45, 156, 219, 0.1);
+  border: 1px solid rgba(45, 156, 219, 0.3);
+  color: #2D8BCC;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  animation: kb-chip-in 0.25s cubic-bezier(0.3, 1.2, 0.4, 1);
+}
+
+.kb-chip .kb-chip-count {
+  font-size: 11px;
+  color: #6a7684;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+@keyframes kb-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== 使用说明 ===== */
+.kb-usage {
+  margin-top: 22px;
+  padding: 16px 20px;
+  border-left: 3px solid #2D9CDB;
+  background: #f8f9fa;
+  border-radius: 0 10px 10px 0;
+  color: #6a7684;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.kb-usage strong {
+  color: #2c3e50;
+}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 1300px) {
+  .kb-deck {
+    /* 窄屏时已由默认样式保证：max-width 100% + 横向滚动 */
+  }
+}
+
+@media (max-width: 768px) {
+  .kb-stat-card {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .kb-stat-card strong {
+    font-size: 18px;
+  }
+}
