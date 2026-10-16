@@ -219,6 +219,7 @@
     var el = keyEls[code];
     if (!el) return;
     el.classList.remove('pressed');
+    updateStats();
   }
 
   /* ------------------------------------------------------------
@@ -270,9 +271,13 @@
     if (totalEl) totalEl.textContent = totalPress;
     if (touchedEl) touchedEl.textContent = touchedCount + ' / 108';
     if (activeEl) {
-      var n = document.querySelectorAll('.kb-key.pressed').length;
-      activeEl.textContent = n;
-      activeEl.closest('.kb-stat-card').classList.toggle('is-active', n > 0);
+      /* 实时显示当前按下的键名（多键同按时用 + 连接） */
+      var pressedNames = [];
+      document.querySelectorAll('.kb-key.pressed').forEach(function (el) {
+        pressedNames.push(el.getAttribute('aria-label') || el.dataset.code);
+      });
+      activeEl.textContent = pressedNames.length ? pressedNames.join(' + ') : '无';
+      activeEl.closest('.kb-stat-card').classList.toggle('is-active', pressedNames.length > 0);
     }
   }
 
@@ -332,7 +337,7 @@
     stats.innerHTML =
       '<div class="kb-stat-card">总按键 <strong id="kb-stat-total">0</strong></div>' +
       '<div class="kb-stat-card">已测试键位 <strong id="kb-stat-touched">0 / 108</strong></div>' +
-      '<div class="kb-stat-card">当前按下 <strong id="kb-stat-active">0</strong></div>';
+      '<div class="kb-stat-card">当前按下 <strong id="kb-stat-active">无</strong></div>';
     container.appendChild(stats);
 
     /* 键盘 */

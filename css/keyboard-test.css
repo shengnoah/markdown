@@ -47,6 +47,16 @@
   color: #2D9CDB;
 }
 
+/* 当前按下键名：等宽字体 + 限制宽度（多键同按时优雅截断） */
+.kb-stat-card strong#kb-stat-active {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 18px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ===== 键盘底座 ===== */
 .kb-deck {
   background: linear-gradient(180deg, #f3faff 0%, #ffffff 100%);
