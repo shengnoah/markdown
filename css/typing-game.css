@@ -1,0 +1,426 @@
+/* ============================================================
+   Typing Game Styles（打字游戏 - 品牌蓝透明玻璃风格）
+   与首页 / 键盘测试保持一致：白底、品牌蓝 #2D9CDB、
+   半透明玻璃质感（backdrop-filter blur）、圆角卡片
+   ============================================================ */
+
+.tg-page {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(960px, calc(100vw - 64px));
+  padding: 8px 0 40px;
+}
+
+/* ===== 玻璃外壳 ===== */
+.tg-crt {
+  position: relative;
+  background: linear-gradient(180deg, #f3faff 0%, #ffffff 100%);
+  border: 1px solid #e6e9ed;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 12px 32px rgba(45, 156, 219, 0.08);
+}
+
+/* ===== 顶部 HUD ===== */
+.tg-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(45, 156, 219, 0.22);
+  border-radius: 12px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  color: #6a7684;
+}
+
+.tg-hud-group {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.tg-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  color: #6a7684;
+}
+
+.tg-stat strong {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  font-variant-numeric: tabular-nums;
+}
+
+.tg-stat strong#tg-combo {
+  color: #2d9cdb;
+}
+
+.tg-stat.tg-danger strong {
+  color: #e05555;
+}
+
+/* 生命值：品牌蓝小方块 */
+.tg-lives {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.tg-life {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(180deg, #4fb3e8 0%, #2d9cdb 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 2px 6px rgba(45, 156, 219, 0.35);
+  border-radius: 4px;
+}
+
+.tg-life.lost {
+  background: rgba(45, 156, 219, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(45, 156, 219, 0.18);
+}
+
+/* ===== 速度选择 + 控制按钮 ===== */
+.tg-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+}
+
+.tg-speed-label {
+  color: #6a7684;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+/* 透明玻璃按钮（与键帽质感一致） */
+.tg-speed-btn {
+  border: 1px solid rgba(45, 156, 219, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(243, 250, 255, 0.78) 45%,
+    rgba(228, 240, 250, 0.68) 100%
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: #2c3e50;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 3px 0 -1px #c3d2de,
+    0 4px 0 -1px #9fb4c4,
+    0 6px 12px rgba(30, 60, 90, 0.12);
+  transition: all 0.15s ease;
+}
+
+.tg-speed-btn:hover {
+  border-color: rgba(45, 156, 219, 0.55);
+  color: #2d9cdb;
+}
+
+.tg-speed-btn.active {
+  background: linear-gradient(
+    180deg,
+    rgba(45, 156, 219, 0.85) 0%,
+    rgba(45, 140, 204, 0.92) 100%
+  );
+  color: #ffffff;
+  border-color: rgba(45, 156, 219, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 3px 0 -1px #1f7cb0,
+    0 4px 0 -1px #1a6a97,
+    0 6px 16px rgba(45, 156, 219, 0.35);
+}
+
+.tg-btn {
+  border: 1px solid rgba(45, 156, 219, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(243, 250, 255, 0.78) 45%,
+    rgba(228, 240, 250, 0.68) 100%
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: #2d8bcc;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 9px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 3px 0 -1px #c3d2de,
+    0 4px 0 -1px #9fb4c4,
+    0 6px 12px rgba(30, 60, 90, 0.12);
+  transition: all 0.15s ease;
+}
+
+.tg-btn:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(45, 156, 219, 0.85) 0%,
+    rgba(45, 140, 204, 0.92) 100%
+  );
+  color: #ffffff;
+  border-color: rgba(45, 156, 219, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 3px 0 -1px #1f7cb0,
+    0 4px 0 -1px #1a6a97,
+    0 6px 16px rgba(45, 156, 219, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ===== 游戏区域（浅色玻璃屏幕） ===== */
+.tg-screen {
+  position: relative;
+  height: 460px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(45, 156, 219, 0.08), transparent 60%),
+    linear-gradient(180deg, #f8fcff 0%, #eef6fd 100%);
+  border: 1px solid rgba(45, 156, 219, 0.3);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 2px 8px rgba(45, 156, 219, 0.08),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 底部危险线 */
+.tg-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(224, 85, 85, 0.75) 0px,
+    rgba(224, 85, 85, 0.75) 12px,
+    transparent 12px,
+    transparent 20px
+  );
+  box-shadow: 0 0 10px rgba(224, 85, 85, 0.3);
+  z-index: 2;
+}
+
+/* ===== 掉落的字母（品牌蓝 + 辉光） ===== */
+.tg-letter {
+  position: absolute;
+  top: -40px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 30px;
+  font-weight: 700;
+  color: #2d8bcc;
+  text-shadow:
+    0 0 1px rgba(45, 156, 219, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  z-index: 3;
+  will-change: transform;
+}
+
+/* 击中：蓝色爆开消失 */
+.tg-letter.hit {
+  animation: tg-hit 0.28s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes tg-hit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.6);
+    color: #2d9cdb;
+    text-shadow:
+      0 0 14px rgba(45, 156, 219, 0.75),
+      0 0 30px rgba(45, 156, 219, 0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.3) translateY(-14px);
+  }
+}
+
+/* 漏接：坠落变红 */
+.tg-letter.miss {
+  animation: tg-miss 0.32s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes tg-miss {
+  0% {
+    opacity: 1;
+    color: #e05555;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(26px) scaleY(0.4);
+    color: #e05555;
+  }
+}
+
+/* ===== 得分飘字 ===== */
+.tg-pop {
+  position: absolute;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2d8bcc;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 4;
+  animation: tg-pop 0.7s ease-out forwards;
+}
+
+.tg-pop.tg-pop-bad {
+  color: #e05555;
+}
+
+@keyframes tg-pop {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-34px);
+  }
+}
+
+/* ===== 覆盖层（开始 / 暂停 / 结束）：磨砂玻璃 ===== */
+.tg-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10;
+  text-align: center;
+  padding: 24px;
+}
+
+.tg-overlay[hidden] {
+  display: none;
+}
+
+.tg-title {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #2d9cdb;
+  text-shadow: 0 2px 12px rgba(45, 156, 219, 0.25);
+  margin: 0;
+}
+
+.tg-subtitle {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 14px;
+  color: #6a7684;
+  line-height: 1.9;
+  margin: 0;
+  max-width: 480px;
+}
+
+.tg-subtitle strong {
+  color: #2d8bcc;
+}
+
+.tg-final {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 16px;
+  color: #6a7684;
+  line-height: 2;
+  margin: 0;
+}
+
+.tg-final strong {
+  color: #2d9cdb;
+  font-size: 20px;
+}
+
+/* 闪烁提示 */
+.tg-blink {
+  animation: tg-blink 1.1s step-end infinite;
+}
+
+@keyframes tg-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* ===== 使用说明 ===== */
+.tg-usage {
+  margin-top: 22px;
+  padding: 16px 20px;
+  border-left: 3px solid #2d9cdb;
+  background: #f8f9fa;
+  border-radius: 0 10px 10px 0;
+  color: #6a7684;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.tg-usage strong {
+  color: #2c3e50;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .tg-screen {
+    height: 380px;
+  }
+
+  .tg-letter {
+    font-size: 24px;
+  }
+
+  .tg-title {
+    font-size: 26px;
+  }
+
+  .tg-hud-group {
+    gap: 14px;
+  }
+
+  .tg-stat strong {
+    font-size: 18px;
+  }
+}
