@@ -212,6 +212,27 @@ img {
   font-size: 14px;
   overflow-x: auto;
 }
+.typing-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  background: #2c3e50;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  animation: cursor-blink 1s step-end infinite;
+}
+pre .typing-cursor {
+  background: #f8f8f2;
+}
+.tok-keyword {
+  color: #f92672;
+}
+.tok-string {
+  color: #e6db74;
+}
+.tok-fn {
+  color: #a6e22e;
+}
 .section {
   padding: 90px 0;
 }
@@ -1281,5 +1302,49 @@ img {
   }
   .fbasic-help-grid {
     grid-template-columns: 1fr;
+  }
+}
+@-moz-keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
