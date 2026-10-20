@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="复古学习机风格打字练习游戏：字母从屏幕顶部掉落，按下对应按键将其击落，支持速度调节、连击计分与生命值挑战。">
+  <meta name="description" content="复古学习机风格打字练习游戏：字母从屏幕顶部掉落，按下对应按键将其击落，支持道具系统、等级成长、连击称号、8-bit 音效与最高分记录。">
   <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
   <meta name="author" content="Xianbao">
   <title>打字游戏 — Xianbao</title>
@@ -55,7 +55,7 @@
   <div class="container container-narrow">
     <h1 class="post-title">打字游戏</h1>
     <div class="post-content">
-      <link rel="stylesheet" href="/css/typing-game.css?v=1">
+      <link rel="stylesheet" href="/css/typing-game.css?v=2">
 
 <div class="tg-page">
   <div id="tg-app">
@@ -65,14 +65,19 @@
   <div class="tg-usage">
     <strong>使用说明</strong>：游戏分两种模式——<strong>字母模式</strong>：字母从屏幕顶部掉落，按下对应字母键将其击落；
     <strong>单词模式</strong>：小学生英语单词掉落，按顺序输入单词的每个字母，打完整单词即可将其<strong>引爆</strong>并获得额外奖励分。
-    目标落到底部未被击中会损失一条生命，生命耗尽游戏结束。
+    目标落到底部未被击中会损失一条生命，生命耗尽游戏结束。<br>
+    <strong>道具系统</strong>：游戏中会随机掉落道具，按下道具标注的字母键即可激活——
+    <strong>💣 炸弹（B）</strong>清除屏幕上全部目标、<strong>❤️ 生命（H）</strong>恢复一条生命、
+    <strong>⏱️ 慢速（S）</strong>让下落减速 6 秒、<strong>✨ 双倍（D）</strong>得分翻倍 8 秒；道具落底只会消失，不扣生命。<br>
+    <strong>等级成长</strong>：每 300 分升一级，等级越高下落越快、生成越密；
+    <strong>连击称号</strong>：连续击中 5 / 10 / 20 / 30 / 50 次会触发全屏喝彩，连击越高每次得分越多，按错会中断连击。<br>
     开始前可选择<strong>游戏模式</strong>与<strong>掉落速度</strong>（慢速 / 中速 / 快速 / 疯狂），速度游戏中也可随时切换；
-    连续击中可获得<strong>连击加成</strong>，按错字母会中断连击。
-    按 <strong>Esc</strong> 或点击「暂停」可随时暂停，支持鼠标点击目标击落（移动端友好）。
+    最高分按模式分别记录在本地，打破纪录会显示 <strong>🏆 新纪录</strong>。
+    按 <strong>Esc</strong> 或点击「暂停」可随时暂停，🔊 按钮可开关 8-bit 音效，支持鼠标点击目标击落（移动端友好）。
   </div>
 </div>
 
-<script src="/js/typing-game.js?v=1"></script>
+<script src="/js/typing-game.js?v=2"></script>
 
     </div>
   </div>

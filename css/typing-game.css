@@ -471,6 +471,284 @@
   50% { opacity: 0.25; }
 }
 
+/* ===== 连击高亮（10 连击以上金色发光） ===== */
+.tg-stat strong#tg-combo.hot {
+  color: #f5a623;
+  text-shadow: 0 0 12px rgba(245, 166, 35, 0.55);
+}
+
+.tg-stat strong#tg-level {
+  color: #f5a623;
+}
+
+/* ===== 粒子爆炸 ===== */
+.tg-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 4;
+  animation: tg-particle 0.55s ease-out forwards;
+}
+
+@keyframes tg-particle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.3);
+  }
+}
+
+/* ===== 屏幕震动（漏接 / 炸弹） ===== */
+.tg-screen.tg-shake {
+  animation: tg-shake 0.35s ease;
+}
+
+@keyframes tg-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ===== 全屏大字（连击称号 / 升级） ===== */
+.tg-big {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2d9cdb;
+  text-shadow:
+    0 2px 16px rgba(45, 156, 219, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 6;
+  white-space: nowrap;
+  animation: tg-big 1.05s ease-out forwards;
+}
+
+.tg-big.tg-big-combo {
+  color: #f5a623;
+  text-shadow:
+    0 2px 16px rgba(245, 166, 35, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.tg-big.tg-big-level {
+  color: #28a745;
+  text-shadow:
+    0 2px 16px rgba(40, 167, 69, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@keyframes tg-big {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -62%) scale(1.05);
+  }
+}
+
+/* ===== 掉落道具 ===== */
+.tg-powerup {
+  position: absolute;
+  top: -56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3;
+  will-change: transform;
+}
+
+.tg-powerup .tg-pu-icon {
+  font-size: 30px;
+  line-height: 1.2;
+  filter: drop-shadow(0 2px 6px rgba(45, 156, 219, 0.35));
+  animation: tg-pu-bounce 0.9s ease-in-out infinite;
+}
+
+.tg-powerup .tg-pu-key {
+  margin-top: 3px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(180deg, #4fb3e8 0%, #2d9cdb 100%);
+  border-radius: 5px;
+  padding: 1px 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 6px rgba(45, 156, 219, 0.4);
+}
+
+@keyframes tg-pu-bounce {
+  0%, 100% { transform: scale(1) rotate(-6deg); }
+  50% { transform: scale(1.15) rotate(6deg); }
+}
+
+/* 道具被击中 / 落底：复用字母的 hit / miss 动画 */
+.tg-powerup.hit {
+  animation: tg-hit 0.28s ease-out forwards;
+  pointer-events: none;
+}
+
+.tg-powerup.miss {
+  animation: tg-miss 0.32s ease-in forwards;
+  pointer-events: none;
+}
+
+/* ===== 炸弹全屏闪光 ===== */
+.tg-flash {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 8;
+  animation: tg-flash 0.4s ease-out forwards;
+}
+
+@keyframes tg-flash {
+  0% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* ===== 道具激活状态条（屏幕左上角） ===== */
+.tg-pu-bar {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.tg-pu-chip {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: tg-chip-in 0.25s ease-out;
+}
+
+.tg-pu-chip-slow {
+  color: #2d8bcc;
+  border: 1px solid rgba(45, 156, 219, 0.45);
+  box-shadow: 0 0 10px rgba(45, 156, 219, 0.25);
+}
+
+.tg-pu-chip-double {
+  color: #d98a0d;
+  border: 1px solid rgba(245, 166, 35, 0.5);
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.3);
+}
+
+@keyframes tg-chip-in {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 慢速 / 双倍激活时的屏幕滤镜 ===== */
+.tg-screen.tg-slowmo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 156, 219, 0.07);
+  box-shadow: inset 0 0 40px rgba(45, 156, 219, 0.18);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tg-screen.tg-double::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 166, 35, 0.06);
+  box-shadow: inset 0 0 40px rgba(245, 166, 35, 0.16);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== 音效开关按钮 ===== */
+.tg-sound-btn {
+  padding: 8px 12px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.tg-sound-btn.muted {
+  opacity: 0.55;
+}
+
+/* ===== 开始界面：道具说明 ===== */
+.tg-pu-legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tg-pu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 13px;
+  color: #6a7684;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(45, 156, 219, 0.25);
+  border-radius: 8px;
+}
+
+.tg-pu-item kbd {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(180deg, #4fb3e8 0%, #2d9cdb 100%);
+  border-radius: 4px;
+  padding: 1px 7px;
+  box-shadow: 0 2px 4px rgba(45, 156, 219, 0.35);
+}
+
+/* ===== 开始界面：最高分 ===== */
+.tg-best-line {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 14px;
+  color: #6a7684;
+  margin: 0;
+}
+
+.tg-best-line strong {
+  color: #f5a623;
+  font-size: 18px;
+}
+
 /* ===== 使用说明 ===== */
 .tg-usage {
   margin-top: 22px;
@@ -507,5 +785,22 @@
 
   .tg-stat strong {
     font-size: 18px;
+  }
+
+  .tg-big {
+    font-size: 26px;
+  }
+
+  .tg-powerup .tg-pu-icon {
+    font-size: 24px;
+  }
+
+  .tg-pu-legend {
+    gap: 6px;
+  }
+
+  .tg-pu-item {
+    font-size: 12px;
+    padding: 4px 9px;
   }
 }
