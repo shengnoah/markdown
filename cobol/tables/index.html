@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COBOL 表与数组教程：OCCURS 子句、二维表嵌套、下标与索引 INDEXED BY、变长表 DEPENDING ON、表初始化、SEARCH 与 SEARCH ALL 查找，并结合 snake.cob 网格与蛇身实战分析。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>COBOL 表与数组 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">COBOL 表与数组</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="COBOL-表与数组"><a href="#COBOL-表与数组" class="headerlink" title="COBOL 表与数组"></a>COBOL 表与数组</h1><blockquote>
+<p>COBOL 用 <code>OCCURS</code> 子句定义数组（称为”表”，Table），支持一维、二维及变长表。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E4%B8%80%E7%BB%B4%E8%A1%A8occurs">一维表（OCCURS）</a></li>
+<li><a href="#2-%E4%BA%8C%E7%BB%B4%E8%A1%A8%E5%B5%8C%E5%A5%97-occurs">二维表（嵌套 OCCURS）</a></li>
+<li><a href="#3-%E4%B8%8B%E6%A0%87%E4%B8%8E%E7%B4%A2%E5%BC%95">下标与索引</a></li>
+<li><a href="#4-%E5%8F%98%E9%95%BF%E8%A1%A8depending-on">变长表（DEPENDING ON）</a></li>
+<li><a href="#5-%E8%A1%A8%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96">表的初始化</a></li>
+<li><a href="#6-%E6%9F%A5%E6%89%BE%E8%A1%A8search">查找表（SEARCH）</a></li>
+<li><a href="#7-%E5%AE%9E%E6%88%98snakecob-%E7%9A%84%E7%BD%91%E6%A0%BC%E4%B8%8E%E8%9B%87%E8%BA%AB">实战：snake.cob 的网格与蛇身</a></li>
+</ol>
+<hr>
+<h2 id="1-一维表（OCCURS）"><a href="#1-一维表（OCCURS）" class="headerlink" title="1. 一维表（OCCURS）"></a>1. 一维表（OCCURS）</h2><p>用 <code>OCCURS n TIMES</code> 定义重复元素：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 WS-SCORES.</span><br><span class="line">   05 WS-SCORE OCCURS 10 TIMES PIC 9(3).</span><br></pre></td></tr></table></figure>
+
+<p>这定义了一个包含 10 个元素的数组，每个元素是 3 位数字。</p>
+<h3 id="带子项的表"><a href="#带子项的表" class="headerlink" title="带子项的表"></a>带子项的表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">01 WS-STUDENTS.</span><br><span class="line">   05 WS-STUDENT OCCURS 30 TIMES.</span><br><span class="line">      10 WS-STU-NAME PIC X(20).</span><br><span class="line">      10 WS-STU-AGE  PIC 9(2).</span><br><span class="line">      10 WS-STU-GRADE PIC 9(3).</span><br></pre></td></tr></table></figure>
+
+<p>每个 <code>WS-STUDENT</code> 是一个组合项，包含姓名、年龄、成绩。</p>
+<h3 id="访问元素"><a href="#访问元素" class="headerlink" title="访问元素"></a>访问元素</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOVE 95 TO WS-SCORE(1).        *&gt; 第 1 个元素</span><br><span class="line">MOVE 88 TO WS-SCORE(5).        *&gt; 第 5 个元素</span><br><span class="line">DISPLAY WS-STU-NAME(3).        *&gt; 第 3 个学生的姓名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> COBOL 数组下标<strong>从 1 开始</strong>，不是 0！</p>
+</blockquote>
+<hr>
+<h2 id="2-二维表（嵌套-OCCURS）"><a href="#2-二维表（嵌套-OCCURS）" class="headerlink" title="2. 二维表（嵌套 OCCURS）"></a>2. 二维表（嵌套 OCCURS）</h2><p>通过嵌套 <code>OCCURS</code> 实现多维数组：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">01 WS-GRID.</span><br><span class="line">   05 WS-ROW OCCURS 12 TIMES.</span><br><span class="line">      10 WS-CELL OCCURS 20 TIMES PIC 9.</span><br></pre></td></tr></table></figure>
+
+<p>这定义了一个 12 行 × 20 列的二维表。</p>
+<h3 id="访问二维元素"><a href="#访问二维元素" class="headerlink" title="访问二维元素"></a>访问二维元素</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVE 1 TO WS-CELL(3, 5).       *&gt; 第 3 行第 5 列</span><br><span class="line">MOVE 2 TO WS-CELL(WS-FOOD-Y, WS-FOOD-X).</span><br></pre></td></tr></table></figure>
+
+<p><strong>下标顺序：</strong> <code>WS-CELL(行, 列)</code>，即外层 <code>OCCURS</code> 在前，内层在后。</p>
+<h3 id="遍历二维表"><a href="#遍历二维表" class="headerlink" title="遍历二维表"></a>遍历二维表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I &gt; 12</span><br><span class="line">   PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J &gt; 20</span><br><span class="line">      MOVE 0 TO WS-CELL(WS-I, WS-J)</span><br><span class="line">   END-PERFORM</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-下标与索引"><a href="#3-下标与索引" class="headerlink" title="3. 下标与索引"></a>3. 下标与索引</h2><h3 id="下标（Subscript）"><a href="#下标（Subscript）" class="headerlink" title="下标（Subscript）"></a>下标（Subscript）</h3><p>用普通数值变量或字面量作为下标：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">01 WS-IDX PIC 9(3).</span><br><span class="line">MOVE 5 TO WS-IDX.</span><br><span class="line">DISPLAY WS-SCORE(WS-IDX).</span><br></pre></td></tr></table></figure>
+
+<h3 id="索引（Index）"><a href="#索引（Index）" class="headerlink" title="索引（Index）"></a>索引（Index）</h3><p>用 <code>INDEXED BY</code> 声明专用索引，性能更好：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">01 WS-TABLE.</span><br><span class="line">   05 WS-ITEM OCCURS 100 TIMES</span><br><span class="line">      INDEXED BY WS-IDX PIC X(10).</span><br></pre></td></tr></table></figure>
+
+<p>索引操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SET WS-IDX TO 1.</span><br><span class="line">PERFORM VARYING WS-IDX FROM 1 BY 1 UNTIL WS-IDX &gt; 100</span><br><span class="line">   DISPLAY WS-ITEM(WS-IDX)</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>SET 索引 TO 值</code>：设置索引</li>
+<li><code>SET 索引 UP BY 1</code>：递增</li>
+<li><code>SET 索引 DOWN BY 1</code>：递减</li>
+</ul>
+<h3 id="下标-vs-索引"><a href="#下标-vs-索引" class="headerlink" title="下标 vs 索引"></a>下标 vs 索引</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>下标</th>
+<th>索引</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>声明</td>
+<td>普通数值变量</td>
+<td><code>INDEXED BY</code></td>
+</tr>
+<tr>
+<td>赋值</td>
+<td><code>MOVE</code></td>
+<td><code>SET</code></td>
+</tr>
+<tr>
+<td>性能</td>
+<td>需计算偏移</td>
+<td>直接偏移，更快</td>
+</tr>
+<tr>
+<td>适用</td>
+<td>简单场景</td>
+<td>大表、频繁访问</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-变长表（DEPENDING-ON）"><a href="#4-变长表（DEPENDING-ON）" class="headerlink" title="4. 变长表（DEPENDING ON）"></a>4. 变长表（DEPENDING ON）</h2><p>用 <code>OCCURS n TIMES DEPENDING ON 变量</code> 定义长度可变的表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">01 WS-SNAKE.</span><br><span class="line">   05 WS-SEG OCCURS 240 TIMES.</span><br><span class="line">      10 WS-SX PIC 9(2).</span><br><span class="line">      10 WS-SY PIC 9(2).</span><br><span class="line">01 WS-SNAKE-LEN PIC 9(3) VALUE 3.</span><br></pre></td></tr></table></figure>
+
+<p>虽然 <code>snake.cob</code> 用的是固定长度，但变长表写法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">01 WS-DATA.</span><br><span class="line">   05 WS-ITEM OCCURS 1 TO 100 TIMES</span><br><span class="line">      DEPENDING ON WS-COUNT.</span><br><span class="line">      10 WS-VALUE PIC 9(5).</span><br><span class="line">01 WS-COUNT PIC 9(3).</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ul>
+<li><code>DEPENDING ON</code> 变量必须在表<strong>之前</strong>声明</li>
+<li>实际有效元素数为 <code>WS-COUNT</code></li>
+<li>遍历时用 <code>UNTIL WS-K &gt; WS-COUNT</code></li>
+</ul>
+<hr>
+<h2 id="5-表的初始化"><a href="#5-表的初始化" class="headerlink" title="5. 表的初始化"></a>5. 表的初始化</h2><h3 id="用-VALUE-初始化（仅限单元素）"><a href="#用-VALUE-初始化（仅限单元素）" class="headerlink" title="用 VALUE 初始化（仅限单元素）"></a>用 VALUE 初始化（仅限单元素）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-FLAGS.</span><br><span class="line">    05 WS-FLAG OCCURS 5 TIMES PIC X VALUE &quot;N&quot;.</span><br><span class="line">*&gt; 所有 5 个元素都初始化为 &quot;N&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="用循环初始化"><a href="#用循环初始化" class="headerlink" title="用循环初始化"></a>用循环初始化</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I &gt; 10</span><br><span class="line">   MOVE 0 TO WS-SCORE(WS-I)</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="用-INITIALIZE-语句"><a href="#用-INITIALIZE-语句" class="headerlink" title="用 INITIALIZE 语句"></a>用 INITIALIZE 语句</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> INITIALIZE WS-STUDENTS.</span><br><span class="line">*&gt; 将所有数值项置零，字符项置空格</span><br></pre></td></tr></table></figure>
+
+<h3 id="用-MOVE-整体填充"><a href="#用-MOVE-整体填充" class="headerlink" title="用 MOVE 整体填充"></a>用 MOVE 整体填充</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> MOVE SPACES TO WS-STUDENTS.</span><br><span class="line">*&gt; 将整个组合项填充为空格</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-查找表（SEARCH）"><a href="#6-查找表（SEARCH）" class="headerlink" title="6. 查找表（SEARCH）"></a>6. 查找表（SEARCH）</h2><p><code>SEARCH</code> 用于在表中查找满足条件的元素。</p>
+<h3 id="顺序查找（SEARCH）"><a href="#顺序查找（SEARCH）" class="headerlink" title="顺序查找（SEARCH）"></a>顺序查找（SEARCH）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">01 WS-TABLE.</span><br><span class="line">   05 WS-ENTRY OCCURS 100 TIMES</span><br><span class="line">      INDEXED BY WS-IDX.</span><br><span class="line">      10 WS-KEY   PIC X(10).</span><br><span class="line">      10 WS-VALUE PIC 9(5).</span><br><span class="line">01 WS-TARGET PIC X(10).</span><br><span class="line"></span><br><span class="line">SET WS-IDX TO 1</span><br><span class="line">SEARCH WS-ENTRY</span><br><span class="line">   AT END DISPLAY &quot;未找到&quot;</span><br><span class="line">   WHEN WS-KEY(WS-IDX) = WS-TARGET</span><br><span class="line">      DISPLAY &quot;找到: &quot; WS-VALUE(WS-IDX)</span><br><span class="line">END-SEARCH.</span><br></pre></td></tr></table></figure>
+
+<h3 id="二分查找（SEARCH-ALL）"><a href="#二分查找（SEARCH-ALL）" class="headerlink" title="二分查找（SEARCH ALL）"></a>二分查找（SEARCH ALL）</h3><p>要求表<strong>已排序</strong>，性能为 O(log n)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SEARCH ALL WS-ENTRY</span><br><span class="line">   AT END DISPLAY &quot;未找到&quot;</span><br><span class="line">   WHEN WS-KEY(WS-IDX) = WS-TARGET</span><br><span class="line">      DISPLAY &quot;找到: &quot; WS-VALUE(WS-IDX)</span><br><span class="line">END-SEARCH.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> <code>SEARCH ALL</code> 要求表用 <code>ASCENDING KEY</code> 或 <code>DESCENDING KEY</code> 声明排序键。</p>
+</blockquote>
+<hr>
+<h2 id="7-实战：snake-cob-的网格与蛇身"><a href="#7-实战：snake-cob-的网格与蛇身" class="headerlink" title="7. 实战：snake.cob 的网格与蛇身"></a>7. 实战：snake.cob 的网格与蛇身</h2><h3 id="网格结构"><a href="#网格结构" class="headerlink" title="网格结构"></a>网格结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*&gt; ---- 网格: 0=空 1=蛇身 2=食物 ----</span><br><span class="line"> 01 WS-GRID.</span><br><span class="line">    05 WS-ROW OCCURS 12 TIMES.</span><br><span class="line">       10 WS-CELL OCCURS 20 TIMES PIC 9.</span><br></pre></td></tr></table></figure>
+
+<p><strong>用途：</strong> 12×20 的二维表，每个格子存储状态（0&#x3D;空，1&#x3D;蛇身，2&#x3D;食物）。</p>
+<h3 id="构建网格"><a href="#构建网格" class="headerlink" title="构建网格"></a>构建网格</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BUILD-GRID.</span><br><span class="line">    PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I &gt; 12</span><br><span class="line">       PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J &gt; 20</span><br><span class="line">          MOVE 0 TO WS-CELL(WS-I, WS-J)</span><br><span class="line">       END-PERFORM</span><br><span class="line">    END-PERFORM</span><br><span class="line">    MOVE 2 TO WS-CELL(WS-FOOD-Y, WS-FOOD-X)</span><br><span class="line">    PERFORM VARYING WS-K FROM 1 BY 1 UNTIL WS-K &gt; WS-SNAKE-LEN</span><br><span class="line">       MOVE 1 TO WS-CELL(WS-SY(WS-K), WS-SX(WS-K))</span><br><span class="line">    END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong></p>
+<ol>
+<li>先清空整个网格</li>
+<li>在食物坐标处标记 <code>2</code></li>
+<li>遍历蛇身每一节，标记 <code>1</code></li>
+</ol>
+<h3 id="蛇身坐标数组"><a href="#蛇身坐标数组" class="headerlink" title="蛇身坐标数组"></a>蛇身坐标数组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*&gt; ---- 蛇的坐标数组 (最多 240 节, 索引1=头) ----</span><br><span class="line"> 01 WS-SNAKE.</span><br><span class="line">    05 WS-SEG OCCURS 240 TIMES.</span><br><span class="line">       10 WS-SX PIC 9(2).</span><br><span class="line">       10 WS-SY PIC 9(2).</span><br><span class="line"> 01 WS-SNAKE-LEN        PIC 9(3)  VALUE 3.</span><br></pre></td></tr></table></figure>
+
+<p><strong>用途：</strong> 存储蛇每一节的 (x, y) 坐标，索引 1 是蛇头。</p>
+<h3 id="蛇身移动（数组平移）"><a href="#蛇身移动（数组平移）" class="headerlink" title="蛇身移动（数组平移）"></a>蛇身移动（数组平移）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">*&gt;    身体依次后移, 新坐标作为蛇头</span><br><span class="line">     MOVE 1 TO WS-I</span><br><span class="line">     PERFORM UNTIL WS-I &gt;= WS-SNAKE-LEN</span><br><span class="line">        COMPUTE WS-K = WS-SNAKE-LEN - WS-I + 1</span><br><span class="line">        COMPUTE WS-J = WS-K - 1</span><br><span class="line">        MOVE WS-SX(WS-J) TO WS-SX(WS-K)</span><br><span class="line">        MOVE WS-SY(WS-J) TO WS-SY(WS-K)</span><br><span class="line">        ADD 1 TO WS-I</span><br><span class="line">     END-PERFORM</span><br><span class="line">     MOVE WS-NEW-X TO WS-SX(1)</span><br><span class="line">     MOVE WS-NEW-Y TO WS-SY(1).</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong> 从尾部向头部遍历，每节坐标后移一位（<code>WS-SEG[k] = WS-SEG[k-1]</code>），最后把新坐标写入蛇头 <code>WS-SEG[1]</code>。</p>
+<h3 id="碰撞检测（遍历数组）"><a href="#碰撞检测（遍历数组）" class="headerlink" title="碰撞检测（遍历数组）"></a>碰撞检测（遍历数组）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">*&gt;    撞自己检测 (尾节将移走, 只查前 LEN-1 节)</span><br><span class="line">     PERFORM VARYING WS-K FROM 1 BY 1</span><br><span class="line">             UNTIL WS-K &gt; WS-SNAKE-LEN - 1 OR WS-RUNNING = 0</span><br><span class="line">        IF WS-SX(WS-K) = WS-NEW-X AND WS-SY(WS-K) = WS-NEW-Y</span><br><span class="line">           MOVE &quot;撞到自己&quot; TO WS-END-REASON</span><br><span class="line">           MOVE 0 TO WS-RUNNING</span><br><span class="line">        END-IF</span><br><span class="line">     END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong> 遍历蛇身（除尾节外），检查新蛇头坐标是否与身体重合。</p>
+<hr>
+<p><strong>上一章：</strong> <a href="../procedure/">过程部与语句</a><br><strong>下一章：</strong> <a href="../files/">文件处理</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#COBOL-%E8%A1%A8%E4%B8%8E%E6%95%B0%E7%BB%84"><span class="toc-text">COBOL 表与数组</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%80%E7%BB%B4%E8%A1%A8%EF%BC%88OCCURS%EF%BC%89"><span class="toc-text">1. 一维表（OCCURS）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%AD%90%E9%A1%B9%E7%9A%84%E8%A1%A8"><span class="toc-text">带子项的表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0"><span class="toc-text">访问元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BA%8C%E7%BB%B4%E8%A1%A8%EF%BC%88%E5%B5%8C%E5%A5%97-OCCURS%EF%BC%89"><span class="toc-text">2. 二维表（嵌套 OCCURS）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E4%BA%8C%E7%BB%B4%E5%85%83%E7%B4%A0"><span class="toc-text">访问二维元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E4%BA%8C%E7%BB%B4%E8%A1%A8"><span class="toc-text">遍历二维表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%8B%E6%A0%87%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="toc-text">3. 下标与索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%EF%BC%88Subscript%EF%BC%89"><span class="toc-text">下标（Subscript）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%EF%BC%88Index%EF%BC%89"><span class="toc-text">索引（Index）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87-vs-%E7%B4%A2%E5%BC%95"><span class="toc-text">下标 vs 索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%98%E9%95%BF%E8%A1%A8%EF%BC%88DEPENDING-ON%EF%BC%89"><span class="toc-text">4. 变长表（DEPENDING ON）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%A1%A8%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">5. 表的初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-VALUE-%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E4%BB%85%E9%99%90%E5%8D%95%E5%85%83%E7%B4%A0%EF%BC%89"><span class="toc-text">用 VALUE 初始化（仅限单元素）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%BE%AA%E7%8E%AF%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">用循环初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-INITIALIZE-%E8%AF%AD%E5%8F%A5"><span class="toc-text">用 INITIALIZE 语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-MOVE-%E6%95%B4%E4%BD%93%E5%A1%AB%E5%85%85"><span class="toc-text">用 MOVE 整体填充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9F%A5%E6%89%BE%E8%A1%A8%EF%BC%88SEARCH%EF%BC%89"><span class="toc-text">6. 查找表（SEARCH）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE%EF%BC%88SEARCH%EF%BC%89"><span class="toc-text">顺序查找（SEARCH）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88SEARCH-ALL%EF%BC%89"><span class="toc-text">二分查找（SEARCH ALL）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%9E%E6%88%98%EF%BC%9Asnake-cob-%E7%9A%84%E7%BD%91%E6%A0%BC%E4%B8%8E%E8%9B%87%E8%BA%AB"><span class="toc-text">7. 实战：snake.cob 的网格与蛇身</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E6%A0%BC%E7%BB%93%E6%9E%84"><span class="toc-text">网格结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E7%BD%91%E6%A0%BC"><span class="toc-text">构建网格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9B%87%E8%BA%AB%E5%9D%90%E6%A0%87%E6%95%B0%E7%BB%84"><span class="toc-text">蛇身坐标数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9B%87%E8%BA%AB%E7%A7%BB%E5%8A%A8%EF%BC%88%E6%95%B0%E7%BB%84%E5%B9%B3%E7%A7%BB%EF%BC%89"><span class="toc-text">蛇身移动（数组平移）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B%EF%BC%88%E9%81%8D%E5%8E%86%E6%95%B0%E7%BB%84%EF%BC%89"><span class="toc-text">碰撞检测（遍历数组）</span></a></li></ol></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
+</body>
+</html>

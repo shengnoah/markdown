@@ -8,9 +8,7 @@
   <meta name="author" content="Xianbao">
   <title>FBASIC 模拟器 — Xianbao</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  
-<link rel="stylesheet" href="/css/style.css">
-
+  <link rel="stylesheet" href="/css/style.css?v=mvl17prv">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <meta name="generator" content="Hexo 7.3.0"></head>
@@ -36,6 +34,12 @@
       
         <a href="/fbasic/" class="nav-link">FBASIC</a>
       
+        <a href="/cobol/home.html" class="nav-link">COBOL</a>
+      
+        <a href="/keyboard/" class="nav-link">键盘测试</a>
+      
+        <a href="/typing/" class="nav-link">打字游戏</a>
+      
         <a href="/#support" class="nav-link">支持</a>
       
       <a href="#download" class="btn btn-primary nav-download">下载</a>
@@ -52,13 +56,17 @@
     <div class="fbasic-hero">
       <p class="fbasic-kicker">Family BASIC Simulator</p>
       <h1>FBASIC 语法解释器</h1>
-      <p>在浏览器中模拟 FC Family BASIC 风格的行号程序、基础语法和部分特有命令。当前支持 <code>PRINT</code>、<code>LET</code>、<code>INPUT</code>、<code>IF ... THEN</code>、<code>GOTO</code>、<code>GOSUB</code>、<code>RETURN</code>、<code>FOR/NEXT</code>、<code>END</code>、<code>REM</code>、<code>CLS</code>，以及 <code>CHR$()</code>、<code>ASC()</code>、<code>LEN()</code>、<code>MID$()</code>、<code>LEFT$()</code>、<code>RIGHT$()</code>、<code>RND()</code>、<code>INT()</code>、<code>ABS()</code>、<code>VAL()</code>、<code>STR$()</code>。</p>
+      <p>在浏览器中模拟 FC Family BASIC 风格的行号程序、基础语法和部分特有命令。当前支持 <code>PRINT</code>、<code>LET</code>、<code>INPUT</code>、<code>IF ... THEN</code>、<code>GOTO</code>、<code>GOSUB</code>、<code>RETURN</code>、<code>FOR/NEXT</code>、<code>END</code>、<code>REM</code>、<code>CLS</code>，完整算术表达式（<code>+ - * / \ MOD</code>、括号），以及 <code>CHR$()</code>、<code>ASC()</code>、<code>LEN()</code>、<code>MID$()</code>、<code>LEFT$()</code>、<code>RIGHT$()</code>、<code>STRING$()</code>、<code>SPACE$()</code>、<code>HEX$()</code>、<code>OCT$()</code>、<code>INSTR()</code>、<code>RND()</code>、<code>INT()</code>、<code>ABS()</code>、<code>SQR()</code>、<code>SGN()</code>、<code>SIN()</code>、<code>COS()</code>、<code>TAN()</code>、<code>ATN()</code>、<code>LOG()</code>、<code>EXP()</code>、<code>VAL()</code>、<code>STR$()</code>，函数可用于任意复合表达式（如 <code>CHR$(65) + "B"</code>、<code>INT(RND * 6) + 1</code>）。</p>
     </div>
 
     <div class="fbasic-tutorial-links" aria-label="FBASIC 与 6502 教程">
       <a href="/fbasic/tutorial/" class="fbasic-tutorial-card">
         <strong>📘 FBASIC 教程</strong>
         <span>变量赋值 · 表达式优先级 · IF/FOR · 函数 · 数组，附 6502 汇编对照</span>
+      </a>
+      <a href="/bubble-sort/" class="fbasic-tutorial-card">
+        <strong>🫧 冒泡排序可视化</strong>
+        <span>FBASIC 代码逐行执行 · 数组动画同步演示</span>
       </a>
       <a href="/fbasic/6502-instructions/" class="fbasic-tutorial-card">
         <strong>⚙️ 6502 指令速查</strong>
@@ -188,15 +196,26 @@
         <div><code>GOSUB 200</code><span>调用子程序，配合 <code>RETURN</code></span></div>
         <div><code>LIST</code><span>直接命令：列出编辑区程序</span></div>
         <div><code>SYSTEM</code><span>直接命令：重置模拟器状态</span></div>
+        <div><code>1 + 2 * 3</code><span>完整算术表达式：优先级、括号、<code>\</code> 整除、<code>MOD</code> 取余</span></div>
+        <div><code>CHR$(65) + "B"</code><span>函数可用于任意复合表达式与拼接</span></div>
         <div><code>CHR$()</code><span>按字符编码返回字符，例如 <code>CHR$(65)</code></span></div>
         <div><code>ASC()</code><span>返回字符串首字符编码</span></div>
         <div><code>LEN()</code><span>返回字符串长度</span></div>
         <div><code>LEFT$()</code><span>返回字符串左侧指定长度</span></div>
         <div><code>RIGHT$()</code><span>返回字符串右侧指定长度</span></div>
         <div><code>MID$()</code><span>返回字符串中间片段</span></div>
+        <div><code>STRING$()</code><span>重复字符，如 <code>STRING$(5, 42)</code> 得 <code>*****</code></span></div>
+        <div><code>SPACE$()</code><span>返回指定数量的空格</span></div>
+        <div><code>HEX$() / OCT$()</code><span>数值转十六进制 / 八进制字符串</span></div>
+        <div><code>INSTR()</code><span>查找子串位置，从 1 开始，未找到返回 0</span></div>
         <div><code>RND()</code><span>返回 0 到 1 之间的随机数</span></div>
         <div><code>INT()</code><span>返回向下取整后的整数</span></div>
         <div><code>ABS()</code><span>返回绝对值</span></div>
+        <div><code>SQR()</code><span>返回平方根</span></div>
+        <div><code>SGN()</code><span>返回符号：-1 / 0 / 1</span></div>
+        <div><code>SIN() / COS() / TAN()</code><span>三角函数</span></div>
+        <div><code>ATN()</code><span>反正切函数</span></div>
+        <div><code>LOG() / EXP()</code><span>自然对数与指数函数</span></div>
         <div><code>VAL()</code><span>将字符串转换为数字</span></div>
         <div><code>STR$()</code><span>将数字转换为字符串</span></div>
       </div>
@@ -419,8 +438,8 @@
 })();
 </script>
 
-<script src="/js/fbasic.js"></script>
-<script src="/js/fbasic-console.js"></script>
+<script src="/js/fbasic.js?v=mvl17prw"></script>
+<script src="/js/fbasic-console.js?v=mvl17prw"></script>
 
   </main>
   <footer class="site-footer" id="support">
@@ -452,9 +471,7 @@
   </div>
 </footer>
 
-  
-<script src="/js/main.js"></script>
-
+  <script src="/js/main.js?v=mvl17prw"></script>
   
   <script>
   var _hmt = _hmt || [];

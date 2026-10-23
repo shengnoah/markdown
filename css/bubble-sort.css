@@ -1,0 +1,332 @@
+/* bubble-sort.css - FBASIC 冒泡排序可视化页面样式 */
+
+.bs-page {
+  padding: 40px 0 64px;
+}
+
+.bs-hero {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.bs-hero .bs-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent, #4f6ef7);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.bs-hero h1 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+}
+
+.bs-hero p {
+  color: var(--color-text-secondary, #666);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== 双栏工作台 ===== */
+
+.bs-workbench {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .bs-workbench {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bs-code-panel,
+.bs-viz-panel {
+  background: var(--color-card-bg, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.bs-panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bs-panel-head h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.bs-line-indicator,
+.bs-status {
+  font-size: 0.78rem;
+  font-family: var(--font-mono, "SFMono-Regular", Consolas, monospace);
+  color: var(--color-text-secondary, #666);
+  background: var(--color-bg-secondary, #f5f6f8);
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.bs-line-indicator.active,
+.bs-status.active {
+  color: #fff;
+  background: var(--color-accent, #4f6ef7);
+}
+
+.bs-status.swap {
+  color: #fff;
+  background: #e0508a;
+}
+
+/* ===== 代码面板 ===== */
+
+.bs-code {
+  background: #101418;
+  color: #d7dee8;
+  border-radius: 10px;
+  padding: 14px 10px;
+  margin: 0;
+  font-family: var(--font-mono, "SFMono-Regular", Consolas, monospace);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  overflow: auto;
+  max-height: 430px;
+  counter-reset: bsline;
+}
+
+.bs-code-line {
+  display: flex;
+  gap: 10px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+  white-space: pre;
+}
+
+.bs-code-line.active {
+  background: rgba(79, 110, 247, 0.22);
+  border-left-color: #7b96ff;
+}
+
+.bs-code-line .bs-ln {
+  color: #5b6b7d;
+  min-width: 2.2em;
+  text-align: right;
+  user-select: none;
+}
+
+.bs-code-line .bs-src {
+  flex: 1;
+}
+
+/* 简易语法着色 */
+.bs-kw { color: #7b96ff; font-weight: 600; }
+.bs-str { color: #8fd98f; }
+.bs-num { color: #f0b86e; }
+.bs-rem { color: #6b7a5e; font-style: italic; }
+
+/* ===== 控制条 ===== */
+
+.bs-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.bs-speed-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, #666);
+  margin-left: auto;
+}
+
+.bs-speed-label input[type="range"] {
+  width: 120px;
+  accent-color: var(--color-accent, #4f6ef7);
+}
+
+#bs-speed-value {
+  font-family: var(--font-mono, monospace);
+  min-width: 4.5em;
+}
+
+/* ===== 输出区 ===== */
+
+.bs-output-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bs-output {
+  background: #0c1210;
+  color: #9fe6a8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  min-height: 52px;
+  max-height: 120px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+/* ===== 数组可视化 ===== */
+
+.bs-bars {
+  position: relative;
+  height: 380px;
+  background:
+    repeating-linear-gradient(to top, transparent 0 37px, rgba(0, 0, 0, 0.045) 37px 38px),
+    var(--color-bg-secondary, #f7f8fa);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bs-bar {
+  position: absolute;
+  bottom: 34px;
+  width: 7%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  transition: left 0.32s cubic-bezier(0.45, 0.05, 0.35, 1);
+  z-index: 2;
+}
+
+.bs-bar-value {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text, #222);
+  margin-bottom: 6px;
+}
+
+.bs-bar-col {
+  width: 100%;
+  max-width: 64px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(to top, #6f8bff, #8fa7ff);
+  transition: height 0.25s ease, background 0.2s ease;
+}
+
+.bs-bar-idx {
+  position: absolute;
+  top: 100%;
+  margin-top: 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--color-text-secondary, #999);
+}
+
+.bs-bar.compare .bs-bar-col {
+  background: linear-gradient(to top, #f0a731, #ffc95c);
+}
+
+.bs-bar.compare .bs-bar-value {
+  color: #b07500;
+}
+
+.bs-bar.swap .bs-bar-col {
+  background: linear-gradient(to top, #d8407f, #f06ba4);
+}
+
+.bs-bar.sorted .bs-bar-col {
+  background: linear-gradient(to top, #35a35c, #58c47c);
+}
+
+.bs-bar.sorted .bs-bar-value {
+  color: #237a43;
+}
+
+.bs-bar-clone {
+  z-index: 5;
+}
+
+.bs-bar-clone .bs-bar-col {
+  box-shadow: 0 8px 22px rgba(216, 64, 127, 0.45);
+}
+
+/* ===== 统计与图例 ===== */
+
+.bs-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary, #666);
+}
+
+.bs-stats strong {
+  font-family: var(--font-mono, monospace);
+  color: var(--color-text, #222);
+  font-size: 0.92rem;
+}
+
+.bs-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary, #666);
+}
+
+.bs-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bs-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.bs-dot-normal { background: #8fa7ff; }
+.bs-dot-compare { background: #ffc95c; }
+.bs-dot-swap { background: #f06ba4; }
+.bs-dot-sorted { background: #58c47c; }
+
+/* ===== 说明区 ===== */
+
+.bs-explain {
+  border-top: 1px dashed var(--color-border, #e5e7eb);
+  padding-top: 12px;
+  font-size: 0.84rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary, #555);
+}
+
+.bs-explain h3 {
+  font-size: 0.9rem;
+  margin: 0 0 6px;
+  color: var(--color-text, #222);
+}
+
+.bs-explain code {
+  background: var(--color-bg-secondary, #f0f1f4);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.82em;
+}

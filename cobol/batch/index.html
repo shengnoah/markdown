@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="日本业务系统 COBOL 三大数据处理模式教程：抽出（筛选 Extract）、集计（汇总 Aggregate）、突合（核对 Reconcile）的概念、处理流程与完整 COBOL 实现代码。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>抽出・集计・突合：三大数据处理模式 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">抽出・集计・突合：三大数据处理模式</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="抽出・集计・突合：三大数据处理模式"><a href="#抽出・集计・突合：三大数据处理模式" class="headerlink" title="抽出・集计・突合：三大数据处理模式"></a>抽出・集计・突合：三大数据处理模式</h1><blockquote>
+<p>本章讲解日本业务系统中三个最核心的数据处理概念——<strong>抽出（筛选）</strong>、<strong>集计（汇总）</strong>、<strong>突合（核对）</strong>，并给出对应的 COBOL 实现代码。这三个模式是 COBOL 批处理系统的基石。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E6%A6%82%E5%BF%B5%E6%80%BB%E8%A7%88">概念总览</a></li>
+<li><a href="#2-%E6%8A%BD%E5%87%BA%E7%AD%9B%E9%80%89">抽出（筛选）</a></li>
+<li><a href="#3-%E9%9B%86%E8%AE%A1%E6%B1%87%E6%80%BB">集计（汇总）</a></li>
+<li><a href="#4-%E7%AA%81%E5%90%88%E6%A0%B8%E5%AF%B9">突合（核对）</a></li>
+<li><a href="#5-%E4%B8%89%E8%80%85%E7%9A%84%E7%BB%84%E5%90%88%E5%85%B8%E5%9E%8B%E6%89%B9%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B">三者的组合：典型批处理流程</a></li>
+<li><a href="#6-%E5%AE%8C%E6%95%B4%E7%BB%BC%E5%90%88%E7%A4%BA%E4%BE%8B">完整综合示例</a></li>
+<li><a href="#7-%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8">术语对照表</a></li>
+</ol>
+<hr>
+<h2 id="1-概念总览"><a href="#1-概念总览" class="headerlink" title="1. 概念总览"></a>1. 概念总览</h2><p>在日本 IT 行业（尤其是银行、保险、物流、政府等大型机业务系统）中，数据处理工作几乎都可以归纳为三类基本操作：</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>读音</th>
+<th>含义</th>
+<th>对应中文</th>
+<th>对应英文</th>
+<th>类比 SQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>抽出</strong></td>
+<td>ちゅうしゅつ</td>
+<td>从大量数据中筛选出符合条件的记录</td>
+<td>抽取、筛选</td>
+<td>Extract &#x2F; Select</td>
+<td><code>SELECT ... WHERE</code></td>
+</tr>
+<tr>
+<td><strong>集计</strong></td>
+<td>しゅうけい</td>
+<td>对数据分组汇总、统计合计</td>
+<td>汇总、统计</td>
+<td>Aggregate &#x2F; Summarize</td>
+<td><code>GROUP BY</code> + <code>SUM</code></td>
+</tr>
+<tr>
+<td><strong>突合</strong></td>
+<td>とつごう</td>
+<td>两组数据相互对照、核对差异</td>
+<td>核对、对账</td>
+<td>Reconcile &#x2F; Match</td>
+<td><code>JOIN</code> + 差异检查</td>
+</tr>
+</tbody></table>
+<p><strong>三者的关系：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原始数据</span><br><span class="line">   ↓ 抽出（筛选出需要的记录）</span><br><span class="line">中间数据</span><br><span class="line">   ↓ 集计（按维度汇总统计）</span><br><span class="line">汇总结果</span><br><span class="line">   ↓ 突合（与另一份数据核对）</span><br><span class="line">核对报告（一致 / 不一致清单）</span><br></pre></td></tr></table></figure>
+
+<p><strong>记忆技巧：</strong></p>
+<ul>
+<li><strong>抽出</strong> &#x3D; 「抽」出来 → 从多到少，<strong>筛选</strong></li>
+<li><strong>集计</strong> &#x3D; 「集」起来「计」算 → 从散到合，<strong>汇总</strong></li>
+<li><strong>突合</strong> &#x3D; 「突」在一起「合」对 → 两份数据<strong>核对</strong></li>
+</ul>
+<hr>
+<h2 id="2-抽出（筛选）"><a href="#2-抽出（筛选）" class="headerlink" title="2. 抽出（筛选）"></a>2. 抽出（筛选）</h2><h3 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h3><p><strong>抽出</strong>是从输入数据中，按指定条件筛选出满足要求的记录，写入输出文件。不满足条件的记录被丢弃。</p>
+<p><strong>典型场景：</strong></p>
+<ul>
+<li>从全量客户数据中抽出「本月新签约的客户」</li>
+<li>从交易流水中抽出「金额超过 100 万的记录」</li>
+<li>从库存数据中抽出「库存低于安全库存的商品」</li>
+</ul>
+<h3 id="2-2-处理流程"><a href="#2-2-处理流程" class="headerlink" title="2.2 处理流程"></a>2.2 处理流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入文件 ──→ [逐条读取] ──→ [判断条件] ──→ 满足 → 写入输出文件</span><br><span class="line">                                    └──→ 不满足 → 丢弃</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-COBOL-示例代码"><a href="#2-3-COBOL-示例代码" class="headerlink" title="2.3 COBOL 示例代码"></a>2.3 COBOL 示例代码</h3><p><strong>需求：</strong> 从交易文件中抽出金额 ≥ 10000 的记录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"> IDENTIFICATION DIVISION.</span><br><span class="line"> PROGRAM-ID. EXTRACT-DEMO.</span><br><span class="line">*&gt; 抽出示例: 从交易文件中筛选金额 &gt;= 10000 的记录</span><br><span class="line"> ENVIRONMENT DIVISION.</span><br><span class="line"> INPUT-OUTPUT SECTION.</span><br><span class="line"> FILE-CONTROL.</span><br><span class="line">     SELECT IN-FILE</span><br><span class="line">        ASSIGN TO &quot;transactions.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-IN-STATUS.</span><br><span class="line">     SELECT OUT-FILE</span><br><span class="line">        ASSIGN TO &quot;extracted.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-OUT-STATUS.</span><br><span class="line"> DATA DIVISION.</span><br><span class="line"> FILE SECTION.</span><br><span class="line"> FD IN-FILE.</span><br><span class="line"> 01 IN-RECORD.</span><br><span class="line">    05 IN-ID     PIC 9(6).</span><br><span class="line">    05 IN-NAME   PIC X(20).</span><br><span class="line">    05 IN-AMOUNT PIC 9(8).</span><br><span class="line"> FD OUT-FILE.</span><br><span class="line"> 01 OUT-RECORD.</span><br><span class="line">    05 OUT-ID     PIC 9(6).</span><br><span class="line">    05 OUT-NAME   PIC X(20).</span><br><span class="line">    05 OUT-AMOUNT PIC 9(8).</span><br><span class="line"> WORKING-STORAGE SECTION.</span><br><span class="line"> 01 WS-IN-STATUS   PIC XX.</span><br><span class="line"> 01 WS-OUT-STATUS  PIC XX.</span><br><span class="line"> 01 WS-EOF         PIC 9 VALUE 0.</span><br><span class="line"> 01 WS-EXTRACT-CNT PIC 9(6) VALUE 0.</span><br><span class="line"> 01 WS-TOTAL-CNT   PIC 9(6) VALUE 0.</span><br><span class="line">*&gt; 抽出条件: 金额阈值</span><br><span class="line"> 01 WS-THRESHOLD   PIC 9(8) VALUE 10000.</span><br><span class="line"> PROCEDURE DIVISION.</span><br><span class="line"> MAIN-PROCEDURE.</span><br><span class="line">     OPEN INPUT IN-FILE</span><br><span class="line">     OPEN OUTPUT OUT-FILE</span><br><span class="line">     PERFORM UNTIL WS-EOF = 1</span><br><span class="line">        READ IN-FILE</span><br><span class="line">           AT END MOVE 1 TO WS-EOF</span><br><span class="line">           NOT AT END</span><br><span class="line">              ADD 1 TO WS-TOTAL-CNT</span><br><span class="line">              PERFORM EXTRACT-CHECK</span><br><span class="line">        END-READ</span><br><span class="line">     END-PERFORM</span><br><span class="line">     CLOSE IN-FILE</span><br><span class="line">     CLOSE OUT-FILE</span><br><span class="line">     DISPLAY &quot;抽出处理完成&quot;</span><br><span class="line">     DISPLAY &quot;  输入记录数: &quot; WS-TOTAL-CNT</span><br><span class="line">     DISPLAY &quot;  抽出记录数: &quot; WS-EXTRACT-CNT</span><br><span class="line">     STOP RUN.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 抽出判断: 满足条件则写入输出文件 ----</span><br><span class="line"> EXTRACT-CHECK.</span><br><span class="line">     IF IN-AMOUNT &gt;= WS-THRESHOLD</span><br><span class="line">        MOVE IN-ID     TO OUT-ID</span><br><span class="line">        MOVE IN-NAME   TO OUT-NAME</span><br><span class="line">        MOVE IN-AMOUNT TO OUT-AMOUNT</span><br><span class="line">        WRITE OUT-RECORD</span><br><span class="line">        ADD 1 TO WS-EXTRACT-CNT</span><br><span class="line">     END-IF.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ol>
+<li>逐条 <code>READ</code> 输入文件，用 <code>AT END</code> 判断文件结束</li>
+<li><code>EXTRACT-CHECK</code> 段落封装筛选逻辑，条件满足才 <code>WRITE</code></li>
+<li>用计数器统计输入总数与抽出数</li>
+</ol>
+<hr>
+<h2 id="3-集计（汇总）"><a href="#3-集计（汇总）" class="headerlink" title="3. 集计（汇总）"></a>3. 集计（汇总）</h2><h3 id="3-1-概念"><a href="#3-1-概念" class="headerlink" title="3.1 概念"></a>3.1 概念</h3><p><strong>集计</strong>是对数据按某个键（维度）进行分组，计算各组的合计、件数、平均等统计值。</p>
+<p><strong>典型场景：</strong></p>
+<ul>
+<li>按部门集计销售额</li>
+<li>按月份集计交易笔数与金额</li>
+<li>按商品类别集计库存数量</li>
+</ul>
+<h3 id="3-2-处理流程"><a href="#3-2-处理流程" class="headerlink" title="3.2 处理流程"></a>3.2 处理流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入文件（已按集计键排序）</span><br><span class="line">   ↓ 逐条读取</span><br><span class="line">   ↓ 判断集计键是否变化</span><br><span class="line">   ├─ 未变化 → 累加到当前组</span><br><span class="line">   └─ 变化   → 输出上一组小计，开始新组</span><br><span class="line">   ↓ 文件结束 → 输出最后一组</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>关键前提：</strong> 集计要求输入数据<strong>已按集计键排序</strong>（<code>SORT</code> 或预先排序），这样才能用「键变化检测」实现分组。</p>
+</blockquote>
+<h3 id="3-3-COBOL-示例代码"><a href="#3-3-COBOL-示例代码" class="headerlink" title="3.3 COBOL 示例代码"></a>3.3 COBOL 示例代码</h3><p><strong>需求：</strong> 按部门集计销售额（合计金额与件数）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"> IDENTIFICATION DIVISION.</span><br><span class="line"> PROGRAM-ID. SUMMARY-DEMO.</span><br><span class="line">*&gt; 集计示例: 按部门汇总销售额 (输入需按部门排序)</span><br><span class="line"> ENVIRONMENT DIVISION.</span><br><span class="line"> INPUT-OUTPUT SECTION.</span><br><span class="line"> FILE-CONTROL.</span><br><span class="line">     SELECT IN-FILE</span><br><span class="line">        ASSIGN TO &quot;sales.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-IN-STATUS.</span><br><span class="line">     SELECT OUT-FILE</span><br><span class="line">        ASSIGN TO &quot;summary.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-OUT-STATUS.</span><br><span class="line"> DATA DIVISION.</span><br><span class="line"> FILE SECTION.</span><br><span class="line"> FD IN-FILE.</span><br><span class="line"> 01 IN-RECORD.</span><br><span class="line">    05 IN-DEPT   PIC X(10).</span><br><span class="line">    05 IN-AMOUNT PIC 9(8).</span><br><span class="line"> FD OUT-FILE.</span><br><span class="line"> 01 OUT-RECORD.</span><br><span class="line">    05 OUT-DEPT      PIC X(10).</span><br><span class="line">    05 OUT-TOTAL     PIC 9(10).</span><br><span class="line">    05 OUT-COUNT     PIC 9(6).</span><br><span class="line"> WORKING-STORAGE SECTION.</span><br><span class="line"> 01 WS-IN-STATUS   PIC XX.</span><br><span class="line"> 01 WS-OUT-STATUS  PIC XX.</span><br><span class="line"> 01 WS-EOF         PIC 9 VALUE 0.</span><br><span class="line">*&gt; 当前集计组</span><br><span class="line"> 01 WS-CUR-DEPT    PIC X(10) VALUE SPACES.</span><br><span class="line"> 01 WS-GROUP-TOTAL PIC 9(10) VALUE 0.</span><br><span class="line"> 01 WS-GROUP-COUNT PIC 9(6)  VALUE 0.</span><br><span class="line">*&gt; 是否首条记录</span><br><span class="line"> 01 WS-FIRST       PIC 9 VALUE 1.</span><br><span class="line"> PROCEDURE DIVISION.</span><br><span class="line"> MAIN-PROCEDURE.</span><br><span class="line">     OPEN INPUT IN-FILE</span><br><span class="line">     OPEN OUTPUT OUT-FILE</span><br><span class="line">     PERFORM UNTIL WS-EOF = 1</span><br><span class="line">        READ IN-FILE</span><br><span class="line">           AT END</span><br><span class="line">              MOVE 1 TO WS-EOF</span><br><span class="line">              PERFORM FLUSH-GROUP</span><br><span class="line">           NOT AT END</span><br><span class="line">              PERFORM ACCUMULATE</span><br><span class="line">        END-READ</span><br><span class="line">     END-PERFORM</span><br><span class="line">     CLOSE IN-FILE</span><br><span class="line">     CLOSE OUT-FILE</span><br><span class="line">     DISPLAY &quot;集计处理完成&quot;</span><br><span class="line">     STOP RUN.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 累加: 检测集计键变化 ----</span><br><span class="line"> ACCUMULATE.</span><br><span class="line">     IF WS-FIRST = 1</span><br><span class="line">        MOVE IN-DEPT TO WS-CUR-DEPT</span><br><span class="line">        MOVE 0 TO WS-FIRST</span><br><span class="line">     END-IF</span><br><span class="line">     IF IN-DEPT NOT = WS-CUR-DEPT</span><br><span class="line">*&gt;       键变化: 输出上一组, 开始新组</span><br><span class="line">        PERFORM FLUSH-GROUP</span><br><span class="line">        MOVE IN-DEPT TO WS-CUR-DEPT</span><br><span class="line">     END-IF</span><br><span class="line">     ADD IN-AMOUNT TO WS-GROUP-TOTAL</span><br><span class="line">     ADD 1 TO WS-GROUP-COUNT.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 输出当前组小计并重置 ----</span><br><span class="line"> FLUSH-GROUP.</span><br><span class="line">     IF WS-GROUP-COUNT &gt; 0</span><br><span class="line">        MOVE WS-CUR-DEPT    TO OUT-DEPT</span><br><span class="line">        MOVE WS-GROUP-TOTAL TO OUT-TOTAL</span><br><span class="line">        MOVE WS-GROUP-COUNT TO OUT-COUNT</span><br><span class="line">        WRITE OUT-RECORD</span><br><span class="line">        DISPLAY &quot;部门: &quot; WS-CUR-DEPT</span><br><span class="line">                &quot;  合计: &quot; WS-GROUP-TOTAL</span><br><span class="line">                &quot;  件数: &quot; WS-GROUP-COUNT</span><br><span class="line">     END-IF</span><br><span class="line">     MOVE 0 TO WS-GROUP-TOTAL</span><br><span class="line">     MOVE 0 TO WS-GROUP-COUNT.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ol>
+<li><strong>键变化检测</strong>：比较当前记录键与上一记录键，不同则输出上一组</li>
+<li><strong>首条处理</strong>：用 <code>WS-FIRST</code> 标志初始化第一个组的键</li>
+<li><strong>文件结束</strong>：<code>AT END</code> 时输出最后一组（<code>FLUSH-GROUP</code>）</li>
+<li><strong>重置累加器</strong>：输出后清零，准备下一组</li>
+</ol>
+<h3 id="3-4-用-SORT-预处理"><a href="#3-4-用-SORT-预处理" class="headerlink" title="3.4 用 SORT 预处理"></a>3.4 用 SORT 预处理</h3><p>若输入未排序，可先用 <code>SORT</code> 排序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SORT SORT-FILE</span><br><span class="line">   ON ASCENDING KEY SORT-DEPT</span><br><span class="line">   USING IN-FILE</span><br><span class="line">   GIVING SORTED-FILE.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-突合（核对）"><a href="#4-突合（核对）" class="headerlink" title="4. 突合（核对）"></a>4. 突合（核对）</h2><h3 id="4-1-概念"><a href="#4-1-概念" class="headerlink" title="4.1 概念"></a>4.1 概念</h3><p><strong>突合</strong>是将两组数据按某个键（突合键）相互对照，检查是否一致，找出：</p>
+<ul>
+<li><strong>一致</strong>的记录</li>
+<li><strong>仅左侧存在</strong>的记录（如：有订单无发货）</li>
+<li><strong>仅右侧存在</strong>的记录（如：有发货无订单）</li>
+<li><strong>键相同但内容不同</strong>的记录（如：金额不符）</li>
+</ul>
+<p><strong>典型场景：</strong></p>
+<ul>
+<li>销售数据与收款数据突合，找出未收款交易</li>
+<li>订单数据与发货数据突合，找出漏发</li>
+<li>系统数据与银行流水突合，日终对账</li>
+</ul>
+<h3 id="4-2-处理流程（双文件匹配）"><a href="#4-2-处理流程（双文件匹配）" class="headerlink" title="4.2 处理流程（双文件匹配）"></a>4.2 处理流程（双文件匹配）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">文件A（按键排序）        文件B（按键排序）</span><br><span class="line">   ↓                        ↓</span><br><span class="line">   └────── 逐条比较键 ──────┘</span><br><span class="line">              │</span><br><span class="line">   ┌──────────┼──────────┐</span><br><span class="line">   │          │          │</span><br><span class="line"> A键 &lt; B键   A键 = B键   A键 &gt; B键</span><br><span class="line">   │          │          │</span><br><span class="line"> 仅A有      匹配        仅B有</span><br><span class="line"> (读A下条)  (核对内容)  (读B下条)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-COBOL-示例代码"><a href="#4-3-COBOL-示例代码" class="headerlink" title="4.3 COBOL 示例代码"></a>4.3 COBOL 示例代码</h3><p><strong>需求：</strong> 将订单文件与发货文件突合，找出未发货订单、无订单发货、金额不符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"> IDENTIFICATION DIVISION.</span><br><span class="line"> PROGRAM-ID. RECONCILE-DEMO.</span><br><span class="line">*&gt; 突合示例: 订单文件 vs 发货文件 (两文件均按订单号排序)</span><br><span class="line"> ENVIRONMENT DIVISION.</span><br><span class="line"> INPUT-OUTPUT SECTION.</span><br><span class="line"> FILE-CONTROL.</span><br><span class="line">     SELECT ORDER-FILE</span><br><span class="line">        ASSIGN TO &quot;orders.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-ORD-STATUS.</span><br><span class="line">     SELECT SHIP-FILE</span><br><span class="line">        ASSIGN TO &quot;ships.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-SHP-STATUS.</span><br><span class="line">     SELECT RESULT-FILE</span><br><span class="line">        ASSIGN TO &quot;reconcile.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">        FILE STATUS IS WS-RES-STATUS.</span><br><span class="line"> DATA DIVISION.</span><br><span class="line"> FILE SECTION.</span><br><span class="line"> FD ORDER-FILE.</span><br><span class="line"> 01 ORDER-RECORD.</span><br><span class="line">    05 ORD-ID     PIC 9(6).</span><br><span class="line">    05 ORD-AMOUNT PIC 9(8).</span><br><span class="line"> FD SHIP-FILE.</span><br><span class="line"> 01 SHIP-RECORD.</span><br><span class="line">    05 SHP-ID     PIC 9(6).</span><br><span class="line">    05 SHP-AMOUNT PIC 9(8).</span><br><span class="line"> FD RESULT-FILE.</span><br><span class="line"> 01 RES-RECORD.</span><br><span class="line">    05 RES-TYPE   PIC X(12).</span><br><span class="line">    05 RES-ID     PIC 9(6).</span><br><span class="line">    05 RES-DETAIL PIC X(40).</span><br><span class="line"> WORKING-STORAGE SECTION.</span><br><span class="line"> 01 WS-ORD-STATUS  PIC XX.</span><br><span class="line"> 01 WS-SHP-STATUS  PIC XX.</span><br><span class="line"> 01 WS-RES-STATUS  PIC XX.</span><br><span class="line"> 01 WS-ORD-EOF     PIC 9 VALUE 0.</span><br><span class="line"> 01 WS-SHP-EOF     PIC 9 VALUE 0.</span><br><span class="line">*&gt; 统计</span><br><span class="line"> 01 WS-MATCH-CNT   PIC 9(6) VALUE 0.</span><br><span class="line"> 01 WS-ONLY-ORD    PIC 9(6) VALUE 0.</span><br><span class="line"> 01 WS-ONLY-SHP    PIC 9(6) VALUE 0.</span><br><span class="line"> 01 WS-DIFF-CNT    PIC 9(6) VALUE 0.</span><br><span class="line"> PROCEDURE DIVISION.</span><br><span class="line"> MAIN-PROCEDURE.</span><br><span class="line">     OPEN INPUT ORDER-FILE</span><br><span class="line">     OPEN INPUT SHIP-FILE</span><br><span class="line">     OPEN OUTPUT RESULT-FILE</span><br><span class="line">*&gt;    预读两文件首条记录</span><br><span class="line">     PERFORM READ-ORDER</span><br><span class="line">     PERFORM READ-SHIP</span><br><span class="line">*&gt;    双文件归并比较</span><br><span class="line">     PERFORM UNTIL WS-ORD-EOF = 1 AND WS-SHP-EOF = 1</span><br><span class="line">        EVALUATE TRUE</span><br><span class="line">           WHEN WS-ORD-EOF = 1</span><br><span class="line">              PERFORM HANDLE-ONLY-SHIP</span><br><span class="line">           WHEN WS-SHP-EOF = 1</span><br><span class="line">              PERFORM HANDLE-ONLY-ORDER</span><br><span class="line">           WHEN ORD-ID &lt; SHP-ID</span><br><span class="line">              PERFORM HANDLE-ONLY-ORDER</span><br><span class="line">           WHEN ORD-ID &gt; SHP-ID</span><br><span class="line">              PERFORM HANDLE-ONLY-SHIP</span><br><span class="line">           WHEN OTHER</span><br><span class="line">              PERFORM HANDLE-MATCH</span><br><span class="line">        END-EVALUATE</span><br><span class="line">     END-PERFORM</span><br><span class="line">     CLOSE ORDER-FILE</span><br><span class="line">     CLOSE SHIP-FILE</span><br><span class="line">     CLOSE RESULT-FILE</span><br><span class="line">     DISPLAY &quot;突合处理完成&quot;</span><br><span class="line">     DISPLAY &quot;  一致:     &quot; WS-MATCH-CNT</span><br><span class="line">     DISPLAY &quot;  仅订单:   &quot; WS-ONLY-ORD</span><br><span class="line">     DISPLAY &quot;  仅发货:   &quot; WS-ONLY-SHP</span><br><span class="line">     DISPLAY &quot;  金额不符: &quot; WS-DIFF-CNT</span><br><span class="line">     STOP RUN.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 读取订单文件 ----</span><br><span class="line"> READ-ORDER.</span><br><span class="line">     READ ORDER-FILE</span><br><span class="line">        AT END MOVE 1 TO WS-ORD-EOF</span><br><span class="line">     END-READ.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 读取发货文件 ----</span><br><span class="line"> READ-SHIP.</span><br><span class="line">     READ SHIP-FILE</span><br><span class="line">        AT END MOVE 1 TO WS-SHP-EOF</span><br><span class="line">     END-READ.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 仅订单有: 未发货 ----</span><br><span class="line"> HANDLE-ONLY-ORDER.</span><br><span class="line">     MOVE &quot;未发货&quot; TO RES-TYPE</span><br><span class="line">     MOVE ORD-ID TO RES-ID</span><br><span class="line">     MOVE &quot;订单存在但无发货记录&quot; TO RES-DETAIL</span><br><span class="line">     WRITE RES-RECORD</span><br><span class="line">     ADD 1 TO WS-ONLY-ORD</span><br><span class="line">     PERFORM READ-ORDER.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 仅发货有: 无订单 ----</span><br><span class="line"> HANDLE-ONLY-SHIP.</span><br><span class="line">     MOVE &quot;无订单发货&quot; TO RES-TYPE</span><br><span class="line">     MOVE SHP-ID TO RES-ID</span><br><span class="line">     MOVE &quot;发货存在但无订单记录&quot; TO RES-DETAIL</span><br><span class="line">     WRITE RES-RECORD</span><br><span class="line">     ADD 1 TO WS-ONLY-SHP</span><br><span class="line">     PERFORM READ-SHIP.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 键匹配: 核对金额 ----</span><br><span class="line"> HANDLE-MATCH.</span><br><span class="line">     IF ORD-AMOUNT = SHP-AMOUNT</span><br><span class="line">        ADD 1 TO WS-MATCH-CNT</span><br><span class="line">     ELSE</span><br><span class="line">        MOVE &quot;金额不符&quot; TO RES-TYPE</span><br><span class="line">        MOVE ORD-ID TO RES-ID</span><br><span class="line">        MOVE &quot;订单金额与发货金额不一致&quot; TO RES-DETAIL</span><br><span class="line">        WRITE RES-RECORD</span><br><span class="line">        ADD 1 TO WS-DIFF-CNT</span><br><span class="line">     END-IF</span><br><span class="line">     PERFORM READ-ORDER</span><br><span class="line">     PERFORM READ-SHIP.</span><br></pre></td></tr></table></figure>
+
+<p><strong>要点：</strong></p>
+<ol>
+<li><strong>预读</strong>：先各读一条，进入循环</li>
+<li><strong>归并比较</strong>：用 <code>EVALUATE TRUE</code> 分四种情况处理</li>
+<li><strong>键小者前进</strong>：<code>ORD-ID &lt; SHP-ID</code> 说明订单侧无匹配，读订单下条</li>
+<li><strong>键相等</strong>：核对内容（金额），一致计数，不一致记录差异</li>
+<li><strong>文件结束</strong>：一侧结束则另一侧剩余全部为「仅单侧有」</li>
+</ol>
+<hr>
+<h2 id="5-三者的组合：典型批处理流程"><a href="#5-三者的组合：典型批处理流程" class="headerlink" title="5. 三者的组合：典型批处理流程"></a>5. 三者的组合：典型批处理流程</h2><p>实际业务系统中，这三个模式常组合使用，形成完整的批处理流水线：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────┐</span><br><span class="line">│  日终批处理 (日次バッチ)                          │</span><br><span class="line">├─────────────────────────────────────────────────┤</span><br><span class="line">│                                                   │</span><br><span class="line">│  1. 抽出: 从当日交易流水抽出有效交易              │</span><br><span class="line">│         (排除取消、测试数据)                      │</span><br><span class="line">│              ↓                                    │</span><br><span class="line">│  2. 集计: 按客户/部门汇总交易金额                 │</span><br><span class="line">│              ↓                                    │</span><br><span class="line">│  3. 突合: 与账户余额文件核对                      │</span><br><span class="line">│         (检查借贷平衡)                            │</span><br><span class="line">│              ↓                                    │</span><br><span class="line">│  4. 输出: 对账报告 + 异常清单                     │</span><br><span class="line">│                                                   │</span><br><span class="line">└─────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>对应的 COBOL 程序结构：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MAIN-PROCEDURE.</span><br><span class="line">    PERFORM EXTRACT-PROCESS      *&gt; 抽出</span><br><span class="line">    PERFORM SUMMARY-PROCESS      *&gt; 集计</span><br><span class="line">    PERFORM RECONCILE-PROCESS    *&gt; 突合</span><br><span class="line">    PERFORM OUTPUT-REPORT        *&gt; 输出报告</span><br><span class="line">    STOP RUN.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-完整综合示例"><a href="#6-完整综合示例" class="headerlink" title="6. 完整综合示例"></a>6. 完整综合示例</h2><p>下面是一个把抽出、集计、突合串起来的完整示例框架：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"> IDENTIFICATION DIVISION.</span><br><span class="line"> PROGRAM-ID. BATCH-DEMO.</span><br><span class="line">*&gt; 综合示例: 抽出 -&gt; 集计 -&gt; 突合 的批处理流程</span><br><span class="line"> ENVIRONMENT DIVISION.</span><br><span class="line"> INPUT-OUTPUT SECTION.</span><br><span class="line"> FILE-CONTROL.</span><br><span class="line">     SELECT RAW-FILE</span><br><span class="line">        ASSIGN TO &quot;raw.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL.</span><br><span class="line">     SELECT EXTRACT-FILE</span><br><span class="line">        ASSIGN TO &quot;extract.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL.</span><br><span class="line">     SELECT SUMMARY-FILE</span><br><span class="line">        ASSIGN TO &quot;summary.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL.</span><br><span class="line">     SELECT MASTER-FILE</span><br><span class="line">        ASSIGN TO &quot;master.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL.</span><br><span class="line">     SELECT REPORT-FILE</span><br><span class="line">        ASSIGN TO &quot;report.txt&quot;</span><br><span class="line">        ORGANIZATION IS LINE SEQUENTIAL.</span><br><span class="line"> DATA DIVISION.</span><br><span class="line"> FILE SECTION.</span><br><span class="line"> FD RAW-FILE.</span><br><span class="line"> 01 RAW-RECORD.</span><br><span class="line">    05 RAW-DEPT   PIC X(10).</span><br><span class="line">    05 RAW-AMOUNT PIC 9(8).</span><br><span class="line">    05 RAW-FLAG   PIC X.</span><br><span class="line"> FD EXTRACT-FILE.</span><br><span class="line"> 01 EXT-RECORD.</span><br><span class="line">    05 EXT-DEPT   PIC X(10).</span><br><span class="line">    05 EXT-AMOUNT PIC 9(8).</span><br><span class="line"> FD SUMMARY-FILE.</span><br><span class="line"> 01 SUM-RECORD.</span><br><span class="line">    05 SUM-DEPT   PIC X(10).</span><br><span class="line">    05 SUM-TOTAL  PIC 9(10).</span><br><span class="line"> FD MASTER-FILE.</span><br><span class="line"> 01 MST-RECORD.</span><br><span class="line">    05 MST-DEPT   PIC X(10).</span><br><span class="line">    05 MST-TOTAL  PIC 9(10).</span><br><span class="line"> FD REPORT-FILE.</span><br><span class="line"> 01 RPT-RECORD PIC X(80).</span><br><span class="line"> WORKING-STORAGE SECTION.</span><br><span class="line"> 01 WS-EOF PIC 9 VALUE 0.</span><br><span class="line"> PROCEDURE DIVISION.</span><br><span class="line"> MAIN-PROCEDURE.</span><br><span class="line">     DISPLAY &quot;=== 批处理开始 ===&quot;</span><br><span class="line">     PERFORM EXTRACT-PROCESS</span><br><span class="line">     PERFORM SUMMARY-PROCESS</span><br><span class="line">     PERFORM RECONCILE-PROCESS</span><br><span class="line">     DISPLAY &quot;=== 批处理结束 ===&quot;</span><br><span class="line">     STOP RUN.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 阶段1: 抽出 (排除取消记录) ----</span><br><span class="line"> EXTRACT-PROCESS.</span><br><span class="line">     DISPLAY &quot;[1/3] 抽出处理...&quot;</span><br><span class="line">     OPEN INPUT RAW-FILE</span><br><span class="line">     OPEN OUTPUT EXTRACT-FILE</span><br><span class="line">     MOVE 0 TO WS-EOF</span><br><span class="line">     PERFORM UNTIL WS-EOF = 1</span><br><span class="line">        READ RAW-FILE</span><br><span class="line">           AT END MOVE 1 TO WS-EOF</span><br><span class="line">           NOT AT END</span><br><span class="line">              IF RAW-FLAG NOT = &quot;C&quot;    *&gt; C=取消</span><br><span class="line">                 MOVE RAW-DEPT   TO EXT-DEPT</span><br><span class="line">                 MOVE RAW-AMOUNT TO EXT-AMOUNT</span><br><span class="line">                 WRITE EXT-RECORD</span><br><span class="line">              END-IF</span><br><span class="line">        END-READ</span><br><span class="line">     END-PERFORM</span><br><span class="line">     CLOSE RAW-FILE</span><br><span class="line">     CLOSE EXTRACT-FILE.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 阶段2: 集计 (按部门汇总) ----</span><br><span class="line"> SUMMARY-PROCESS.</span><br><span class="line">     DISPLAY &quot;[2/3] 集计处理...&quot;</span><br><span class="line">*&gt;    实际实现参考第 3 节的 SUMMARY-DEMO</span><br><span class="line">*&gt;    此处省略具体代码, 逻辑为: 按部门累加金额并输出</span><br><span class="line">     CONTINUE.</span><br><span class="line"></span><br><span class="line">*&gt; ---- 阶段3: 突合 (与主数据核对) ----</span><br><span class="line"> RECONCILE-PROCESS.</span><br><span class="line">     DISPLAY &quot;[3/3] 突合处理...&quot;</span><br><span class="line">*&gt;    实际实现参考第 4 节的 RECONCILE-DEMO</span><br><span class="line">*&gt;    此处省略具体代码, 逻辑为: 集计结果与主数据比对</span><br><span class="line">     CONTINUE.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-术语对照表"><a href="#7-术语对照表" class="headerlink" title="7. 术语对照表"></a>7. 术语对照表</h2><table>
+<thead>
+<tr>
+<th>日语</th>
+<th>假名</th>
+<th>中文</th>
+<th>英文</th>
+<th>SQL 类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>抽出</td>
+<td>ちゅうしゅつ</td>
+<td>抽取、筛选</td>
+<td>Extract &#x2F; Select</td>
+<td><code>WHERE</code></td>
+</tr>
+<tr>
+<td>抽出条件</td>
+<td>ちゅうしゅつじょうけん</td>
+<td>筛选条件</td>
+<td>Selection Criteria</td>
+<td><code>WHERE</code> 子句</td>
+</tr>
+<tr>
+<td>抽出件数</td>
+<td>ちゅうしゅつけんすう</td>
+<td>抽取记录数</td>
+<td>Extract Count</td>
+<td><code>COUNT(*)</code></td>
+</tr>
+<tr>
+<td>集计</td>
+<td>しゅうけい</td>
+<td>汇总、统计</td>
+<td>Aggregate &#x2F; Summarize</td>
+<td><code>GROUP BY</code></td>
+</tr>
+<tr>
+<td>集计表</td>
+<td>しゅうけいひょう</td>
+<td>汇总表</td>
+<td>Summary Table</td>
+<td>聚合结果</td>
+</tr>
+<tr>
+<td>集计键</td>
+<td>しゅうけいキー</td>
+<td>汇总键</td>
+<td>Group Key</td>
+<td><code>GROUP BY</code> 字段</td>
+</tr>
+<tr>
+<td>突合</td>
+<td>とつごう</td>
+<td>核对、对账</td>
+<td>Reconcile &#x2F; Match</td>
+<td><code>JOIN</code></td>
+</tr>
+<tr>
+<td>突合键</td>
+<td>とつごうキー</td>
+<td>核对键</td>
+<td>Match Key</td>
+<td><code>JOIN ON</code> 字段</td>
+</tr>
+<tr>
+<td>突合处理</td>
+<td>とつごうしょり</td>
+<td>核对处理</td>
+<td>Reconciliation</td>
+<td>—</td>
+</tr>
+<tr>
+<td>照合</td>
+<td>しょうごう</td>
+<td>对照、核对</td>
+<td>Verification</td>
+<td>—</td>
+</tr>
+<tr>
+<td>不一致</td>
+<td>ふいっち</td>
+<td>不一致</td>
+<td>Mismatch</td>
+<td>差异行</td>
+</tr>
+<tr>
+<td>未入金</td>
+<td>みにゅうきん</td>
+<td>未收款</td>
+<td>Unpaid</td>
+<td>—</td>
+</tr>
+<tr>
+<td>未发货</td>
+<td>みはっか</td>
+<td>未发货</td>
+<td>Unshipped</td>
+<td>—</td>
+</tr>
+<tr>
+<td>日次バッチ</td>
+<td>にちじバッチ</td>
+<td>日终批处理</td>
+<td>Daily Batch</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>核心操作</th>
+<th>COBOL 关键语句</th>
+<th>前提条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>抽出</strong></td>
+<td>条件筛选</td>
+<td><code>READ</code> + <code>IF</code> + <code>WRITE</code></td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>集计</strong></td>
+<td>分组汇总</td>
+<td><code>READ</code> + 键变化检测 + 累加</td>
+<td>输入需按键排序</td>
+</tr>
+<tr>
+<td><strong>突合</strong></td>
+<td>双文件匹配</td>
+<td>双 <code>READ</code> + 归并比较</td>
+<td>两文件均按键排序</td>
+</tr>
+</tbody></table>
+<p>掌握这三个模式，就掌握了 COBOL 业务系统开发的<strong>核心思维</strong>。它们对应数据处理的三类基本操作：<strong>筛选、聚合、匹配</strong>。</p>
+<hr>
+<p><strong>上一章：</strong> <a href="../snake/">贪吃蛇实战解析</a><br><strong>返回：</strong> <a href="../home.html">教程首页</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%BD%E5%87%BA%E3%83%BB%E9%9B%86%E8%AE%A1%E3%83%BB%E7%AA%81%E5%90%88%EF%BC%9A%E4%B8%89%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="toc-text">抽出・集计・突合：三大数据处理模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%E6%80%BB%E8%A7%88"><span class="toc-text">1. 概念总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8A%BD%E5%87%BA%EF%BC%88%E7%AD%9B%E9%80%89%EF%BC%89"><span class="toc-text">2. 抽出（筛选）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%A6%82%E5%BF%B5"><span class="toc-text">2.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-text">2.2 处理流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-COBOL-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">2.3 COBOL 示例代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9B%86%E8%AE%A1%EF%BC%88%E6%B1%87%E6%80%BB%EF%BC%89"><span class="toc-text">3. 集计（汇总）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A6%82%E5%BF%B5"><span class="toc-text">3.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-text">3.2 处理流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-COBOL-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">3.3 COBOL 示例代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%94%A8-SORT-%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">3.4 用 SORT 预处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%AA%81%E5%90%88%EF%BC%88%E6%A0%B8%E5%AF%B9%EF%BC%89"><span class="toc-text">4. 突合（核对）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A6%82%E5%BF%B5"><span class="toc-text">4.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B%EF%BC%88%E5%8F%8C%E6%96%87%E4%BB%B6%E5%8C%B9%E9%85%8D%EF%BC%89"><span class="toc-text">4.2 处理流程（双文件匹配）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-COBOL-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">4.3 COBOL 示例代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%89%E8%80%85%E7%9A%84%E7%BB%84%E5%90%88%EF%BC%9A%E5%85%B8%E5%9E%8B%E6%89%B9%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-text">5. 三者的组合：典型批处理流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%AE%8C%E6%95%B4%E7%BB%BC%E5%90%88%E7%A4%BA%E4%BE%8B"><span class="toc-text">6. 完整综合示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="toc-text">7. 术语对照表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
+</body>
+</html>

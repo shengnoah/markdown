@@ -1,57 +1,190 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="6502 常用指令速查：数据传送、算术、逻辑、比较分支、移位、跳转、栈操作，附寻址方式与常见代码模板。">
   <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
   <meta name="author" content="Xianbao">
   <title>6502 指令速查手册 — Xianbao</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
 <meta name="generator" content="Hexo 7.3.0"></head>
-<body>
-  <header class="site-header" id="site-header">
-  <div class="container header-inner">
-    <a href="/" class="logo">
-      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
-        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="logo-text">Xianbao</span>
-    </a>
-    <nav class="site-nav" id="site-nav">
-      
-        <a href="/#features" class="nav-link">功能特性</a>
-      
-        <a href="/#themes" class="nav-link">主题</a>
-      
-        <a href="/archives/" class="nav-link">博客</a>
-      
-        <a href="/#download" class="nav-link">下载</a>
-      
-        <a href="/fbasic/" class="nav-link">FBASIC</a>
-      
-        <a href="/#support" class="nav-link">支持</a>
-      
-      <a href="#download" class="btn btn-primary nav-download">下载</a>
-    </nav>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+<body class="book-layout">
 
-  <main>
-    <article class="section post">
-  <div class="container container-narrow">
-    <h1 class="post-title">6502 指令速查手册</h1>
-    <div class="post-content">
-      <h1 id="6502-常用指令速查手册"><a href="#6502-常用指令速查手册" class="headerlink" title="6502 常用指令速查手册"></a>6502 常用指令速查手册</h1><blockquote>
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/fbasic/home.html"><h2>FBASIC 与 6502 教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>FBASIC 教程</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/fbasic/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/tutorial/">FBASIC 语言教程</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/">FBASIC 在线模拟器</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/bubble-sort/">冒泡排序可视化</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>6502 专题</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/fbasic/6502-instructions/">6502 指令速查手册</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/6502-addressing-modes/">6502 寻址方式详解</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">6502 指令速查手册</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="6502-常用指令速查手册"><a href="#6502-常用指令速查手册" class="headerlink" title="6502 常用指令速查手册"></a>6502 常用指令速查手册</h1><blockquote>
 <p>适用于 NES (FC) 开发，配合 ca65 汇编器使用</p>
 <p>6502 共 56 条指令，本文收录开发中最常用的 ~40 条，按功能分类</p>
 </blockquote>
@@ -808,53 +941,26 @@
 <p>参考：<a target="_blank" rel="noopener" href="https://www.masswerk.at/6502/6502_instruction_set.html">6502 指令集完整参考</a> · <a target="_blank" rel="noopener" href="https://www.nesdev.org/wiki/6502_instructions">NESdev Wiki</a></p>
 </blockquote>
 
+          </div>
+        </article>
+      </div>
+
+      
     </div>
   </div>
-</article>
 
-  </main>
-  <footer class="site-footer" id="support">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <a href="/" class="logo footer-logo">
-        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
-          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="logo-text">Xianbao</span>
-      </a>
-      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6502-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C"><span class="toc-text">6502 常用指令速查手册</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8E%E5%91%BD%E5%90%8D%E8%A7%84%E5%BE%8B"><span class="toc-text">1. 寄存器与命名规律</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E6%80%BB%E8%A7%88"><span class="toc-text">寄存器总览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%AF%E5%8A%A0%E5%99%A8-A-%E2%80%94%E2%80%94-%E6%95%B0%E6%8D%AE%E4%B8%AD%E8%BD%AC%E7%AB%99"><span class="toc-text">累加器 A —— 数据中转站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E5%9D%80%E5%AF%84%E5%AD%98%E5%99%A8-X-Y-%E2%80%94%E2%80%94-%E8%AE%A1%E6%95%B0%E5%99%A8%E4%B8%8E%E4%B8%8B%E6%A0%87"><span class="toc-text">变址寄存器 X &#x2F; Y —— 计数器与下标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E6%8C%87%E9%92%88-S-%E2%80%94%E2%80%94-%E7%A1%AC%E4%BB%B6%E6%A0%88%E7%AE%A1%E7%90%86%E5%91%98"><span class="toc-text">栈指针 S —— 硬件栈管理员</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8-PC-%E2%80%94%E2%80%94-%E6%89%A7%E8%A1%8C%E4%BD%8D%E7%BD%AE%E8%B7%9F%E8%B8%AA%E5%99%A8"><span class="toc-text">程序计数器 PC —— 执行位置跟踪器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%AF%84%E5%AD%98%E5%99%A8-P-%E2%80%94%E2%80%94-%E6%A0%87%E5%BF%97%E4%BD%8D%E9%9B%86%E5%90%88"><span class="toc-text">状态寄存器 P —— 标志位集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%91%BD%E5%90%8D%E8%A7%84%E5%BE%8B"><span class="toc-text">指令命名规律</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="toc-text">2. 数据传送指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LDA-LDX-LDY-%E2%80%94-%E8%AF%BB%E5%85%A5"><span class="toc-text">LDA &#x2F; LDX &#x2F; LDY — 读入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STA-STX-STY-%E2%80%94-%E5%86%99%E5%87%BA"><span class="toc-text">STA &#x2F; STX &#x2F; STY — 写出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TAX-TXA-TAY-TYA-%E2%80%94-%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E4%BC%A0%E9%80%81"><span class="toc-text">TAX &#x2F; TXA &#x2F; TAY &#x2F; TYA — 寄存器间传送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSX-TXS-%E2%80%94-%E6%A0%88%E6%8C%87%E9%92%88%E4%BC%A0%E9%80%81"><span class="toc-text">TSX &#x2F; TXS — 栈指针传送</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 算术运算指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ADC-%E2%80%94-%E5%B8%A6%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95"><span class="toc-text">ADC — 带进位加法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SBC-%E2%80%94-%E5%B8%A6%E5%80%9F%E4%BD%8D%E5%87%8F%E6%B3%95"><span class="toc-text">SBC — 带借位减法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E4%BD%8D%E5%8A%A0%E5%87%8F%E6%B3%95%EF%BC%88%E8%BF%9B%E4%BD%8D%E9%93%BE%E6%8E%A5%E9%AB%98%E4%BD%8E%E5%AD%97%E8%8A%82%EF%BC%89"><span class="toc-text">16 位加减法（进位链接高低字节）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#INC-DEC-%E2%80%94-%E5%86%85%E5%AD%98%E5%8A%A01-%E5%87%8F1"><span class="toc-text">INC &#x2F; DEC — 内存加1&#x2F;减1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#INX-INY-DEX-DEY-%E2%80%94-%E5%AF%84%E5%AD%98%E5%99%A8%E5%8A%A01-%E5%87%8F1"><span class="toc-text">INX &#x2F; INY &#x2F; DEX &#x2F; DEY — 寄存器加1&#x2F;减1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 逻辑运算指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BIT-%E2%80%94-%E4%BD%8D%E6%B5%8B%E8%AF%95"><span class="toc-text">BIT — 位测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AF%94%E8%BE%83%E4%B8%8E%E5%88%86%E6%94%AF%E6%8C%87%E4%BB%A4"><span class="toc-text">5. 比较与分支指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CMP-CPX-CPY-%E2%80%94-%E6%AF%94%E8%BE%83"><span class="toc-text">CMP &#x2F; CPX &#x2F; CPY — 比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E6%8C%87%E4%BB%A4%EF%BC%88%E7%9B%B8%E5%AF%B9%E8%B7%B3%E8%BD%AC%EF%BC%8C%E8%8C%83%E5%9B%B4-%C2%B1127-%E5%AD%97%E8%8A%82%EF%BC%89"><span class="toc-text">分支指令（相对跳转，范围 ±127 字节）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E5%90%8E%E7%9A%84%E5%88%86%E6%94%AF%E7%BB%84%E5%90%88%EF%BC%88%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="toc-text">比较后的分支组合（最常用）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%A7%BB%E4%BD%8D%E6%8C%87%E4%BB%A4"><span class="toc-text">6. 移位指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E8%B7%B3%E8%BD%AC%E4%B8%8E%E5%AD%90%E7%A8%8B%E5%BA%8F"><span class="toc-text">7. 跳转与子程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%A0%88%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="toc-text">8. 栈操作指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%A0%87%E5%BF%97%E4%BD%8D%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="toc-text">9. 标志位操作指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%E9%80%9F%E6%9F%A5"><span class="toc-text">10. 寻址方式速查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E5%B8%B8%E8%A7%81%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="toc-text">11. 常见组合模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-1%EF%BC%9A%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC%EF%BC%88BASIC-A-10%EF%BC%89"><span class="toc-text">模式 1：变量赋值（BASIC: A &#x3D; 10）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-2%EF%BC%9A%E5%8F%98%E9%87%8F%E8%BF%90%E7%AE%97%EF%BC%88BASIC-A-A-5%EF%BC%89"><span class="toc-text">模式 2：变量运算（BASIC: A &#x3D; A + 5）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-3%EF%BC%9A%E5%BE%AA%E7%8E%AF-256-%E6%AC%A1"><span class="toc-text">模式 3：循环 256 次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-4%EF%BC%9A%E7%AD%89%E5%BE%85%E7%A1%AC%E4%BB%B6%E7%8A%B6%E6%80%81%EF%BC%88%E8%BD%AE%E8%AF%A2-VBlank%EF%BC%89"><span class="toc-text">模式 4：等待硬件状态（轮询 VBlank）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-5%EF%BC%9A%E6%95%B0%E7%BB%84%E9%81%8D%E5%8E%86%EF%BC%88%E9%9B%B6%E9%A1%B5%E6%8C%87%E9%92%88%EF%BC%89"><span class="toc-text">模式 5：数组遍历（零页指针）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F-6%EF%BC%9A16%E4%BD%8D%E6%AF%94%E8%BE%83"><span class="toc-text">模式 6：16位比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%AE%8C%E6%95%B4%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%86%E7%B1%BB%E6%80%BB%E8%A1%A8"><span class="toc-text">附：完整指令集分类总表</span></a></li></ol></li></ol></div>
+      
     </div>
-    <nav class="footer-links">
-      
-        <a href="/#about">关于我们</a>
-      
-        <a href="/archives/">博客</a>
-      
-        <a href="/#contact">联系我们</a>
-      
-        <a href="/#privacy">隐私政策</a>
-      
-    </nav>
   </div>
-  <div class="container footer-bottom">
-    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
-  </div>
-</footer>
 
-  
-<script src="/js/main.js"></script>
-
-  
-  <script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
-  </script>
-  
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
 </body>
 </html>

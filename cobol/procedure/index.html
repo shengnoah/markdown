@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COBOL 过程部教程：段落与节、MOVE 赋值、ADD/SUBTRACT/MULTIPLY/DIVIDE/COMPUTE 算术语句、IF 条件、EVALUATE 分支、PERFORM 循环、DISPLAY/ACCEPT 输入输出、字符串操作与内置函数。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>COBOL 过程部与语句 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">COBOL 过程部与语句</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="COBOL-过程部与语句"><a href="#COBOL-过程部与语句" class="headerlink" title="COBOL 过程部与语句"></a>COBOL 过程部与语句</h1><blockquote>
+<p>本章讲解 <code>PROCEDURE DIVISION</code> 中的核心语句：赋值、运算、条件、循环、段落调用。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E6%AE%B5%E8%90%BD%E4%B8%8E%E8%8A%82">段落与节</a></li>
+<li><a href="#2-%E8%B5%8B%E5%80%BC%E8%AF%AD%E5%8F%A5-move">赋值语句 MOVE</a></li>
+<li><a href="#3-%E7%AE%97%E6%9C%AF%E8%AF%AD%E5%8F%A5">算术语句</a></li>
+<li><a href="#4-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5-if">条件语句 IF</a></li>
+<li><a href="#5-%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5-evaluate">分支语句 EVALUATE</a></li>
+<li><a href="#6-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5-perform">循环语句 PERFORM</a></li>
+<li><a href="#7-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA-display--accept">输入输出 DISPLAY &#x2F; ACCEPT</a></li>
+<li><a href="#8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C">字符串操作</a></li>
+<li><a href="#9-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0">内置函数</a></li>
+<li><a href="#10-%E5%AE%9E%E6%88%98snakecob-%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%88%86%E6%9E%90">实战：snake.cob 的语句分析</a></li>
+</ol>
+<hr>
+<h2 id="1-段落与节"><a href="#1-段落与节" class="headerlink" title="1. 段落与节"></a>1. 段落与节</h2><p><code>PROCEDURE DIVISION</code> 由<strong>段落（Paragraph）</strong>组成，段落可组织为<strong>节（Section）</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PROCEDURE DIVISION.</span><br><span class="line">MAIN-PROCEDURE.</span><br><span class="line">    PERFORM INIT-GAME</span><br><span class="line">    PERFORM GAME-LOOP UNTIL WS-RUNNING = 0</span><br><span class="line">    STOP RUN.</span><br><span class="line"></span><br><span class="line">INIT-GAME.</span><br><span class="line">    MOVE 3 TO WS-SNAKE-LEN</span><br><span class="line">    MOVE 4 TO WS-DIR.</span><br><span class="line"></span><br><span class="line">GAME-LOOP.</span><br><span class="line">    PERFORM BUILD-GRID</span><br><span class="line">    PERFORM SHOW-GAME.</span><br></pre></td></tr></table></figure>
+
+<p><strong>规则：</strong></p>
+<ul>
+<li>段落名从 A 区开始，以 <code>.</code> 结尾</li>
+<li>段落内的语句从 B 区开始</li>
+<li>段落名是<strong>标签</strong>，通过 <code>PERFORM</code> 调用</li>
+<li>段落名不能与保留字冲突</li>
+</ul>
+<hr>
+<h2 id="2-赋值语句-MOVE"><a href="#2-赋值语句-MOVE" class="headerlink" title="2. 赋值语句 MOVE"></a>2. 赋值语句 MOVE</h2><p><code>MOVE</code> 是最基本的赋值语句。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOVE 100 TO WS-COUNT.</span><br><span class="line">MOVE &quot;Hello&quot; TO WS-NAME.</span><br><span class="line">MOVE WS-A TO WS-B.</span><br><span class="line">MOVE SPACES TO WS-LINE.</span><br></pre></td></tr></table></figure>
+
+<h3 id="组合项赋值"><a href="#组合项赋值" class="headerlink" title="组合项赋值"></a>组合项赋值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">01 WS-DATE.</span><br><span class="line">   05 WS-YEAR  PIC 9(4).</span><br><span class="line">   05 WS-MONTH PIC 9(2).</span><br><span class="line">   05 WS-DAY   PIC 9(2).</span><br><span class="line"></span><br><span class="line">MOVE &quot;20261008&quot; TO WS-DATE.   *&gt; 一次性填充整个组合项</span><br></pre></td></tr></table></figure>
+
+<h3 id="多目标赋值"><a href="#多目标赋值" class="headerlink" title="多目标赋值"></a>多目标赋值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOVE 0 TO WS-A WS-B WS-C.</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型转换规则"><a href="#类型转换规则" class="headerlink" title="类型转换规则"></a>类型转换规则</h3><ul>
+<li>数值 → 字符：右对齐，左侧补零</li>
+<li>字符 → 数值：需为合法数字，否则结果未定义</li>
+<li>长度不匹配：字符型左对齐截断&#x2F;补空格，数值型右对齐</li>
+</ul>
+<hr>
+<h2 id="3-算术语句"><a href="#3-算术语句" class="headerlink" title="3. 算术语句"></a>3. 算术语句</h2><h3 id="ADD（加）"><a href="#ADD（加）" class="headerlink" title="ADD（加）"></a>ADD（加）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ADD 1 TO WS-COUNT.</span><br><span class="line">ADD 1 TO WS-SCORE WS-STEPS.        *&gt; 多目标</span><br><span class="line">ADD WS-A WS-B GIVING WS-SUM.       *&gt; 结果存入新变量</span><br></pre></td></tr></table></figure>
+
+<h3 id="SUBTRACT（减）"><a href="#SUBTRACT（减）" class="headerlink" title="SUBTRACT（减）"></a>SUBTRACT（减）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SUBTRACT 1 FROM WS-COUNT.</span><br><span class="line">SUBTRACT WS-A FROM WS-B GIVING WS-DIFF.</span><br></pre></td></tr></table></figure>
+
+<h3 id="MULTIPLY（乘）"><a href="#MULTIPLY（乘）" class="headerlink" title="MULTIPLY（乘）"></a>MULTIPLY（乘）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MULTIPLY WS-A BY WS-B.</span><br><span class="line">MULTIPLY WS-A BY WS-B GIVING WS-PROD.</span><br></pre></td></tr></table></figure>
+
+<h3 id="DIVIDE（除）"><a href="#DIVIDE（除）" class="headerlink" title="DIVIDE（除）"></a>DIVIDE（除）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DIVIDE WS-A BY WS-B GIVING WS-QUOT.</span><br><span class="line">DIVIDE WS-A INTO WS-B GIVING WS-QUOT REMAINDER WS-REM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="COMPUTE（复合运算）"><a href="#COMPUTE（复合运算）" class="headerlink" title="COMPUTE（复合运算）"></a>COMPUTE（复合运算）</h3><p>最灵活，支持表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">COMPUTE WS-NEW-Y = WS-SY(1) - 1.</span><br><span class="line">COMPUTE WS-DIST = FUNCTION ABS(WS-TRY-X - WS-FOOD-X) +</span><br><span class="line">                  FUNCTION ABS(WS-TRY-Y - WS-FOOD-Y).</span><br><span class="line">COMPUTE WS-SEED = FUNCTION NUMVAL(WS-TIMESTAMP(9:8)).</span><br></pre></td></tr></table></figure>
+
+<p><strong>运算符：</strong> <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>**</code>（幂）</p>
+<h3 id="ROUNDED-与-ON-SIZE-ERROR"><a href="#ROUNDED-与-ON-SIZE-ERROR" class="headerlink" title="ROUNDED 与 ON SIZE ERROR"></a>ROUNDED 与 ON SIZE ERROR</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">COMPUTE WS-AVG ROUNDED = WS-TOTAL / WS-COUNT.</span><br><span class="line">ADD 1 TO WS-COUNT</span><br><span class="line">    ON SIZE ERROR DISPLAY &quot;溢出!&quot;.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-条件语句-IF"><a href="#4-条件语句-IF" class="headerlink" title="4. 条件语句 IF"></a>4. 条件语句 IF</h2><h3 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IF WS-SCORE &gt; 100</span><br><span class="line">   DISPLAY &quot;优秀&quot;</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<h3 id="IF-ELSE"><a href="#IF-ELSE" class="headerlink" title="IF-ELSE"></a>IF-ELSE</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IF WS-NEW-X &lt; 1 OR WS-NEW-X &gt; 20</span><br><span class="line">   MOVE &quot;撞到墙壁&quot; TO WS-END-REASON</span><br><span class="line">   MOVE 0 TO WS-RUNNING</span><br><span class="line">ELSE</span><br><span class="line">   PERFORM MOVE-FORWARD</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<h3 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h3><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>等价写法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>=</code></td>
+<td><code>EQUAL</code></td>
+<td>等于</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>LESS</code></td>
+<td>小于</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td><code>GREATER</code></td>
+<td>大于</td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td><code>NOT &gt;</code></td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td><code>NOT &lt;</code></td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td><code>&lt;&gt;</code></td>
+<td><code>NOT =</code></td>
+<td>不等于</td>
+</tr>
+</tbody></table>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IF WS-A &gt; 0 AND WS-B &gt; 0</span><br><span class="line">   DISPLAY &quot;都为正&quot;</span><br><span class="line">END-IF.</span><br><span class="line"></span><br><span class="line">IF WS-X = 1 OR WS-X = 2 OR WS-X = 3</span><br><span class="line">   DISPLAY &quot;在范围内&quot;</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<h3 id="复合条件与括号"><a href="#复合条件与括号" class="headerlink" title="复合条件与括号"></a>复合条件与括号</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IF WS-DIST &lt; WS-BEST-DIST OR</span><br><span class="line">   (WS-DIST = WS-BEST-DIST AND WS-TRY-DIR = WS-DIR)</span><br><span class="line">   MOVE WS-DIST TO WS-BEST-DIST</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件名（88-层级）"><a href="#条件名（88-层级）" class="headerlink" title="条件名（88 层级）"></a>条件名（88 层级）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">01 WS-RUNNING PIC 9 VALUE 1.</span><br><span class="line">   88 GAME-OVER VALUE 0.</span><br><span class="line"></span><br><span class="line">IF GAME-OVER</span><br><span class="line">   DISPLAY &quot;游戏结束&quot;</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-分支语句-EVALUATE"><a href="#5-分支语句-EVALUATE" class="headerlink" title="5. 分支语句 EVALUATE"></a>5. 分支语句 EVALUATE</h2><p><code>EVALUATE</code> 类似其他语言的 <code>switch</code>，但更强大。</p>
+<h3 id="基本形式-1"><a href="#基本形式-1" class="headerlink" title="基本形式"></a>基本形式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">EVALUATE WS-DIR</span><br><span class="line">   WHEN 1</span><br><span class="line">      COMPUTE WS-NEW-Y = WS-SY(1) - 1</span><br><span class="line">   WHEN 2</span><br><span class="line">      COMPUTE WS-NEW-Y = WS-SY(1) + 1</span><br><span class="line">   WHEN 3</span><br><span class="line">      COMPUTE WS-NEW-X = WS-SX(1) - 1</span><br><span class="line">   WHEN 4</span><br><span class="line">      COMPUTE WS-NEW-X = WS-SX(1) + 1</span><br><span class="line">   WHEN OTHER</span><br><span class="line">      DISPLAY &quot;无效方向&quot;</span><br><span class="line">END-EVALUATE.</span><br></pre></td></tr></table></figure>
+
+<h3 id="多值匹配"><a href="#多值匹配" class="headerlink" title="多值匹配"></a>多值匹配</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EVALUATE WS-CODE</span><br><span class="line">   WHEN 1 WHEN 2 WHEN 3</span><br><span class="line">      DISPLAY &quot;低&quot;</span><br><span class="line">   WHEN 4 THRU 6</span><br><span class="line">      DISPLAY &quot;中&quot;</span><br><span class="line">   WHEN OTHER</span><br><span class="line">      DISPLAY &quot;高&quot;</span><br><span class="line">END-EVALUATE.</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件匹配（EVALUATE-TRUE）"><a href="#条件匹配（EVALUATE-TRUE）" class="headerlink" title="条件匹配（EVALUATE TRUE）"></a>条件匹配（EVALUATE TRUE）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EVALUATE TRUE</span><br><span class="line">   WHEN WS-SCORE &gt;= 90</span><br><span class="line">      DISPLAY &quot;A&quot;</span><br><span class="line">   WHEN WS-SCORE &gt;= 60</span><br><span class="line">      DISPLAY &quot;B&quot;</span><br><span class="line">   WHEN OTHER</span><br><span class="line">      DISPLAY &quot;C&quot;</span><br><span class="line">END-EVALUATE.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-循环语句-PERFORM"><a href="#6-循环语句-PERFORM" class="headerlink" title="6. 循环语句 PERFORM"></a>6. 循环语句 PERFORM</h2><p><code>PERFORM</code> 是 COBOL 唯一的循环&#x2F;调用机制，功能丰富。</p>
+<h3 id="6-1-调用段落（无循环）"><a href="#6-1-调用段落（无循环）" class="headerlink" title="6.1 调用段落（无循环）"></a>6.1 调用段落（无循环）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PERFORM INIT-GAME.</span><br><span class="line">PERFORM SHOW-GAME.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-条件循环（先判断）"><a href="#6-2-条件循环（先判断）" class="headerlink" title="6.2 条件循环（先判断）"></a>6.2 条件循环（先判断）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PERFORM GAME-LOOP UNTIL WS-RUNNING = 0.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-条件循环（后判断，至少执行一次）"><a href="#6-3-条件循环（后判断，至少执行一次）" class="headerlink" title="6.3 条件循环（后判断，至少执行一次）"></a>6.3 条件循环（后判断，至少执行一次）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PERFORM PROCESS-RECORD WITH TEST AFTER</span><br><span class="line">        UNTIL WS-EOF = 1.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-4-计数循环（VARYING）"><a href="#6-4-计数循环（VARYING）" class="headerlink" title="6.4 计数循环（VARYING）"></a>6.4 计数循环（VARYING）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I &gt; 12</span><br><span class="line">   DISPLAY WS-I</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-5-嵌套循环"><a href="#6-5-嵌套循环" class="headerlink" title="6.5 嵌套循环"></a>6.5 嵌套循环</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I &gt; 12</span><br><span class="line">   PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J &gt; 20</span><br><span class="line">      MOVE 0 TO WS-CELL(WS-I, WS-J)</span><br><span class="line">   END-PERFORM</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-6-内联-PERFORM（END-PERFORM）"><a href="#6-6-内联-PERFORM（END-PERFORM）" class="headerlink" title="6.6 内联 PERFORM（END-PERFORM）"></a>6.6 内联 PERFORM（END-PERFORM）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PERFORM UNTIL WS-I &gt;= WS-SNAKE-LEN</span><br><span class="line">   COMPUTE WS-K = WS-SNAKE-LEN - WS-I + 1</span><br><span class="line">   COMPUTE WS-J = WS-K - 1</span><br><span class="line">   MOVE WS-SX(WS-J) TO WS-SX(WS-K)</span><br><span class="line">   ADD 1 TO WS-I</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-7-提前退出"><a href="#6-7-提前退出" class="headerlink" title="6.7 提前退出"></a>6.7 提前退出</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PERFORM VARYING WS-K FROM 1 BY 1 UNTIL WS-K &gt; WS-SNAKE-LEN</span><br><span class="line">   IF WS-SX(WS-K) = WS-NEW-X</span><br><span class="line">      EXIT PERFORM          *&gt; 跳出当前循环</span><br><span class="line">   END-IF</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>EXIT PERFORM</code>：跳出循环</li>
+<li><code>EXIT PARAGRAPH</code>：跳出当前段落</li>
+<li><code>EXIT SECTION</code>：跳出当前节</li>
+</ul>
+<hr>
+<h2 id="7-输入输出-DISPLAY-ACCEPT"><a href="#7-输入输出-DISPLAY-ACCEPT" class="headerlink" title="7. 输入输出 DISPLAY &#x2F; ACCEPT"></a>7. 输入输出 DISPLAY &#x2F; ACCEPT</h2><h3 id="DISPLAY（输出）"><a href="#DISPLAY（输出）" class="headerlink" title="DISPLAY（输出）"></a>DISPLAY（输出）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DISPLAY &quot;Hello, World!&quot;.</span><br><span class="line">DISPLAY WS-SCORE.</span><br><span class="line">DISPLAY &quot;得分: &quot; WS-SCORE-OUT &quot; 长度: &quot; WS-LEN-OUT.</span><br></pre></td></tr></table></figure>
+
+<h3 id="不换行输出"><a href="#不换行输出" class="headerlink" title="不换行输出"></a>不换行输出</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DISPLAY WS-CLEAR-SEQ WITH NO ADVANCING.</span><br></pre></td></tr></table></figure>
+
+<p><code>WITH NO ADVANCING</code> 抑制自动换行，常用于输出 ANSI 转义序列。</p>
+<h3 id="ACCEPT（输入）"><a href="#ACCEPT（输入）" class="headerlink" title="ACCEPT（输入）"></a>ACCEPT（输入）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ACCEPT WS-NAME.</span><br><span class="line">ACCEPT WS-NAME FROM CONSOLE.</span><br><span class="line">ACCEPT WS-DATE FROM DATE.       *&gt; 获取系统日期 YYMMDD</span><br><span class="line">ACCEPT WS-TIME FROM TIME.       *&gt; 获取系统时间 HHMMSS</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-字符串操作"><a href="#8-字符串操作" class="headerlink" title="8. 字符串操作"></a>8. 字符串操作</h2><h3 id="8-1-引用修改（Reference-Modification）"><a href="#8-1-引用修改（Reference-Modification）" class="headerlink" title="8.1 引用修改（Reference Modification）"></a>8.1 引用修改（Reference Modification）</h3><p>用 <code>(起始位置:长度)</code> 截取子串：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 01 WS-TIMESTAMP PIC X(21).</span><br><span class="line"> COMPUTE WS-SEED = FUNCTION NUMVAL(WS-TIMESTAMP(9:8)).</span><br><span class="line">*&gt; 取第 9 位开始的 8 个字符</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-STRING（拼接）"><a href="#8-2-STRING（拼接）" class="headerlink" title="8.2 STRING（拼接）"></a>8.2 STRING（拼接）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STRING WS-FIRST DELIMITED BY SPACE</span><br><span class="line">       &quot; &quot; DELIMITED BY SIZE</span><br><span class="line">       WS-LAST  DELIMITED BY SPACE</span><br><span class="line">       INTO WS-FULL-NAME</span><br><span class="line">END-STRING.</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-3-UNSTRING（拆分）"><a href="#8-3-UNSTRING（拆分）" class="headerlink" title="8.3 UNSTRING（拆分）"></a>8.3 UNSTRING（拆分）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UNSTRING WS-LINE DELIMITED BY &quot;,&quot;</span><br><span class="line">   INTO WS-FIELD-1 WS-FIELD-2 WS-FIELD-3</span><br><span class="line">END-UNSTRING.</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-4-INSPECT（检查-替换）"><a href="#8-4-INSPECT（检查-替换）" class="headerlink" title="8.4 INSPECT（检查&#x2F;替换）"></a>8.4 INSPECT（检查&#x2F;替换）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSPECT WS-TEXT TALLYING WS-COUNT FOR ALL &quot;a&quot;.</span><br><span class="line">INSPECT WS-TEXT REPLACING ALL &quot;a&quot; BY &quot;A&quot;.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="9-内置函数"><a href="#9-内置函数" class="headerlink" title="9. 内置函数"></a>9. 内置函数</h2><p>COBOL 提供丰富的内置函数（Intrinsic Functions），用 <code>FUNCTION 函数名(参数)</code> 调用。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ABS</code></td>
+<td>绝对值</td>
+<td><code>FUNCTION ABS(-5)</code> → 5</td>
+</tr>
+<tr>
+<td><code>MOD</code></td>
+<td>取模</td>
+<td><code>FUNCTION MOD(7, 3)</code> → 1</td>
+</tr>
+<tr>
+<td><code>INTEGER</code></td>
+<td>取整</td>
+<td><code>FUNCTION INTEGER(3.7)</code> → 3</td>
+</tr>
+<tr>
+<td><code>NUMVAL</code></td>
+<td>字符串转数值</td>
+<td><code>FUNCTION NUMVAL(&quot;123&quot;)</code> → 123</td>
+</tr>
+<tr>
+<td><code>RANDOM</code></td>
+<td>随机数 [0,1)</td>
+<td><code>FUNCTION RANDOM</code></td>
+</tr>
+<tr>
+<td><code>LENGTH</code></td>
+<td>长度</td>
+<td><code>FUNCTION LENGTH(WS-NAME)</code></td>
+</tr>
+<tr>
+<td><code>UPPER-CASE</code></td>
+<td>转大写</td>
+<td><code>FUNCTION UPPER-CASE(WS-S)</code></td>
+</tr>
+<tr>
+<td><code>LOWER-CASE</code></td>
+<td>转小写</td>
+<td><code>FUNCTION LOWER-CASE(WS-S)</code></td>
+</tr>
+<tr>
+<td><code>MAX</code> &#x2F; <code>MIN</code></td>
+<td>最大&#x2F;最小</td>
+<td><code>FUNCTION MAX(A, B)</code></td>
+</tr>
+<tr>
+<td><code>CURRENT-DATE</code></td>
+<td>当前日期时间</td>
+<td><code>FUNCTION CURRENT-DATE</code></td>
+</tr>
+</tbody></table>
+<p><strong>示例（来自 <code>snake.cob</code>）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">COMPUTE WS-FOOD-X =</span><br><span class="line">    FUNCTION INTEGER(FUNCTION RANDOM * 20) + 1.</span><br><span class="line">COMPUTE WS-FOOD-Y =</span><br><span class="line">    FUNCTION INTEGER(FUNCTION RANDOM * 12) + 1.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="10-实战：snake-cob-的语句分析"><a href="#10-实战：snake-cob-的语句分析" class="headerlink" title="10. 实战：snake.cob 的语句分析"></a>10. 实战：snake.cob 的语句分析</h2><h3 id="主循环结构"><a href="#主循环结构" class="headerlink" title="主循环结构"></a>主循环结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MAIN-PROCEDURE.</span><br><span class="line">    PERFORM INIT-GAME</span><br><span class="line">    PERFORM GAME-LOOP UNTIL WS-RUNNING = 0</span><br><span class="line">    PERFORM SHOW-GAME</span><br><span class="line">    DISPLAY &quot; &quot;</span><br><span class="line">    DISPLAY &quot;==========================================&quot;</span><br><span class="line">    MOVE WS-SCORE TO WS-SCORE-OUT</span><br><span class="line">    DISPLAY &quot; 游戏结束! 最终得分: &quot; WS-SCORE-OUT</span><br><span class="line">    DISPLAY &quot; 原因: &quot; WS-END-REASON</span><br><span class="line">    DISPLAY &quot;==========================================&quot;</span><br><span class="line">    STOP RUN.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong> 先初始化，然后循环执行游戏主逻辑直到 <code>WS-RUNNING = 0</code>，最后显示结束信息。</p>
+<h3 id="方向选择逻辑"><a href="#方向选择逻辑" class="headerlink" title="方向选择逻辑"></a>方向选择逻辑</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">CHOOSE-DIR.</span><br><span class="line">    MOVE 99 TO WS-BEST-DIST</span><br><span class="line">    MOVE 0  TO WS-BEST-DIR</span><br><span class="line">    PERFORM VARYING WS-TRY-DIR FROM 1 BY 1</span><br><span class="line">            UNTIL WS-TRY-DIR &gt; 4</span><br><span class="line">       PERFORM TEST-DIRECTION</span><br><span class="line">       IF WS-SAFE = 1</span><br><span class="line">          COMPUTE WS-DIST =</span><br><span class="line">              FUNCTION ABS(WS-TRY-X - WS-FOOD-X) +</span><br><span class="line">              FUNCTION ABS(WS-TRY-Y - WS-FOOD-Y)</span><br><span class="line">          IF WS-DIST &lt; WS-BEST-DIST OR</span><br><span class="line">             (WS-DIST = WS-BEST-DIST AND WS-TRY-DIR = WS-DIR)</span><br><span class="line">             MOVE WS-DIST TO WS-BEST-DIST</span><br><span class="line">             MOVE WS-TRY-DIR TO WS-BEST-DIR</span><br><span class="line">          END-IF</span><br><span class="line">       END-IF</span><br><span class="line">    END-PERFORM</span><br><span class="line">    IF WS-BEST-DIR NOT = 0</span><br><span class="line">       MOVE WS-BEST-DIR TO WS-DIR</span><br><span class="line">    END-IF.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong> 遍历 4 个方向，对每个安全方向计算到食物的曼哈顿距离，选择距离最小的方向（贪心算法）。</p>
+<h3 id="延时控制"><a href="#延时控制" class="headerlink" title="延时控制"></a>延时控制</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DELAY.</span><br><span class="line">    IF WS-SCORE &lt; 35</span><br><span class="line">       COMPUTE WS-DELAY-US = 200000 - WS-SCORE * 4000</span><br><span class="line">    ELSE</span><br><span class="line">       MOVE 60000 TO WS-DELAY-US</span><br><span class="line">    END-IF</span><br><span class="line">    CALL &quot;usleep&quot; USING BY VALUE WS-DELAY-US</span><br><span class="line">    END-CALL.</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析：</strong> 分数越高延时越短（速度越快），最低 60ms。通过 <code>CALL</code> 调用 C 库函数 <code>usleep</code>。</p>
+<hr>
+<p><strong>上一章：</strong> <a href="../data-types/">数据类型与变量</a><br><strong>下一章：</strong> <a href="../tables/">表与数组</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#COBOL-%E8%BF%87%E7%A8%8B%E9%83%A8%E4%B8%8E%E8%AF%AD%E5%8F%A5"><span class="toc-text">COBOL 过程部与语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%AE%B5%E8%90%BD%E4%B8%8E%E8%8A%82"><span class="toc-text">1. 段落与节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%B5%8B%E5%80%BC%E8%AF%AD%E5%8F%A5-MOVE"><span class="toc-text">2. 赋值语句 MOVE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E9%A1%B9%E8%B5%8B%E5%80%BC"><span class="toc-text">组合项赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%9B%AE%E6%A0%87%E8%B5%8B%E5%80%BC"><span class="toc-text">多目标赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99"><span class="toc-text">类型转换规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%AE%97%E6%9C%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">3. 算术语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD%EF%BC%88%E5%8A%A0%EF%BC%89"><span class="toc-text">ADD（加）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SUBTRACT%EF%BC%88%E5%87%8F%EF%BC%89"><span class="toc-text">SUBTRACT（减）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MULTIPLY%EF%BC%88%E4%B9%98%EF%BC%89"><span class="toc-text">MULTIPLY（乘）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DIVIDE%EF%BC%88%E9%99%A4%EF%BC%89"><span class="toc-text">DIVIDE（除）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMPUTE%EF%BC%88%E5%A4%8D%E5%90%88%E8%BF%90%E7%AE%97%EF%BC%89"><span class="toc-text">COMPUTE（复合运算）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ROUNDED-%E4%B8%8E-ON-SIZE-ERROR"><span class="toc-text">ROUNDED 与 ON SIZE ERROR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5-IF"><span class="toc-text">4. 条件语句 IF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%BD%A2%E5%BC%8F"><span class="toc-text">基本形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IF-ELSE"><span class="toc-text">IF-ELSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9D%A1%E4%BB%B6%E4%B8%8E%E6%8B%AC%E5%8F%B7"><span class="toc-text">复合条件与括号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E5%90%8D%EF%BC%8888-%E5%B1%82%E7%BA%A7%EF%BC%89"><span class="toc-text">条件名（88 层级）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5-EVALUATE"><span class="toc-text">5. 分支语句 EVALUATE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%BD%A2%E5%BC%8F-1"><span class="toc-text">基本形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E5%80%BC%E5%8C%B9%E9%85%8D"><span class="toc-text">多值匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E5%8C%B9%E9%85%8D%EF%BC%88EVALUATE-TRUE%EF%BC%89"><span class="toc-text">条件匹配（EVALUATE TRUE）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5-PERFORM"><span class="toc-text">6. 循环语句 PERFORM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E8%B0%83%E7%94%A8%E6%AE%B5%E8%90%BD%EF%BC%88%E6%97%A0%E5%BE%AA%E7%8E%AF%EF%BC%89"><span class="toc-text">6.1 调用段落（无循环）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%9D%A1%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E5%85%88%E5%88%A4%E6%96%AD%EF%BC%89"><span class="toc-text">6.2 条件循环（先判断）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%9D%A1%E4%BB%B6%E5%BE%AA%E7%8E%AF%EF%BC%88%E5%90%8E%E5%88%A4%E6%96%AD%EF%BC%8C%E8%87%B3%E5%B0%91%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1%EF%BC%89"><span class="toc-text">6.3 条件循环（后判断，至少执行一次）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E8%AE%A1%E6%95%B0%E5%BE%AA%E7%8E%AF%EF%BC%88VARYING%EF%BC%89"><span class="toc-text">6.4 计数循环（VARYING）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF"><span class="toc-text">6.5 嵌套循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E5%86%85%E8%81%94-PERFORM%EF%BC%88END-PERFORM%EF%BC%89"><span class="toc-text">6.6 内联 PERFORM（END-PERFORM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-7-%E6%8F%90%E5%89%8D%E9%80%80%E5%87%BA"><span class="toc-text">6.7 提前退出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA-DISPLAY-ACCEPT"><span class="toc-text">7. 输入输出 DISPLAY &#x2F; ACCEPT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DISPLAY%EF%BC%88%E8%BE%93%E5%87%BA%EF%BC%89"><span class="toc-text">DISPLAY（输出）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E6%8D%A2%E8%A1%8C%E8%BE%93%E5%87%BA"><span class="toc-text">不换行输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ACCEPT%EF%BC%88%E8%BE%93%E5%85%A5%EF%BC%89"><span class="toc-text">ACCEPT（输入）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C"><span class="toc-text">8. 字符串操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E5%BC%95%E7%94%A8%E4%BF%AE%E6%94%B9%EF%BC%88Reference-Modification%EF%BC%89"><span class="toc-text">8.1 引用修改（Reference Modification）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-STRING%EF%BC%88%E6%8B%BC%E6%8E%A5%EF%BC%89"><span class="toc-text">8.2 STRING（拼接）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-UNSTRING%EF%BC%88%E6%8B%86%E5%88%86%EF%BC%89"><span class="toc-text">8.3 UNSTRING（拆分）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-INSPECT%EF%BC%88%E6%A3%80%E6%9F%A5-%E6%9B%BF%E6%8D%A2%EF%BC%89"><span class="toc-text">8.4 INSPECT（检查&#x2F;替换）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-text">9. 内置函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%AE%9E%E6%88%98%EF%BC%9Asnake-cob-%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%88%86%E6%9E%90"><span class="toc-text">10. 实战：snake.cob 的语句分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="toc-text">主循环结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%90%91%E9%80%89%E6%8B%A9%E9%80%BB%E8%BE%91"><span class="toc-text">方向选择逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E6%8E%A7%E5%88%B6"><span class="toc-text">延时控制</span></a></li></ol></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
+</body>
+</html>

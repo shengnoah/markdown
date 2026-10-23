@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COBOL 文件处理教程：SELECT 声明文件、FD 定义记录、顺序文件读写、索引文件随机访问、相对文件、OPEN/READ/WRITE/REWRITE/DELETE 操作与文件状态码。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>COBOL 文件处理 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/cobol/home.html"><h2>COBOL 语言教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>基础篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/basics/">01 基础入门</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/data-types/">02 数据类型与变量</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/procedure/">03 过程部与语句</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/tables/">04 表与数组</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>进阶篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/files/">05 文件处理</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/subprograms/">06 子程序与调用</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>实战篇</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/cobol/snake/">07 贪吃蛇实战解析</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/cobol/batch/">08 抽出・集计・突合</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">COBOL 文件处理</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="COBOL-文件处理"><a href="#COBOL-文件处理" class="headerlink" title="COBOL 文件处理"></a>COBOL 文件处理</h1><blockquote>
+<p>COBOL 最初就是为商业数据处理而生，文件处理是其核心能力。本章讲解顺序文件、索引文件的操作。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0">文件处理概述</a></li>
+<li><a href="#2-%E5%A3%B0%E6%98%8E%E6%96%87%E4%BB%B6environment-division">声明文件（ENVIRONMENT DIVISION）</a></li>
+<li><a href="#3-%E5%AE%9A%E4%B9%89%E8%AE%B0%E5%BD%95data-division">定义记录（DATA DIVISION）</a></li>
+<li><a href="#4-%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">顺序文件操作</a></li>
+<li><a href="#5-%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">索引文件操作</a></li>
+<li><a href="#6-%E7%9B%B8%E5%AF%B9%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C">相对文件操作</a></li>
+<li><a href="#7-%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E8%AF%BB%E5%86%99%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6">完整示例：读写顺序文件</a></li>
+<li><a href="#8-%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81%E7%A0%81">文件状态码</a></li>
+</ol>
+<hr>
+<h2 id="1-文件处理概述"><a href="#1-文件处理概述" class="headerlink" title="1. 文件处理概述"></a>1. 文件处理概述</h2><p>COBOL 支持三种文件组织方式：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>组织方式</th>
+<th>访问方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>顺序文件</strong></td>
+<td>Sequential</td>
+<td>只能从头到尾</td>
+<td>日志、批处理</td>
+</tr>
+<tr>
+<td><strong>索引文件</strong></td>
+<td>Indexed</td>
+<td>按键随机访问</td>
+<td>数据库式查询</td>
+</tr>
+<tr>
+<td><strong>相对文件</strong></td>
+<td>Relative</td>
+<td>按记录号访问</td>
+<td>定长记录表</td>
+</tr>
+</tbody></table>
+<p><strong>文件操作流程：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPEN → READ/WRITE/REWRITE/DELETE → CLOSE</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-声明文件（ENVIRONMENT-DIVISION）"><a href="#2-声明文件（ENVIRONMENT-DIVISION）" class="headerlink" title="2. 声明文件（ENVIRONMENT DIVISION）"></a>2. 声明文件（ENVIRONMENT DIVISION）</h2><p>在 <code>ENVIRONMENT DIVISION</code> 的 <code>INPUT-OUTPUT SECTION</code> 中声明文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ENVIRONMENT DIVISION.</span><br><span class="line">INPUT-OUTPUT SECTION.</span><br><span class="line">FILE-CONTROL.</span><br><span class="line">    SELECT INPUT-FILE</span><br><span class="line">       ASSIGN TO &quot;input.dat&quot;</span><br><span class="line">       ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">       FILE STATUS IS WS-INPUT-STATUS.</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键子句"><a href="#关键子句" class="headerlink" title="关键子句"></a>关键子句</h3><table>
+<thead>
+<tr>
+<th>子句</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SELECT 文件名</code></td>
+<td>定义逻辑文件名</td>
+</tr>
+<tr>
+<td><code>ASSIGN TO &quot;路径&quot;</code></td>
+<td>关联物理文件</td>
+</tr>
+<tr>
+<td><code>ORGANIZATION IS ...</code></td>
+<td>文件组织方式</td>
+</tr>
+<tr>
+<td><code>ACCESS MODE IS ...</code></td>
+<td>访问模式（SEQUENTIAL&#x2F;RANDOM&#x2F;DYNAMIC）</td>
+</tr>
+<tr>
+<td><code>RECORD KEY IS ...</code></td>
+<td>索引文件的主键</td>
+</tr>
+<tr>
+<td><code>FILE STATUS IS ...</code></td>
+<td>存储操作状态码的变量</td>
+</tr>
+</tbody></table>
+<h3 id="ORGANIZATION-取值"><a href="#ORGANIZATION-取值" class="headerlink" title="ORGANIZATION 取值"></a>ORGANIZATION 取值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ORGANIZATION IS LINE SEQUENTIAL    *&gt; 行顺序（文本文件，最常用）</span><br><span class="line">ORGANIZATION IS SEQUENTIAL         *&gt; 记录顺序（定长）</span><br><span class="line">ORGANIZATION IS INDEXED            *&gt; 索引文件</span><br><span class="line">ORGANIZATION IS RELATIVE           *&gt; 相对文件</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-定义记录（DATA-DIVISION）"><a href="#3-定义记录（DATA-DIVISION）" class="headerlink" title="3. 定义记录（DATA DIVISION）"></a>3. 定义记录（DATA DIVISION）</h2><p>在 <code>DATA DIVISION</code> 的 <code>FILE SECTION</code> 中定义记录结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DATA DIVISION.</span><br><span class="line">FILE SECTION.</span><br><span class="line">FD INPUT-FILE.</span><br><span class="line">01 INPUT-RECORD.</span><br><span class="line">   05 IN-ID    PIC 9(5).</span><br><span class="line">   05 IN-NAME  PIC X(20).</span><br><span class="line">   05 IN-AMOUNT PIC 9(7)V99.</span><br><span class="line"></span><br><span class="line">FD OUTPUT-FILE.</span><br><span class="line">01 OUTPUT-RECORD.</span><br><span class="line">   05 OUT-LINE PIC X(80).</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>FD</code>（File Description）：文件描述，对应 <code>SELECT</code> 的逻辑文件名</li>
+<li><code>01</code> 记录结构：定义每条记录的字段</li>
+</ul>
+<hr>
+<h2 id="4-顺序文件操作"><a href="#4-顺序文件操作" class="headerlink" title="4. 顺序文件操作"></a>4. 顺序文件操作</h2><h3 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">OPEN INPUT  INPUT-FILE.     *&gt; 只读</span><br><span class="line">OPEN OUTPUT OUTPUT-FILE.    *&gt; 只写（会清空原文件）</span><br><span class="line">OPEN EXTEND OUTPUT-FILE.    *&gt; 追加</span><br><span class="line">OPEN I-O     DATA-FILE.     *&gt; 读写</span><br></pre></td></tr></table></figure>
+
+<h3 id="读取记录"><a href="#读取记录" class="headerlink" title="读取记录"></a>读取记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">READ INPUT-FILE</span><br><span class="line">   AT END MOVE 1 TO WS-EOF</span><br><span class="line">   NOT AT END PERFORM PROCESS-RECORD</span><br><span class="line">END-READ.</span><br></pre></td></tr></table></figure>
+
+<h3 id="写入记录"><a href="#写入记录" class="headerlink" title="写入记录"></a>写入记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVE &quot;Hello&quot; TO OUT-LINE.</span><br><span class="line">WRITE OUTPUT-RECORD.</span><br></pre></td></tr></table></figure>
+
+<h3 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CLOSE INPUT-FILE.</span><br><span class="line">CLOSE OUTPUT-FILE.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-索引文件操作"><a href="#5-索引文件操作" class="headerlink" title="5. 索引文件操作"></a>5. 索引文件操作</h2><p>索引文件支持按键随机访问。</p>
+<h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FILE-CONTROL.</span><br><span class="line">    SELECT CUSTOMER-FILE</span><br><span class="line">       ASSIGN TO &quot;customer.dat&quot;</span><br><span class="line">       ORGANIZATION IS INDEXED</span><br><span class="line">       ACCESS MODE IS DYNAMIC</span><br><span class="line">       RECORD KEY IS CUST-ID</span><br><span class="line">       FILE STATUS IS WS-STATUS.</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义记录"><a href="#定义记录" class="headerlink" title="定义记录"></a>定义记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FD CUSTOMER-FILE.</span><br><span class="line">01 CUSTOMER-RECORD.</span><br><span class="line">   05 CUST-ID     PIC 9(5).</span><br><span class="line">   05 CUST-NAME   PIC X(20).</span><br><span class="line">   05 CUST-BALANCE PIC 9(7)V99.</span><br></pre></td></tr></table></figure>
+
+<h3 id="随机读取"><a href="#随机读取" class="headerlink" title="随机读取"></a>随机读取</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOVE 1001 TO CUST-ID.</span><br><span class="line">READ CUSTOMER-FILE</span><br><span class="line">   INVALID KEY DISPLAY &quot;记录不存在&quot;</span><br><span class="line">   NOT INVALID KEY DISPLAY CUST-NAME</span><br><span class="line">END-READ.</span><br></pre></td></tr></table></figure>
+
+<h3 id="写入-更新-删除"><a href="#写入-更新-删除" class="headerlink" title="写入&#x2F;更新&#x2F;删除"></a>写入&#x2F;更新&#x2F;删除</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">*&gt; 写入新记录</span><br><span class="line"> MOVE 1001 TO CUST-ID</span><br><span class="line"> MOVE &quot;Alice&quot; TO CUST-NAME</span><br><span class="line"> WRITE CUSTOMER-RECORD</span><br><span class="line">    INVALID KEY DISPLAY &quot;键重复&quot;</span><br><span class="line"> END-WRITE.</span><br><span class="line"></span><br><span class="line">*&gt; 更新记录（需先 READ 再 REWRITE）</span><br><span class="line"> MOVE 1001 TO CUST-ID</span><br><span class="line"> READ CUSTOMER-FILE</span><br><span class="line"> MOVE 9999.99 TO CUST-BALANCE</span><br><span class="line"> REWRITE CUSTOMER-RECORD</span><br><span class="line">    INVALID KEY DISPLAY &quot;更新失败&quot;</span><br><span class="line"> END-REWRITE.</span><br><span class="line"></span><br><span class="line">*&gt; 删除记录</span><br><span class="line"> MOVE 1001 TO CUST-ID</span><br><span class="line"> DELETE CUSTOMER-FILE</span><br><span class="line">    INVALID KEY DISPLAY &quot;删除失败&quot;</span><br><span class="line"> END-DELETE.</span><br></pre></td></tr></table></figure>
+
+<h3 id="顺序遍历索引文件"><a href="#顺序遍历索引文件" class="headerlink" title="顺序遍历索引文件"></a>顺序遍历索引文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MOVE LOW-VALUES TO CUST-ID</span><br><span class="line">START CUSTOMER-FILE KEY &gt;= CUST-ID</span><br><span class="line">PERFORM UNTIL WS-EOF = 1</span><br><span class="line">   READ CUSTOMER-FILE NEXT</span><br><span class="line">      AT END MOVE 1 TO WS-EOF</span><br><span class="line">      NOT AT END DISPLAY CUST-ID &quot; &quot; CUST-NAME</span><br><span class="line">   END-READ</span><br><span class="line">END-PERFORM.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-相对文件操作"><a href="#6-相对文件操作" class="headerlink" title="6. 相对文件操作"></a>6. 相对文件操作</h2><p>相对文件用记录号（1, 2, 3…）访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">FILE-CONTROL.</span><br><span class="line">    SELECT REL-FILE</span><br><span class="line">       ASSIGN TO &quot;relative.dat&quot;</span><br><span class="line">       ORGANIZATION IS RELATIVE</span><br><span class="line">       ACCESS MODE IS RANDOM</span><br><span class="line">       RELATIVE KEY IS WS-REC-NUM.</span><br><span class="line"></span><br><span class="line">FD REL-FILE.</span><br><span class="line">01 REL-RECORD.</span><br><span class="line">   05 REL-DATA PIC X(50).</span><br><span class="line"></span><br><span class="line">PROCEDURE DIVISION.</span><br><span class="line">    MOVE 5 TO WS-REC-NUM</span><br><span class="line">    READ REL-FILE</span><br><span class="line">       INVALID KEY DISPLAY &quot;记录 5 不存在&quot;</span><br><span class="line">    END-READ.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-完整示例：读写顺序文件"><a href="#7-完整示例：读写顺序文件" class="headerlink" title="7. 完整示例：读写顺序文件"></a>7. 完整示例：读写顺序文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. FILE-DEMO.</span><br><span class="line">ENVIRONMENT DIVISION.</span><br><span class="line">INPUT-OUTPUT SECTION.</span><br><span class="line">FILE-CONTROL.</span><br><span class="line">    SELECT IN-FILE</span><br><span class="line">       ASSIGN TO &quot;input.txt&quot;</span><br><span class="line">       ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">       FILE STATUS IS WS-IN-STATUS.</span><br><span class="line">    SELECT OUT-FILE</span><br><span class="line">       ASSIGN TO &quot;output.txt&quot;</span><br><span class="line">       ORGANIZATION IS LINE SEQUENTIAL</span><br><span class="line">       FILE STATUS IS WS-OUT-STATUS.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">FILE SECTION.</span><br><span class="line">FD IN-FILE.</span><br><span class="line">01 IN-RECORD PIC X(80).</span><br><span class="line">FD OUT-FILE.</span><br><span class="line">01 OUT-RECORD PIC X(80).</span><br><span class="line">WORKING-STORAGE SECTION.</span><br><span class="line">01 WS-IN-STATUS  PIC XX.</span><br><span class="line">01 WS-OUT-STATUS PIC XX.</span><br><span class="line">01 WS-EOF        PIC 9 VALUE 0.</span><br><span class="line">PROCEDURE DIVISION.</span><br><span class="line">MAIN-PROCEDURE.</span><br><span class="line">    OPEN INPUT IN-FILE</span><br><span class="line">    OPEN OUTPUT OUT-FILE</span><br><span class="line">    PERFORM UNTIL WS-EOF = 1</span><br><span class="line">       READ IN-FILE</span><br><span class="line">          AT END MOVE 1 TO WS-EOF</span><br><span class="line">          NOT AT END</span><br><span class="line">             MOVE IN-RECORD TO OUT-RECORD</span><br><span class="line">             WRITE OUT-RECORD</span><br><span class="line">       END-READ</span><br><span class="line">    END-PERFORM</span><br><span class="line">    CLOSE IN-FILE</span><br><span class="line">    CLOSE OUT-FILE</span><br><span class="line">    DISPLAY &quot;文件复制完成&quot;</span><br><span class="line">    STOP RUN.</span><br></pre></td></tr></table></figure>
+
+<p><strong>编译运行：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cobc -x -o file-demo file-demo.cob</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello COBOL&quot;</span> &gt; input.txt</span><br><span class="line">./file-demo</span><br><span class="line"><span class="built_in">cat</span> output.txt</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-文件状态码"><a href="#8-文件状态码" class="headerlink" title="8. 文件状态码"></a>8. 文件状态码</h2><p><code>FILE STATUS</code> 变量返回两位状态码：</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>00</code></td>
+<td>操作成功</td>
+</tr>
+<tr>
+<td><code>10</code></td>
+<td>到达文件末尾（AT END）</td>
+</tr>
+<tr>
+<td><code>22</code></td>
+<td>键重复（INVALID KEY）</td>
+</tr>
+<tr>
+<td><code>23</code></td>
+<td>记录不存在</td>
+</tr>
+<tr>
+<td><code>30</code></td>
+<td>永久错误（如文件不存在）</td>
+</tr>
+<tr>
+<td><code>35</code></td>
+<td>打开文件时文件不存在</td>
+</tr>
+<tr>
+<td><code>37</code></td>
+<td>文件已打开</td>
+</tr>
+<tr>
+<td><code>41</code></td>
+<td>文件已打开，无法再次打开</td>
+</tr>
+<tr>
+<td><code>42</code></td>
+<td>文件未打开</td>
+</tr>
+<tr>
+<td><code>46</code></td>
+<td>读取时未打开文件</td>
+</tr>
+</tbody></table>
+<p><strong>使用示例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OPEN INPUT IN-FILE</span><br><span class="line">IF WS-IN-STATUS NOT = &quot;00&quot;</span><br><span class="line">   DISPLAY &quot;打开文件失败, 状态码: &quot; WS-IN-STATUS</span><br><span class="line">   STOP RUN</span><br><span class="line">END-IF.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>上一章：</strong> <a href="../tables/">表与数组</a><br><strong>下一章：</strong> <a href="../subprograms/">子程序与调用</a></p>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#COBOL-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-text">COBOL 文件处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0"><span class="toc-text">1. 文件处理概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A3%B0%E6%98%8E%E6%96%87%E4%BB%B6%EF%BC%88ENVIRONMENT-DIVISION%EF%BC%89"><span class="toc-text">2. 声明文件（ENVIRONMENT DIVISION）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%90%E5%8F%A5"><span class="toc-text">关键子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ORGANIZATION-%E5%8F%96%E5%80%BC"><span class="toc-text">ORGANIZATION 取值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89%E8%AE%B0%E5%BD%95%EF%BC%88DATA-DIVISION%EF%BC%89"><span class="toc-text">3. 定义记录（DATA DIVISION）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">4. 顺序文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="toc-text">打开文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E8%AE%B0%E5%BD%95"><span class="toc-text">读取记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E8%AE%B0%E5%BD%95"><span class="toc-text">写入记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="toc-text">关闭文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">5. 索引文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-text">声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E8%AE%B0%E5%BD%95"><span class="toc-text">定义记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%8F%96"><span class="toc-text">随机读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5-%E6%9B%B4%E6%96%B0-%E5%88%A0%E9%99%A4"><span class="toc-text">写入&#x2F;更新&#x2F;删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E9%81%8D%E5%8E%86%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6"><span class="toc-text">顺序遍历索引文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%9B%B8%E5%AF%B9%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">6. 相对文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%AF%BB%E5%86%99%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6"><span class="toc-text">7. 完整示例：读写顺序文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">8. 文件状态码</span></a></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
+</body>
+</html>

@@ -12,6 +12,7 @@
 
   const program = new Map();
   const variables = new Map();
+  const arrays = new Map();
   let running = false;
   let pc = 0;
   let lines = [];
@@ -30,6 +31,7 @@
     clearScreen();
     program.clear();
     variables.clear();
+    arrays.clear();
     forStack.length = 0;
     println('FAMILY BASIC JS CONSOLE');
     println('COPYRIGHT 2026 MARKDOWN.REN');
@@ -68,53 +70,258 @@
     variables.set(key, key.endsWith('$') ? String(value) : Number(value));
   }
 
+  const NO_ARG_FUNCTIONS = new Set(['RND']);
+  const BUILTIN_FUNCTIONS = new Set([
+    'CHR$', 'STR$', 'LEFT$', 'RIGHT$', 'MID$', 'STRING$', 'SPACE$', 'HEX$', 'OCT$',
+    'ASC', 'LEN', 'VAL', 'INSTR', 'RND', 'INT', 'ABS', 'SQR', 'SGN',
+    'SIN', 'COS', 'TAN', 'ATN', 'LOG', 'EXP',
+  ]);
+
+  function getArrayElement(name, index) {
+    const array = arrays.get(name);
+    if (!array) throw new Error(`ARRAY NOT DIMMED: ${name}`);
+    if (index < 0 || index >= array.values.length) throw new Error(`SUBSCRIPT OUT OF RANGE: ${name}(${index})`);
+    return array.values[index];
+  }
+
+  function setArrayElement(name, index, value) {
+    const array = arrays.get(name);
+    if (!array) throw new Error(`ARRAY NOT DIMMED: ${name}`);
+    if (index < 0 || index >= array.values.length) throw new Error(`SUBSCRIPT OUT OF RANGE: ${name}(${index})`);
+    array.values[index] = value;
+  }
+
+  function executeDim(statement, currentLineNumber) {
+    splitPrint(statement).forEach((part) => {
+      const match = part.trim().match(/^([A-Z][A-Z0-9]*\$?)\s*\((.+)\)$/i);
+      if (!match) throw new Error(formatRuntimeError('SYNTAX ERROR', currentLineNumber));
+      const name = match[1].toUpperCase();
+      const size = Math.floor(Number(evalExpr(match[2])));
+      if (size < 0 || size > 10000) throw new Error(formatRuntimeError('SYNTAX ERROR', currentLineNumber));
+      const isString = name.endsWith('$');
+      arrays.set(name, { values: Array.from({ length: size + 1 }, () => (isString ? '' : 0)) });
+    });
+  }
+
   function evalExpr(expr) {
     const trimmed = expr.trim();
     if (!trimmed) return '';
-    if (/^".*"$/.test(trimmed)) return trimmed.slice(1, -1);
-    if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) return Number(trimmed);
-    if (/^[A-Z][A-Z0-9]*\$?$/i.test(trimmed)) return getVar(trimmed);
-
-    const builtinValue = evalBuiltinFunction(trimmed);
-    if (builtinValue !== null) return builtinValue;
-
-    const replaced = trimmed.replace(/"([^"\\]|\\.)*"|[A-Z][A-Z0-9]*\$?/gi, (token) => {
-      if (token.startsWith('"')) return token;
-      return JSON.stringify(getVar(token));
-    });
-    if (!/^[\d\s+\-*/()."A-Za-z_,$]*$/.test(replaced)) throw new Error('SYNTAX ERROR');
-    return Function(`"use strict"; return (${replaced});`)();
+    const tokens = tokenizeExpression(trimmed);
+    if (!tokens.length) return '';
+    const parser = { tokens, pos: 0 };
+    const value = parseAdditive(parser);
+    if (parser.pos < parser.tokens.length) throw new Error('SYNTAX ERROR');
+    return value;
   }
 
-  function evalBuiltinFunction(expr) {
-    const match = expr.match(/^([A-Z]+\$?)\((.*)\)$/i);
-    if (!match) return null;
+  function tokenizeExpression(expr) {
+    const tokens = [];
+    let i = 0;
+    while (i < expr.length) {
+      const char = expr[i];
+      if (char === ' ' || char === '\t') { i += 1; continue; }
+      if (char === '"') {
+        let value = '';
+        let j = i + 1;
+        while (j < expr.length && expr[j] !== '"') { value += expr[j]; j += 1; }
+        tokens.push({ type: 'string', value });
+        i = j + 1;
+        continue;
+      }
+      if (/[0-9]/.test(char) || (char === '.' && /[0-9]/.test(expr[i + 1] || ''))) {
+        let j = i;
+        while (j < expr.length && /[0-9.]/.test(expr[j])) j += 1;
+        tokens.push({ type: 'number', value: Number(expr.slice(i, j)) });
+        i = j;
+        continue;
+      }
+      if (/[A-Za-z]/.test(char)) {
+        let j = i;
+        while (j < expr.length && /[A-Za-z0-9]/.test(expr[j])) j += 1;
+        if (expr[j] === '$') j += 1;
+        tokens.push({ type: 'ident', value: expr.slice(i, j).toUpperCase() });
+        i = j;
+        continue;
+      }
+      const two = expr.slice(i, i + 2);
+      if (two === '<=' || two === '>=' || two === '<>') {
+        tokens.push({ type: 'op', value: two });
+        i += 2;
+        continue;
+      }
+      if ('+-*/\\(),=<>'.includes(char)) {
+        tokens.push({ type: 'op', value: char });
+        i += 1;
+        continue;
+      }
+      throw new Error('SYNTAX ERROR');
+    }
+    return tokens;
+  }
 
-    const name = match[1].toUpperCase();
-    const args = splitPrint(match[2]).map((arg) => evalExpr(arg.trim()));
+  function parseAdditive(parser) {
+    let left = parseMultiplicative(parser);
+    while (peekOperator(parser, '+') || peekOperator(parser, '-')) {
+      const op = parser.tokens[parser.pos].value;
+      parser.pos += 1;
+      const right = parseMultiplicative(parser);
+      if (op === '+') {
+        left = (typeof left === 'string' || typeof right === 'string')
+          ? String(left) + String(right)
+          : Number(left) + Number(right);
+      } else {
+        left = Number(left) - Number(right);
+      }
+    }
+    return left;
+  }
+
+  function parseMultiplicative(parser) {
+    let left = parseUnary(parser);
+    for (;;) {
+      if (peekOperator(parser, '*')) {
+        parser.pos += 1;
+        left = Number(left) * Number(parseUnary(parser));
+      } else if (peekOperator(parser, '/')) {
+        parser.pos += 1;
+        const right = Number(parseUnary(parser));
+        if (right === 0) throw new Error('DIVISION BY ZERO');
+        left = Number(left) / right;
+      } else if (peekOperator(parser, '\\')) {
+        parser.pos += 1;
+        const right = Number(parseUnary(parser));
+        left = right === 0 ? 0 : Math.trunc(Number(left) / right);
+      } else if (peekIdentifier(parser, 'MOD')) {
+        parser.pos += 1;
+        const right = Number(parseUnary(parser));
+        left = right === 0 ? 0 : Number(left) % right;
+      } else {
+        break;
+      }
+    }
+    return left;
+  }
+
+  function parseUnary(parser) {
+    if (peekOperator(parser, '-')) {
+      parser.pos += 1;
+      return -Number(parseUnary(parser));
+    }
+    if (peekOperator(parser, '+')) {
+      parser.pos += 1;
+      return parseUnary(parser);
+    }
+    return parsePrimary(parser);
+  }
+
+  function parsePrimary(parser) {
+    const token = parser.tokens[parser.pos];
+    if (!token) throw new Error('SYNTAX ERROR');
+
+    if (token.type === 'number') { parser.pos += 1; return token.value; }
+    if (token.type === 'string') { parser.pos += 1; return token.value; }
+
+    if (token.type === 'ident') {
+      parser.pos += 1;
+      if (peekOperator(parser, '(')) {
+        if (BUILTIN_FUNCTIONS.has(token.value)) {
+          parser.pos += 1;
+          const args = [];
+          if (!peekOperator(parser, ')')) {
+            args.push(parseAdditive(parser));
+            while (peekOperator(parser, ',')) {
+              parser.pos += 1;
+              args.push(parseAdditive(parser));
+            }
+          }
+          if (!peekOperator(parser, ')')) throw new Error('SYNTAX ERROR');
+          parser.pos += 1;
+          return callBuiltin(token.value, args);
+        }
+        // 数组元素访问: NAME(下标表达式)
+        parser.pos += 1;
+        const index = Math.floor(Number(parseAdditive(parser)) || 0);
+        if (!peekOperator(parser, ')')) throw new Error('SYNTAX ERROR');
+        parser.pos += 1;
+        return getArrayElement(token.value, index);
+      }
+      if (NO_ARG_FUNCTIONS.has(token.value)) {
+        return callBuiltin(token.value, []);
+      }
+      return getVar(token.value);
+    }
+
+    if (token.type === 'op' && token.value === '(') {
+      parser.pos += 1;
+      const value = parseAdditive(parser);
+      if (!peekOperator(parser, ')')) throw new Error('SYNTAX ERROR');
+      parser.pos += 1;
+      return value;
+    }
+
+    throw new Error('SYNTAX ERROR');
+  }
+
+  function peekOperator(parser, value) {
+    const token = parser.tokens[parser.pos];
+    return Boolean(token) && token.type === 'op' && token.value === value;
+  }
+
+  function peekIdentifier(parser, value) {
+    const token = parser.tokens[parser.pos];
+    return Boolean(token) && token.type === 'ident' && token.value === value;
+  }
+
+  function callBuiltin(name, args) {
+    const num = (index) => Number(args[index] ?? 0) || 0;
+    const str = (index) => String(args[index] ?? '');
 
     switch (name) {
-      case 'CHR$': return String.fromCharCode(Number(args[0]) || 0);
-      case 'ASC': return String(args[0] ?? '').charCodeAt(0) || 0;
-      case 'LEN': return String(args[0] ?? '').length;
-      case 'LEFT$': return String(args[0] ?? '').slice(0, Number(args[1]) || 0);
+      case 'CHR$': return String.fromCharCode(num(0));
+      case 'STR$': return String(num(0));
+      case 'LEFT$': return str(0).slice(0, Math.max(0, num(1)));
       case 'RIGHT$': {
-        const text = String(args[0] ?? '');
-        const count = Number(args[1]) || 0;
+        const text = str(0);
+        const count = Math.max(0, num(1));
         return text.slice(Math.max(0, text.length - count));
       }
       case 'MID$': {
-        const text = String(args[0] ?? '');
-        const start = Math.max(1, Number(args[1]) || 1) - 1;
-        const length = args.length > 2 ? Number(args[2]) || 0 : text.length;
-        return text.slice(start, start + length);
+        const text = str(0);
+        const start = Math.max(1, num(1));
+        const length = args.length > 2 ? Math.max(0, num(2)) : text.length;
+        return text.slice(start - 1, start - 1 + length);
+      }
+      case 'STRING$': {
+        const count = Math.max(0, num(0));
+        const second = args[1];
+        const char = typeof second === 'number'
+          ? String.fromCharCode(second)
+          : String(second ?? '').charAt(0) || ' ';
+        return char.repeat(count);
+      }
+      case 'SPACE$': return ' '.repeat(Math.max(0, num(0)));
+      case 'HEX$': return Math.trunc(num(0)).toString(16).toUpperCase();
+      case 'OCT$': return Math.trunc(num(0)).toString(8).toUpperCase();
+      case 'ASC': return str(0).charCodeAt(0) || 0;
+      case 'LEN': return str(0).length;
+      case 'VAL': return Number.parseFloat(str(0)) || 0;
+      case 'INSTR': {
+        const haystack = str(0);
+        const needle = str(1);
+        return needle ? haystack.indexOf(needle) + 1 : 0;
       }
       case 'RND': return Math.random();
-      case 'INT': return Math.floor(Number(args[0]) || 0);
-      case 'ABS': return Math.abs(Number(args[0]) || 0);
-      case 'VAL': return Number.parseFloat(String(args[0] ?? '')) || 0;
-      case 'STR$': return String(Number(args[0]) || 0);
-      default: return null;
+      case 'INT': return Math.floor(num(0));
+      case 'ABS': return Math.abs(num(0));
+      case 'SQR': return Math.sqrt(num(0));
+      case 'SGN': return Math.sign(num(0));
+      case 'SIN': return Math.sin(num(0));
+      case 'COS': return Math.cos(num(0));
+      case 'TAN': return Math.tan(num(0));
+      case 'ATN': return Math.atan(num(0));
+      case 'LOG': return Math.log(num(0));
+      case 'EXP': return Math.exp(num(0));
+      default: throw new Error('SYNTAX ERROR');
     }
   }
 
@@ -122,10 +329,15 @@
     const parts = [];
     let current = '';
     let inString = false;
+    let depth = 0;
     for (let i = 0; i < expr.length; i += 1) {
       const char = expr[i];
       if (char === '"') inString = !inString;
-      if (!inString && (char === ';' || char === ',')) {
+      if (!inString) {
+        if (char === '(') depth += 1;
+        if (char === ')') depth = Math.max(0, depth - 1);
+      }
+      if (!inString && depth === 0 && (char === ';' || char === ',')) {
         parts.push(current);
         current = '';
       } else {
@@ -136,12 +348,28 @@
     return parts;
   }
 
+  function findCompareOperator(expr) {
+    let inString = false;
+    for (let i = 0; i < expr.length; i += 1) {
+      const char = expr[i];
+      if (char === '"') { inString = !inString; continue; }
+      if (inString) continue;
+      if (char === '<' || char === '>') {
+        const next = expr[i + 1];
+        if (next === '=' || (char === '<' && next === '>')) return { index: i, op: char + next };
+        return { index: i, op: char };
+      }
+      if (char === '=') return { index: i, op: '=' };
+    }
+    return null;
+  }
+
   function evalCondition(expr) {
-    const match = expr.match(/^(.+?)\s*(<=|>=|<>|=|<|>)\s*(.+)$/);
-    if (!match) return Boolean(evalExpr(expr));
-    const left = evalExpr(match[1]);
-    const right = evalExpr(match[3]);
-    switch (match[2]) {
+    const found = findCompareOperator(expr);
+    if (!found) return Boolean(evalExpr(expr));
+    const left = evalExpr(expr.slice(0, found.index));
+    const right = evalExpr(expr.slice(found.index + found.op.length));
+    switch (found.op) {
       case '=': return left === right;
       case '<>': return left !== right;
       case '<': return left < right;
@@ -172,6 +400,14 @@
     }
     if (upper.startsWith('LET ')) {
       assign(raw.slice(4));
+      return;
+    }
+    if (upper.startsWith('DIM ')) {
+      executeDim(raw.slice(4).trim(), currentLineNumber);
+      return;
+    }
+    if (/^[A-Z][A-Z0-9]*\$?\s*\(.*\)\s*=/.test(upper)) {
+      assign(raw);
       return;
     }
     if (/^[A-Z][A-Z0-9]*\$?\s*=/.test(upper)) {
@@ -256,9 +492,19 @@
   function assign(statement) {
     const index = statement.indexOf('=');
     if (index < 0) throw new Error('SYNTAX ERROR');
-    const name = statement.slice(0, index).trim();
-    if (!/^[A-Z][A-Z0-9]*\$?$/i.test(name)) throw new Error('SYNTAX ERROR');
-    setVar(name, evalExpr(statement.slice(index + 1)));
+    const target = statement.slice(0, index).trim();
+    const value = evalExpr(statement.slice(index + 1));
+
+    const arrayMatch = target.match(/^([A-Z][A-Z0-9]*\$?)\s*\((.+)\)$/i);
+    if (arrayMatch) {
+      const name = arrayMatch[1].toUpperCase();
+      const idx = Math.floor(Number(evalExpr(arrayMatch[2])));
+      setArrayElement(name, idx, name.endsWith('$') ? String(value) : Number(value));
+      return;
+    }
+
+    if (!/^[A-Z][A-Z0-9]*\$?$/i.test(target)) throw new Error('SYNTAX ERROR');
+    setVar(target, value);
   }
 
   async function runProgram() {

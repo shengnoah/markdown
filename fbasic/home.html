@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FBASIC 语言教程与 6502 汇编专题：变量赋值、表达式优先级、IF/FOR 结构、函数、数组，以及 6502 指令速查与寻址方式详解。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>FBASIC 与 6502 教程 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <!-- Font Awesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Book 布局样式 -->
+  <link rel="stylesheet" href="/css/book-layout.css?v=mvl17prv">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="book-layout">
+
+  
+
+  <!-- 移动端右上角菜单按钮（切换左侧目录侧边栏） -->
+  <button class="book-topnav-toggle" type="button" aria-label="打开菜单">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- 顶部导航 -->
+  <nav id="nav">
+    <span id="blog-info">
+      <a href="/" title="Xianbao">
+        <span class="site-name">Xianbao</span>
+      </a>
+    </span>
+    <div id="menus">
+      <div class="menus_items">
+        <div class="menus_item">
+          <a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a>
+        </div>
+        
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#features"><span> 功能特性</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#themes"><span> 主题</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/archives/"><span> 博客</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#download"><span> 下载</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/fbasic/"><span> FBASIC</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/cobol/home.html"><span> COBOL</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/keyboard/"><span> 键盘测试</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/typing/"><span> 打字游戏</span></a>
+            </div>
+          
+            <div class="menus_item">
+              <a class="site-page" href="/#support"><span> 支持</span></a>
+            </div>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Book 布局容器 -->
+  <div id="book-container" class="book-container">
+
+    <!-- 左侧边栏：教程目录 -->
+    <div id="book-sidebar" class="book-sidebar">
+      <a class="book-back-home" href="/" title="返回首页">返回首页</a>
+
+      <div class="book-brand">
+        <div class="book-brand-header">
+          
+            <a href="/fbasic/home.html"><h2>FBASIC 与 6502 教程</h2></a>
+          
+          <a class="book-brand-home" href="/" title="返回首页">返回首页</a>
+        </div>
+      </div>
+
+      <div class="book-menu">
+        <div class="menu-nav">
+          
+            
+              <h3>FBASIC 教程</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/fbasic/home.html">教程首页</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/tutorial/">FBASIC 语言教程</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/">FBASIC 在线模拟器</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/bubble-sort/">冒泡排序可视化</a>
+                    
+                  </li>
+                
+              </ul>
+            
+              <h3>6502 专题</h3>
+              <ul>
+                
+                  <li>
+                    
+                      <a href="/fbasic/6502-instructions/">6502 指令速查手册</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/fbasic/6502-addressing-modes/">6502 寻址方式详解</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          
+        </div>
+
+        
+        
+          <div class="book-all-tutorials">
+            <h3>📚 全部教程</h3>
+            <ul>
+              
+                <li>
+                  <a href="/cobol/home.html">
+                    <i class="fas fa-book"></i>
+                    <span> COBOL 语言教程</span>
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/fbasic/home.html" class="current-tutorial">
+                    <i class="fas fa-book-open"></i>
+                    <span> FBASIC 与 6502 教程</span>
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+        
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="book-main">
+      <div class="book-content">
+        <article id="book-article">
+          
+            <h1 class="book-title">FBASIC 与 6502 教程</h1>
+          
+          <div id="article-container" class="book-body">
+            <h1 id="FBASIC-与-6502-教程"><a href="#FBASIC-与-6502-教程" class="headerlink" title="FBASIC 与 6502 教程"></a>FBASIC 与 6502 教程</h1><p>欢迎来到 FBASIC 与 6502 教程！本教程带你从 BASIC 语句一路深入到 6502 汇编实现。</p>
+<h2 id="🎯-关于本教程"><a href="#🎯-关于本教程" class="headerlink" title="🎯 关于本教程"></a>🎯 关于本教程</h2><p>FBASIC 是一个 <strong>Family BASIC 风格的 BASIC 方言</strong>，有三个实现版本：</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>语言</th>
+<th>平台</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JS 版</td>
+<td>JavaScript</td>
+<td>浏览器（本站）</td>
+<td>✅ 功能最全</td>
+</tr>
+<tr>
+<td>C 版</td>
+<td>C99</td>
+<td>PC 终端</td>
+<td>✅ 算术表达式待完善</td>
+</tr>
+<tr>
+<td>NES 版</td>
+<td>6502 汇编</td>
+<td>红白机 ROM</td>
+<td>📐 设计中</td>
+</tr>
+</tbody></table>
+<h2 id="📚-教程内容"><a href="#📚-教程内容" class="headerlink" title="📚 教程内容"></a>📚 教程内容</h2><h3 id="FBASIC-语言"><a href="#FBASIC-语言" class="headerlink" title="FBASIC 语言"></a>FBASIC 语言</h3><ul>
+<li><strong>变量与赋值</strong> - 数值变量、字符串变量、INPUT 输入</li>
+<li><strong>算术表达式</strong> - 运算符优先级、左结合规则</li>
+<li><strong>逻辑与条件</strong> - IF&#x2F;THEN 结构、六种比较运算</li>
+<li><strong>循环结构</strong> - FOR&#x2F;NEXT、STEP 步长、循环嵌套</li>
+<li><strong>函数</strong> - 内置数值&#x2F;字符串函数、GOSUB&#x2F;RETURN 子程序</li>
+<li><strong>数组</strong> - DIM 声明、变址寻址的汇编本质</li>
+</ul>
+<h3 id="6502-汇编专题"><a href="#6502-汇编专题" class="headerlink" title="6502 汇编专题"></a>6502 汇编专题</h3><ul>
+<li><strong>指令速查</strong> - 常用指令、寻址方式、六大代码模板</li>
+<li><strong>寻址方式详解</strong> - 12 种寻址方式原理与场景选择</li>
+<li><strong>结构实现</strong> - IF&#x2F;FOR 结构的汇编实现、FOR 栈机制</li>
+</ul>
+<h2 id="🚀-开始学习"><a href="#🚀-开始学习" class="headerlink" title="🚀 开始学习"></a>🚀 开始学习</h2><p>👉 <a href="tutorial/">开始学习 FBASIC 语言教程</a></p>
+<p>👉 <a href="6502-instructions/">查看 6502 指令速查手册</a></p>
+<p>👉 <a href="6502-addressing-modes/">查看 6502 寻址方式详解</a></p>
+<h2 id="💻-在线实践"><a href="#💻-在线实践" class="headerlink" title="💻 在线实践"></a>💻 在线实践</h2><p>学习过程中可以随时打开 <a href="/fbasic/">FBASIC 在线模拟器</a> 动手实验：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">CLS</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;HELLO FAMILY BASIC&quot;</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="string">&quot;I=&quot;</span>; I</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">60 </span><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
+<p>粘贴到模拟器中点击 <strong>RUN</strong> 即可运行。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>提示</strong>：左侧目录栏可以快速跳转到任意章节，右侧显示当前页面的章节目录。建议按顺序学习，每学完一个语法点立即在模拟器中实践。</p>
+</blockquote>
+
+          </div>
+        </article>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <!-- 右侧栏：当前页面目录（TOC） -->
+  <div id="book-right" class="book-right">
+    <div class="book-top-links">
+      <h3>目录</h3>
+      
+      
+        <div class="book-article-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FBASIC-%E4%B8%8E-6502-%E6%95%99%E7%A8%8B"><span class="toc-text">FBASIC 与 6502 教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%95%99%E7%A8%8B"><span class="toc-text">🎯 关于本教程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9A-%E6%95%99%E7%A8%8B%E5%86%85%E5%AE%B9"><span class="toc-text">📚 教程内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FBASIC-%E8%AF%AD%E8%A8%80"><span class="toc-text">FBASIC 语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6502-%E6%B1%87%E7%BC%96%E4%B8%93%E9%A2%98"><span class="toc-text">6502 汇编专题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%80-%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0"><span class="toc-text">🚀 开始学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BB-%E5%9C%A8%E7%BA%BF%E5%AE%9E%E8%B7%B5"><span class="toc-text">💻 在线实践</span></a></li></ol></li></ol></div>
+      
+    </div>
+  </div>
+
+  <!-- Book 布局脚本 -->
+  <script src="/js/book-layout.js?v=mvl17prv"></script>
+</body>
+</html>
