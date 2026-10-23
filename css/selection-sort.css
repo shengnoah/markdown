@@ -1,0 +1,15 @@
+/* selection-sort.css - 选择排序可视化页面的专属状态样式 */
+
+.bs-bar.candidate .bs-bar-col {
+  box-shadow:
+    0 0 0 3px #2f9aa8,
+    0 8px 22px rgba(47, 154, 168, 0.24);
+}
+
+.bs-bar.candidate .bs-bar-value {
+  color: #1f7f8c;
+}
+
+.bs-dot-candidate {
+  background: #2f9aa8;
+}

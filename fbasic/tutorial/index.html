@@ -124,6 +124,12 @@
                     
                   </li>
                 
+                  <li>
+                    
+                      <a href="/selection-sort/">选择排序可视化</a>
+                    
+                  </li>
+                
               </ul>
             
               <h3>6502 专题</h3>
@@ -650,7 +656,7 @@
 <p>内置函数在 NES 版的实现则是查表 + 跳转：函数名 → 函数表索引 → <code>jmp (函数表)</code> 间接跳转到对应例程。</p>
 <hr>
 <h2 id="7-数组"><a href="#7-数组" class="headerlink" title="7. 数组"></a>7. 数组</h2><blockquote>
-<p><strong>状态</strong>：数组（DIM 语句）JS 版已支持（现代编辑器模式与真实 FBASIC 模式均可运行），C 版与 NES 版规划中。可前往 <a href="/bubble-sort/">冒泡排序可视化</a> 页面观看数组排序的动画演示。</p>
+<p><strong>状态</strong>：数组（DIM 语句）JS 版已支持（现代编辑器模式与真实 FBASIC 模式均可运行），C 版与 NES 版规划中。可前往 <a href="/bubble-sort/">冒泡排序可视化</a> 或 <a href="/selection-sort/">选择排序可视化</a> 页面观看数组排序的动画演示。</p>
 </blockquote>
 <h3 id="7-1-DIM-声明与使用"><a href="#7-1-DIM-声明与使用" class="headerlink" title="7.1 DIM 声明与使用"></a>7.1 DIM 声明与使用</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">DIM</span> A(<span class="number">5</span>)              ; 声明数组 A, 下标 <span class="number">0</span>~<span class="number">5</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">30 </span>A(I) = I * <span class="number">10</span>         ; 写数组元素</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> A(<span class="number">3</span>)            ; 读数组元素 → <span class="number">30</span></span><br></pre></td></tr></table></figure>
 
