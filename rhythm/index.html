@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="8-bit 节奏敲击游戏：音符随背景音乐节拍沿四条轨道掉落，跟着节奏按 D/F/J/K 敲击，PERFECT/GREAT/GOOD 分级判定，支持连击加成、生命挑战与 S/A/B/C 评级。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>节奏敲击 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="stylesheet" href="/css/style.css?v=mvp45ddc">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/cobol/home.html" class="nav-link">COBOL</a>
+      
+        <a href="/keyboard/" class="nav-link">键盘测试</a>
+      
+        <a href="/typing/" class="nav-link">打字游戏</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          算法演示
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="/bubble-sort/" class="nav-dropdown-item">冒泡排序</a>
+          <a href="/selection-sort/" class="nav-dropdown-item">选择排序</a>
+        </div>
+      </div>
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <article class="section post">
+  <div class="container container-narrow">
+    <h1 class="post-title">节奏敲击</h1>
+    <div class="post-content">
+      <link rel="stylesheet" href="/css/rhythm-game.css?v=1">
+
+<div class="rg-page">
+  <div id="rg-app">
+    <noscript>需要启用 JavaScript 才能使用节奏敲击游戏功能。</noscript>
+  </div>
+
+  <div class="rg-usage">
+    <strong>使用说明</strong>：这是一款 8-bit 风格的<strong>节奏敲击游戏</strong>——背景音乐由 Web Audio 实时合成
+    （方波旋律 + 三角波低音 + 鼓点），音符会<strong>随音乐节拍</strong>沿四条轨道掉落。
+    当音符到达底部<strong>判定线</strong>时，按下对应轨道的按键 <strong>D / F / J / K</strong> 敲击：<br>
+    踩点越准得分越高——<strong>PERFECT</strong>（±50ms，100分）、<strong>GREAT</strong>（±100ms，70分）、
+    <strong>GOOD</strong>（±160ms，40分）；错过节拍即 <strong>MISS</strong>，中断连击并损失一条生命，生命耗尽演奏中断。<br>
+    开始前可选择<strong>演奏速度</strong>（慢速 80 / 中速 100 / 快速 120 BPM，速度越快音符越密）；
+    连续击中可获得<strong>连击加成</strong>；一首曲子演奏完成后按准确率获得
+    <strong>S / A / B / C / D</strong> 评级，最高分按速度分别记录。
+    按 <strong>Esc</strong> 或点击「暂停」可随时暂停（音乐与画面同步冻结、无缝恢复），🔊 按钮可开关声音。
+  </div>
+</div>
+
+<script src="/js/rhythm-game.js?v=1"></script>
+
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=mvp45ddc"></script>
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>

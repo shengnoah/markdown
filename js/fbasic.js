@@ -17,6 +17,12 @@
   class FBasicInterpreter {
     constructor(screen) {
       this.screen = screen;
+      this.noArgFunctions = new Set(['RND']);
+      this.builtinFunctions = new Set([
+        'CHR$', 'STR$', 'LEFT$', 'RIGHT$', 'MID$', 'STRING$', 'SPACE$', 'HEX$', 'OCT$',
+        'ASC', 'LEN', 'VAL', 'INSTR', 'RND', 'INT', 'ABS', 'SQR', 'SGN',
+        'SIN', 'COS', 'TAN', 'ATN', 'LOG', 'EXP',
+      ]);
       this.resetRuntime();
     }
 
@@ -30,6 +36,7 @@
       this.program = [];
       this.lineIndex = new Map();
       this.variables = new Map();
+      this.arrays = new Map();
       this.callStack = [];
       this.forStack = [];
       this.pc = 0;
@@ -62,7 +69,7 @@
       this.program = parsed;
     }
 
-    async run(source) {
+    async run(source, onStep) {
       this.load(source);
       this.running = true;
       this.pc = 0;
@@ -78,6 +85,7 @@
         const beforePc = this.pc;
         await this.executeStatement(current.code, current.number);
         if (this.pc === beforePc) this.pc += 1;
+        if (onStep) await onStep(current.number, this);
       }
 
       this.running = false;
@@ -206,6 +214,14 @@
         this.executeNext(statement.slice(4).trim(), lineNumber);
         return;
       }
+      if (upper.startsWith('DIM ')) {
+        this.executeDim(statement.slice(4).trim(), lineNumber);
+        return;
+      }
+      if (/^[A-Z][A-Z0-9]*\$?\s*\(.*\)\s*=/.test(upper)) {
+        this.executeAssignment(statement);
+        return;
+      }
       if (/^[A-Z][A-Z0-9]*\$?\s*=/.test(upper)) {
         this.executeAssignment(statement);
         return;
@@ -291,13 +307,58 @@
       }
     }
 
+    executeDim(expr, lineNumber) {
+      const parts = this.splitTopLevel(expr, /,/g);
+      parts.forEach((part) => {
+        const match = part.trim().match(/^([A-Z][A-Z0-9]*\$?)\s*\((.+)\)$/i);
+        if (!match) throw new Error(`第 ${lineNumber} 行 DIM 语法错误: ${part.trim()}`);
+
+        const name = match[1].toUpperCase();
+        const size = Math.floor(this.evalNumeric(match[2]));
+        if (size < 0 || size > 10000) throw new Error(`第 ${lineNumber} 行 DIM 数组大小无效: ${size}`);
+
+        const isString = name.endsWith('$');
+        this.arrays.set(name, {
+          values: Array.from({ length: size + 1 }, () => (isString ? '' : 0)),
+        });
+      });
+    }
+
+    getArrayElement(name, index) {
+      const array = this.arrays.get(name);
+      if (!array) throw new Error(`数组未定义: ${name}`);
+      if (index < 0 || index >= array.values.length) {
+        throw new Error(`数组下标越界: ${name}(${index})`);
+      }
+      return array.values[index];
+    }
+
+    setArrayElement(name, index, value) {
+      const array = this.arrays.get(name);
+      if (!array) throw new Error(`数组未定义: ${name}`);
+      if (index < 0 || index >= array.values.length) {
+        throw new Error(`数组下标越界: ${name}(${index})`);
+      }
+      array.values[index] = value;
+    }
+
     executeAssignment(expr) {
       const index = expr.indexOf('=');
       if (index < 0) throw new Error(`赋值语句缺少 =: ${expr}`);
 
-      const variable = expr.slice(0, index).trim().toUpperCase();
-      if (!this.isVariableName(variable)) throw new Error(`变量名无效: ${variable}`);
+      const target = expr.slice(0, index).trim();
       const value = this.evalExpression(expr.slice(index + 1).trim());
+
+      const arrayMatch = target.match(/^([A-Z][A-Z0-9]*\$?)\s*\((.+)\)$/i);
+      if (arrayMatch) {
+        const name = arrayMatch[1].toUpperCase();
+        const idx = Math.floor(this.evalNumeric(arrayMatch[2]));
+        this.setArrayElement(name, idx, name.endsWith('$') ? String(value) : Number(value));
+        return;
+      }
+
+      const variable = target.toUpperCase();
+      if (!this.isVariableName(variable)) throw new Error(`变量名无效: ${variable}`);
       this.setVariable(variable, variable.endsWith('$') ? String(value) : Number(value));
     }
 
@@ -308,14 +369,13 @@
     }
 
     evalCondition(expr) {
-      const match = expr.match(/^(.+?)\s*(<=|>=|<>|=|<|>)\s*(.+)$/);
-      if (!match) return Boolean(this.evalExpression(expr));
+      const found = this.findCompareOperator(expr);
+      if (!found) return Boolean(this.evalExpression(expr));
 
-      const left = this.evalExpression(match[1].trim());
-      const op = match[2];
-      const right = this.evalExpression(match[3].trim());
+      const left = this.evalExpression(expr.slice(0, found.index));
+      const right = this.evalExpression(expr.slice(found.index + found.op.length));
 
-      switch (op) {
+      switch (found.op) {
         case '=': return left === right;
         case '<>': return left !== right;
         case '<': return left < right;
@@ -324,6 +384,22 @@
         case '>=': return left >= right;
         default: return false;
       }
+    }
+
+    findCompareOperator(expr) {
+      let inString = false;
+      for (let i = 0; i < expr.length; i += 1) {
+        const char = expr[i];
+        if (char === '"') { inString = !inString; continue; }
+        if (inString) continue;
+        if (char === '<' || char === '>') {
+          const next = expr[i + 1];
+          if (next === '=' || (char === '<' && next === '>')) return { index: i, op: char + next };
+          return { index: i, op: char };
+        }
+        if (char === '=') return { index: i, op: '=' };
+      }
+      return null;
     }
 
     evalNumeric(expr) {
@@ -336,62 +412,224 @@
     evalExpression(expr) {
       const trimmed = expr.trim();
       if (!trimmed) return '';
-      if (/^".*"$/.test(trimmed)) return trimmed.slice(1, -1);
-      if (this.isVariableName(trimmed.toUpperCase())) return this.getVariable(trimmed.toUpperCase());
-      if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) return Number(trimmed);
-
-      const builtinValue = this.evalBuiltinFunction(trimmed);
-      if (builtinValue !== null) return builtinValue;
-
-      return this.evalArithmetic(trimmed);
+      const tokens = this.tokenizeExpression(trimmed);
+      if (!tokens.length) return '';
+      const parser = { tokens, pos: 0 };
+      const value = this.parseAdditive(parser);
+      if (parser.pos < parser.tokens.length) {
+        throw new Error(`表达式语法错误: ${trimmed}`);
+      }
+      return value;
     }
 
-    evalBuiltinFunction(expr) {
-      const match = expr.match(/^([A-Z]+\$?)\((.*)\)$/i);
-      if (!match) return null;
+    tokenizeExpression(expr) {
+      const tokens = [];
+      let i = 0;
+      while (i < expr.length) {
+        const char = expr[i];
+        if (char === ' ' || char === '\t') { i += 1; continue; }
+        if (char === '"') {
+          let value = '';
+          let j = i + 1;
+          while (j < expr.length && expr[j] !== '"') { value += expr[j]; j += 1; }
+          tokens.push({ type: 'string', value });
+          i = j + 1;
+          continue;
+        }
+        if (/[0-9]/.test(char) || (char === '.' && /[0-9]/.test(expr[i + 1] || ''))) {
+          let j = i;
+          while (j < expr.length && /[0-9.]/.test(expr[j])) j += 1;
+          tokens.push({ type: 'number', value: Number(expr.slice(i, j)) });
+          i = j;
+          continue;
+        }
+        if (/[A-Za-z]/.test(char)) {
+          let j = i;
+          while (j < expr.length && /[A-Za-z0-9]/.test(expr[j])) j += 1;
+          if (expr[j] === '$') j += 1;
+          tokens.push({ type: 'ident', value: expr.slice(i, j).toUpperCase() });
+          i = j;
+          continue;
+        }
+        const two = expr.slice(i, i + 2);
+        if (two === '<=' || two === '>=' || two === '<>') {
+          tokens.push({ type: 'op', value: two });
+          i += 2;
+          continue;
+        }
+        if ('+-*/\\(),=<>'.includes(char)) {
+          tokens.push({ type: 'op', value: char });
+          i += 1;
+          continue;
+        }
+        throw new Error(`表达式包含不支持字符: ${char}`);
+      }
+      return tokens;
+    }
 
-      const name = match[1].toUpperCase();
-      const args = this.splitTopLevel(match[2], /,/g).map((arg) => this.evalExpression(arg.trim()));
+    parseAdditive(parser) {
+      let left = this.parseMultiplicative(parser);
+      while (this.peekOperator(parser, '+') || this.peekOperator(parser, '-')) {
+        const op = parser.tokens[parser.pos].value;
+        parser.pos += 1;
+        const right = this.parseMultiplicative(parser);
+        if (op === '+') {
+          left = (typeof left === 'string' || typeof right === 'string')
+            ? String(left) + String(right)
+            : Number(left) + Number(right);
+        } else {
+          left = Number(left) - Number(right);
+        }
+      }
+      return left;
+    }
+
+    parseMultiplicative(parser) {
+      let left = this.parseUnary(parser);
+      for (;;) {
+        if (this.peekOperator(parser, '*')) {
+          parser.pos += 1;
+          left = Number(left) * Number(this.parseUnary(parser));
+        } else if (this.peekOperator(parser, '/')) {
+          parser.pos += 1;
+          const right = Number(this.parseUnary(parser));
+          if (right === 0) throw new Error('除数为零');
+          left = Number(left) / right;
+        } else if (this.peekOperator(parser, '\\')) {
+          parser.pos += 1;
+          const right = Number(this.parseUnary(parser));
+          left = right === 0 ? 0 : Math.trunc(Number(left) / right);
+        } else if (this.peekIdentifier(parser, 'MOD')) {
+          parser.pos += 1;
+          const right = Number(this.parseUnary(parser));
+          left = right === 0 ? 0 : Number(left) % right;
+        } else {
+          break;
+        }
+      }
+      return left;
+    }
+
+    parseUnary(parser) {
+      if (this.peekOperator(parser, '-')) {
+        parser.pos += 1;
+        return -Number(this.parseUnary(parser));
+      }
+      if (this.peekOperator(parser, '+')) {
+        parser.pos += 1;
+        return this.parseUnary(parser);
+      }
+      return this.parsePrimary(parser);
+    }
+
+    parsePrimary(parser) {
+      const token = parser.tokens[parser.pos];
+      if (!token) throw new Error('表达式不完整');
+
+      if (token.type === 'number') { parser.pos += 1; return token.value; }
+      if (token.type === 'string') { parser.pos += 1; return token.value; }
+
+      if (token.type === 'ident') {
+        parser.pos += 1;
+        if (this.peekOperator(parser, '(')) {
+          if (this.builtinFunctions.has(token.value)) {
+            parser.pos += 1;
+            const args = [];
+            if (!this.peekOperator(parser, ')')) {
+              args.push(this.parseAdditive(parser));
+              while (this.peekOperator(parser, ',')) {
+                parser.pos += 1;
+                args.push(this.parseAdditive(parser));
+              }
+            }
+            if (!this.peekOperator(parser, ')')) throw new Error(`函数 ${token.value} 缺少右括号`);
+            parser.pos += 1;
+            return this.callBuiltin(token.value, args);
+          }
+          // 数组元素访问: NAME(下标表达式)
+          parser.pos += 1;
+          const index = Math.floor(Number(this.parseAdditive(parser)) || 0);
+          if (!this.peekOperator(parser, ')')) throw new Error(`数组 ${token.value} 缺少右括号`);
+          parser.pos += 1;
+          return this.getArrayElement(token.value, index);
+        }
+        if (this.noArgFunctions.has(token.value)) {
+          return this.callBuiltin(token.value, []);
+        }
+        return this.getVariable(token.value);
+      }
+
+      if (token.type === 'op' && token.value === '(') {
+        parser.pos += 1;
+        const value = this.parseAdditive(parser);
+        if (!this.peekOperator(parser, ')')) throw new Error('缺少右括号');
+        parser.pos += 1;
+        return value;
+      }
+
+      throw new Error(`表达式语法错误: ${token.value}`);
+    }
+
+    peekOperator(parser, value) {
+      const token = parser.tokens[parser.pos];
+      return Boolean(token) && token.type === 'op' && token.value === value;
+    }
+
+    peekIdentifier(parser, value) {
+      const token = parser.tokens[parser.pos];
+      return Boolean(token) && token.type === 'ident' && token.value === value;
+    }
+
+    callBuiltin(name, args) {
+      const num = (index) => Number(args[index] ?? 0) || 0;
+      const str = (index) => String(args[index] ?? '');
 
       switch (name) {
-        case 'CHR$': return String.fromCharCode(Number(args[0]) || 0);
-        case 'ASC': return String(args[0] ?? '').charCodeAt(0) || 0;
-        case 'LEN': return String(args[0] ?? '').length;
-        case 'LEFT$': return String(args[0] ?? '').slice(0, Number(args[1]) || 0);
+        case 'CHR$': return String.fromCharCode(num(0));
+        case 'STR$': return String(num(0));
+        case 'LEFT$': return str(0).slice(0, Math.max(0, num(1)));
         case 'RIGHT$': {
-          const text = String(args[0] ?? '');
-          const count = Number(args[1]) || 0;
+          const text = str(0);
+          const count = Math.max(0, num(1));
           return text.slice(Math.max(0, text.length - count));
         }
         case 'MID$': {
-          const text = String(args[0] ?? '');
-          const start = Math.max(1, Number(args[1]) || 1) - 1;
-          const length = args.length > 2 ? Number(args[2]) || 0 : text.length;
-          return text.slice(start, start + length);
+          const text = str(0);
+          const start = Math.max(1, num(1));
+          const length = args.length > 2 ? Math.max(0, num(2)) : text.length;
+          return text.slice(start - 1, start - 1 + length);
+        }
+        case 'STRING$': {
+          const count = Math.max(0, num(0));
+          const second = args[1];
+          const char = typeof second === 'number'
+            ? String.fromCharCode(second)
+            : String(second ?? '').charAt(0) || ' ';
+          return char.repeat(count);
+        }
+        case 'SPACE$': return ' '.repeat(Math.max(0, num(0)));
+        case 'HEX$': return Math.trunc(num(0)).toString(16).toUpperCase();
+        case 'OCT$': return Math.trunc(num(0)).toString(8).toUpperCase();
+        case 'ASC': return str(0).charCodeAt(0) || 0;
+        case 'LEN': return str(0).length;
+        case 'VAL': return Number.parseFloat(str(0)) || 0;
+        case 'INSTR': {
+          const haystack = str(0);
+          const needle = str(1);
+          return needle ? haystack.indexOf(needle) + 1 : 0;
         }
         case 'RND': return Math.random();
-        case 'INT': return Math.floor(Number(args[0]) || 0);
-        case 'ABS': return Math.abs(Number(args[0]) || 0);
-        case 'VAL': return Number.parseFloat(String(args[0] ?? '')) || 0;
-        case 'STR$': return String(Number(args[0]) || 0);
-        default: return null;
-      }
-    }
-
-    evalArithmetic(expr) {
-      const replaced = expr.replace(/"([^"\\]|\\.)*"|[A-Z][A-Z0-9]*\$?/gi, (token) => {
-        if (token.startsWith('"')) return token;
-        return JSON.stringify(this.getVariable(token.toUpperCase()));
-      });
-
-      if (!/^[\d\s+\-*/()."A-Za-z_,$]*$/.test(replaced)) {
-        throw new Error(`表达式包含不支持字符: ${expr}`);
-      }
-
-      try {
-        return Function(`"use strict"; return (${replaced});`)();
-      } catch (error) {
-        throw new Error(`表达式错误: ${expr}`);
+        case 'INT': return Math.floor(num(0));
+        case 'ABS': return Math.abs(num(0));
+        case 'SQR': return Math.sqrt(num(0));
+        case 'SGN': return Math.sign(num(0));
+        case 'SIN': return Math.sin(num(0));
+        case 'COS': return Math.cos(num(0));
+        case 'TAN': return Math.tan(num(0));
+        case 'ATN': return Math.atan(num(0));
+        case 'LOG': return Math.log(num(0));
+        case 'EXP': return Math.exp(num(0));
+        default: throw new Error(`未知函数: ${name}`);
       }
     }
 
@@ -413,12 +651,17 @@
       const parts = [];
       let current = '';
       let inString = false;
+      let depth = 0;
 
       for (let i = 0; i < input.length; i += 1) {
         const char = input[i];
         if (char === '"') inString = !inString;
+        if (!inString) {
+          if (char === '(') depth += 1;
+          if (char === ')') depth = Math.max(0, depth - 1);
+        }
         delimiterRegex.lastIndex = 0;
-        if (!inString && delimiterRegex.test(char)) {
+        if (!inString && depth === 0 && delimiterRegex.test(char)) {
           parts.push(current);
           current = '';
         } else {
@@ -439,6 +682,9 @@
       return -1;
     }
   }
+
+  // 暴露解释器类，供可视化演示页等复用
+  window.FBasicInterpreter = FBasicInterpreter;
 
   const code = document.getElementById('fbasic-code');
   const screen = document.getElementById('fbasic-screen');

@@ -10,6 +10,45 @@
     }
   });
 
+  // Nav dropdown (算法演示)
+  var dropdown = document.getElementById('nav-dropdown');
+  var dropdownToggle = document.getElementById('nav-dropdown-toggle');
+  if (dropdown && dropdownToggle) {
+    dropdownToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = dropdown.classList.toggle('open');
+      dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    // hover 展开（桌面端）
+    dropdown.addEventListener('mouseenter', function () {
+      dropdown.classList.add('open');
+      dropdownToggle.setAttribute('aria-expanded', 'true');
+    });
+    dropdown.addEventListener('mouseleave', function () {
+      dropdown.classList.remove('open');
+      dropdownToggle.setAttribute('aria-expanded', 'false');
+    });
+    // 点击菜单项后收起
+    dropdown.querySelectorAll('.nav-dropdown-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        dropdown.classList.remove('open');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    // 点击页面其他位置收起
+    document.addEventListener('click', function () {
+      dropdown.classList.remove('open');
+      dropdownToggle.setAttribute('aria-expanded', 'false');
+    });
+    // Esc 收起
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdown.classList.remove('open');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   // Mobile nav toggle
   var toggle = document.getElementById('nav-toggle');
   var nav = document.getElementById('site-nav');

@@ -118,6 +118,18 @@
                     
                   </li>
                 
+                  <li>
+                    
+                      <a href="/bubble-sort/">冒泡排序可视化</a>
+                    
+                  </li>
+                
+                  <li>
+                    
+                      <a href="/selection-sort/">选择排序可视化</a>
+                    
+                  </li>
+                
               </ul>
             
               <h3>6502 专题</h3>
@@ -213,7 +225,7 @@
 <td>C 版</td>
 <td>C99</td>
 <td>PC 终端</td>
-<td>✅ 算术表达式待完善</td>
+<td>✅ 完整表达式求值</td>
 </tr>
 <tr>
 <td>NES 版</td>
@@ -311,7 +323,7 @@
 
 <p><strong>关键点</strong>：高级语言的”优先级”在汇编层体现为<strong>求值顺序</strong>——解释器（或编译器）按优先级规则安排指令的先后次序，用临时变量（tmp1）保存中间结果。</p>
 <blockquote>
-<p><strong>版本说明</strong>：JS 版完整支持算术表达式；C 版当前只解析单个数值（<code>A+3</code> 会得到 A 的值），表达式求值待完善；NES 版按设计将实现 16 位整数的 <code>+ - * /</code>。</p>
+<p><strong>版本说明</strong>：JS 版与 C 版均完整支持算术表达式（含括号、一元负号、<code>\</code> 整除、<code>MOD</code> 取余），内置函数可出现在任意表达式中（如 <code>LEN(A$) * 2</code>、<code>CHR$(65) + &quot;B&quot;</code>）；NES 版按设计将实现 16 位整数的 <code>+ - * /</code>。</p>
 </blockquote>
 <hr>
 <h2 id="4-逻辑表达式与-IF-结构"><a href="#4-逻辑表达式与-IF-结构" class="headerlink" title="4. 逻辑表达式与 IF 结构"></a>4. 逻辑表达式与 IF 结构</h2><h3 id="4-1-比较运算符"><a href="#4-1-比较运算符" class="headerlink" title="4.1 比较运算符"></a>4.1 比较运算符</h3><table>
@@ -460,7 +472,10 @@
 <p><strong>为什么需要栈</strong>：嵌套循环 <code>FOR I ... FOR J ... NEXT J ... NEXT I</code> 时，内层 NEXT 只操作栈顶的 J 帧，外层 I 帧在下面等着——后进先出正好匹配循环的嵌套结构。</p>
 </blockquote>
 <hr>
-<h2 id="6-函数"><a href="#6-函数" class="headerlink" title="6. 函数"></a>6. 函数</h2><h3 id="6-1-内置数值函数"><a href="#6-1-内置数值函数" class="headerlink" title="6.1 内置数值函数"></a>6.1 内置数值函数</h3><table>
+<h2 id="6-函数"><a href="#6-函数" class="headerlink" title="6. 函数"></a>6. 函数</h2><blockquote>
+<p>所有内置函数都可以用在任意表达式中，支持嵌套调用（如 <code>LEN(STR$(123))</code>、<code>CHR$(65) + &quot;B&quot;</code>、<code>INT(RND * 6) + 1</code>）。</p>
+</blockquote>
+<h3 id="6-1-内置数值函数"><a href="#6-1-内置数值函数" class="headerlink" title="6.1 内置数值函数"></a>6.1 内置数值函数</h3><table>
 <thead>
 <tr>
 <th>函数</th>
@@ -488,6 +503,54 @@
 <td>1~6 随机</td>
 </tr>
 <tr>
+<td><code>SQR(x)</code></td>
+<td>平方根</td>
+<td><code>SQR(16)</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>SGN(x)</code></td>
+<td>符号函数</td>
+<td><code>SGN(-5)</code></td>
+<td>-1</td>
+</tr>
+<tr>
+<td><code>SIN(x)</code></td>
+<td>正弦</td>
+<td><code>SIN(0)</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>COS(x)</code></td>
+<td>余弦</td>
+<td><code>COS(0)</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>TAN(x)</code></td>
+<td>正切</td>
+<td><code>TAN(0)</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>ATN(x)</code></td>
+<td>反正切</td>
+<td><code>ATN(1)</code></td>
+<td>0.785…</td>
+</tr>
+<tr>
+<td><code>LOG(x)</code></td>
+<td>自然对数</td>
+<td><code>LOG(1)</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>EXP(x)</code></td>
+<td>e 的 x 次方</td>
+<td><code>EXP(0)</code></td>
+<td>1</td>
+</tr>
+<tr>
 <td><code>ASC(s)</code></td>
 <td>首字符 ASCII 码</td>
 <td><code>ASC(&quot;A&quot;)</code></td>
@@ -504,6 +567,12 @@
 <td>字符串转数值</td>
 <td><code>VAL(&quot;42&quot;)</code></td>
 <td>42</td>
+</tr>
+<tr>
+<td><code>INSTR(a,b)</code></td>
+<td>查找子串位置（从 1 起）</td>
+<td><code>INSTR(&quot;HELLO&quot;,&quot;LL&quot;)</code></td>
+<td>3</td>
 </tr>
 </tbody></table>
 <h3 id="6-2-内置字符串函数"><a href="#6-2-内置字符串函数" class="headerlink" title="6.2 内置字符串函数"></a>6.2 内置字符串函数</h3><table>
@@ -545,8 +614,32 @@
 <td><code>MID$(&quot;HELLO&quot;,2,3)</code></td>
 <td>“ELL”</td>
 </tr>
+<tr>
+<td><code>STRING$(n,c)</code></td>
+<td>字符重复 n 次</td>
+<td><code>STRING$(5,42)</code></td>
+<td>“*****”</td>
+</tr>
+<tr>
+<td><code>SPACE$(n)</code></td>
+<td>n 个空格</td>
+<td><code>&quot;[&quot; + SPACE$(3) + &quot;]&quot;</code></td>
+<td>“[   ]”</td>
+</tr>
+<tr>
+<td><code>HEX$(n)</code></td>
+<td>转十六进制字符串</td>
+<td><code>HEX$(255)</code></td>
+<td>“FF”</td>
+</tr>
+<tr>
+<td><code>OCT$(n)</code></td>
+<td>转八进制字符串</td>
+<td><code>OCT$(8)</code></td>
+<td>“10”</td>
+</tr>
 </tbody></table>
-<h3 id="6-3-使用示例"><a href="#6-3-使用示例" class="headerlink" title="6.3 使用示例"></a>6.3 使用示例</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>S$ = <span class="string">&quot;FAMILY BASIC&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="keyword">LEN</span>(S$)              ; <span class="number">12</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> <span class="keyword">LEFT$</span>(S$, <span class="number">6</span>)         ; FAMILY</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="keyword">RIGHT$</span>(S$, <span class="number">5</span>)        ; BASIC</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> <span class="keyword">MID$</span>(S$, <span class="number">8</span>, <span class="number">3</span>)       ; BAS</span><br><span class="line"><span class="symbol">60 </span><span class="keyword">PRINT</span> <span class="keyword">ASC</span>(<span class="string">&quot;A&quot;</span>)             ; <span class="number">65</span></span><br><span class="line"><span class="symbol">70 </span><span class="keyword">PRINT</span> <span class="keyword">CHR$</span>(<span class="number">66</span>)             ; B</span><br><span class="line"><span class="symbol">80 </span><span class="keyword">PRINT</span> <span class="keyword">ABS</span>(-<span class="number">7</span>) + <span class="keyword">INT</span>(<span class="number">2.9</span>)   ; <span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-3-使用示例"><a href="#6-3-使用示例" class="headerlink" title="6.3 使用示例"></a>6.3 使用示例</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span>S$ = <span class="string">&quot;FAMILY BASIC&quot;</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="keyword">LEN</span>(S$)              ; <span class="number">12</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">PRINT</span> <span class="keyword">LEFT$</span>(S$, <span class="number">6</span>)         ; FAMILY</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">PRINT</span> <span class="keyword">RIGHT$</span>(S$, <span class="number">5</span>)        ; BASIC</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> <span class="keyword">MID$</span>(S$, <span class="number">8</span>, <span class="number">3</span>)       ; BAS</span><br><span class="line"><span class="symbol">60 </span><span class="keyword">PRINT</span> <span class="keyword">ASC</span>(<span class="string">&quot;A&quot;</span>)             ; <span class="number">65</span></span><br><span class="line"><span class="symbol">70 </span><span class="keyword">PRINT</span> <span class="keyword">CHR$</span>(<span class="number">66</span>)             ; B</span><br><span class="line"><span class="symbol">80 </span><span class="keyword">PRINT</span> <span class="keyword">ABS</span>(-<span class="number">7</span>) + <span class="keyword">INT</span>(<span class="number">2.9</span>)   ; <span class="number">9</span></span><br><span class="line"><span class="symbol">90 </span><span class="keyword">PRINT</span> <span class="keyword">CHR$</span>(<span class="number">65</span>) + <span class="string">&quot;B&quot;</span>       ; AB   (函数用于拼接表达式)</span><br><span class="line"><span class="symbol">100 </span><span class="keyword">PRINT</span> <span class="keyword">LEN</span>(S$) * <span class="number">2</span>         ; <span class="number">24</span>   (函数用于算术表达式)</span><br><span class="line"><span class="symbol">110 </span><span class="keyword">PRINT</span> <span class="keyword">STRING$</span>(<span class="number">5</span>, <span class="string">&quot;*&quot;</span>)     ; *****</span><br><span class="line"><span class="symbol">120 </span><span class="keyword">PRINT</span> <span class="keyword">INSTR</span>(S$, <span class="string">&quot;BASIC&quot;</span>)  ; <span class="number">8</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="6-4-用户子程序：GOSUB-RETURN"><a href="#6-4-用户子程序：GOSUB-RETURN" class="headerlink" title="6.4 用户子程序：GOSUB&#x2F;RETURN"></a>6.4 用户子程序：GOSUB&#x2F;RETURN</h3><p>BASIC 没有 def 函数，用 <code>GOSUB</code>（跳转子程序）+ <code>RETURN</code>（返回）实现可复用代码块：</p>
 <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">GOSUB</span> <span class="number">100</span>              ; 调用子程序 (行<span class="number">100</span>)</span><br><span class="line"><span class="symbol">20 </span><span class="keyword">PRINT</span> <span class="string">&quot;BACK AT 20&quot;</span></span><br><span class="line"><span class="symbol">30 </span><span class="keyword">END</span></span><br><span class="line"><span class="symbol">100 </span><span class="keyword">PRINT</span> <span class="string">&quot;IN SUB&quot;</span>        ; 子程序开始</span><br><span class="line"><span class="symbol">110 </span><span class="keyword">RETURN</span>                ; 返回调用处的下一行 (行<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
@@ -563,7 +656,7 @@
 <p>内置函数在 NES 版的实现则是查表 + 跳转：函数名 → 函数表索引 → <code>jmp (函数表)</code> 间接跳转到对应例程。</p>
 <hr>
 <h2 id="7-数组"><a href="#7-数组" class="headerlink" title="7. 数组"></a>7. 数组</h2><blockquote>
-<p><strong>状态</strong>：数组（DIM 语句）当前 JS&#x2F;C 版尚未实现，属于 NES 版规划功能。以下按标准 BASIC 语法介绍，并给出 6502 实现原理。</p>
+<p><strong>状态</strong>：数组（DIM 语句）JS 版已支持（现代编辑器模式与真实 FBASIC 模式均可运行），C 版与 NES 版规划中。可前往 <a href="/bubble-sort/">冒泡排序可视化</a> 或 <a href="/selection-sort/">选择排序可视化</a> 页面观看数组排序的动画演示。</p>
 </blockquote>
 <h3 id="7-1-DIM-声明与使用"><a href="#7-1-DIM-声明与使用" class="headerlink" title="7.1 DIM 声明与使用"></a>7.1 DIM 声明与使用</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">10 </span><span class="keyword">DIM</span> A(<span class="number">5</span>)              ; 声明数组 A, 下标 <span class="number">0</span>~<span class="number">5</span></span><br><span class="line"><span class="symbol">20 </span><span class="keyword">FOR</span> I = <span class="number">1</span> <span class="keyword">TO</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">30 </span>A(I) = I * <span class="number">10</span>         ; 写数组元素</span><br><span class="line"><span class="symbol">40 </span><span class="keyword">NEXT</span> I</span><br><span class="line"><span class="symbol">50 </span><span class="keyword">PRINT</span> A(<span class="number">3</span>)            ; 读数组元素 → <span class="number">30</span></span><br></pre></td></tr></table></figure>
 
@@ -674,7 +767,7 @@
 <tr>
 <td>数组</td>
 <td><code>DIM A(n)</code></td>
-<td align="center">❌</td>
+<td align="center">✅</td>
 <td align="center">❌</td>
 <td align="center">规划</td>
 </tr>
@@ -691,13 +784,19 @@
 <tbody><tr>
 <td>算术 <code>+ - * /</code></td>
 <td align="center">✅</td>
-<td align="center">⚠️ 待完善</td>
+<td align="center">✅</td>
 <td align="center">✅ 16位整数</td>
+</tr>
+<tr>
+<td>整除 <code>\</code> &#x2F; 取余 <code>MOD</code></td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">规划</td>
 </tr>
 <tr>
 <td>括号 <code>( )</code></td>
 <td align="center">✅</td>
-<td align="center">⚠️</td>
+<td align="center">✅</td>
 <td align="center">✅</td>
 </tr>
 <tr>
@@ -713,13 +812,19 @@
 <td align="center">规划</td>
 </tr>
 <tr>
-<td>数值函数 (ABS&#x2F;INT&#x2F;RND…)</td>
+<td>数值函数 (ABS&#x2F;INT&#x2F;RND&#x2F;SQR&#x2F;SIN…)</td>
 <td align="center">✅</td>
 <td align="center">✅</td>
 <td align="center">部分</td>
 </tr>
 <tr>
-<td>字符串函数 (CHR$&#x2F;LEFT$…)</td>
+<td>字符串函数 (CHR$&#x2F;LEFT$&#x2F;STRING$&#x2F;HEX$…)</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">阶段2</td>
+</tr>
+<tr>
+<td>函数用于复合表达式</td>
 <td align="center">✅</td>
 <td align="center">✅</td>
 <td align="center">阶段2</td>
