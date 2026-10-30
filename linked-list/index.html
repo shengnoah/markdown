@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="单向链表交互可视化：逐步观察头插、尾插、按位置插入与删除、查找和反转中的节点遍历与 next 指针变化，支持播放、暂停和单步执行。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>单向链表可视化 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="stylesheet" href="/css/style.css?v=mvp45ddc">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/cobol/home.html" class="nav-link">COBOL</a>
+      
+        <a href="/keyboard/" class="nav-link">键盘测试</a>
+      
+        <a href="/typing/" class="nav-link">打字游戏</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          算法演示
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          
+          
+            <a href="/bubble-sort/" class="nav-dropdown-item">冒泡排序</a>
+          
+            <a href="/eight-queens/" class="nav-dropdown-item">八皇后</a>
+          
+            <a href="/linked-list/" class="nav-dropdown-item">链表</a>
+          
+            <a href="/quick-sort/" class="nav-dropdown-item">快速排序</a>
+          
+            <a href="/selection-sort/" class="nav-dropdown-item">选择排序</a>
+          
+            <a href="/stack/" class="nav-dropdown-item">堆栈</a>
+          
+        </div>
+      </div>
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <section class="ll-page">
+  <div class="container">
+    <div class="ll-hero">
+      <p class="ll-kicker">Singly Linked List · Pointer Visualization</p>
+      <h1>链表 · 节点与指针可视化</h1>
+      <p>每个节点保存数据和下一个节点的引用。逐步观察遍历、插入、删除和反转，不再把链表当作连续数组。</p>
+    </div>
+    <div class="ll-workbench">
+      <div class="ll-panel">
+        <div class="ll-head"><h2>链表操作 · C</h2><span id="ll-line" class="ll-badge">READY</span></div>
+        <pre id="ll-code" class="ll-code" aria-label="当前链表操作代码"></pre>
+        <div class="ll-inputs">
+          <label>节点值 <input id="ll-value" type="text" maxlength="12" value="40" autocomplete="off"></label>
+          <label>位置 <input id="ll-index" type="number" min="0" max="12" step="1" value="1"></label>
+        </div>
+        <div class="ll-controls" id="ll-operations">
+          <button class="btn" data-op="prepend" type="button">头插</button>
+          <button class="btn" data-op="append" type="button">尾插</button>
+          <button class="btn btn-primary" data-op="insert" type="button">按位置插入</button>
+          <button class="btn" data-op="remove" type="button">按位置删除</button>
+          <button class="btn" data-op="find" type="button">查找值</button>
+          <button class="btn" data-op="reverse" type="button">反转链表</button>
+        </div>
+        <div class="ll-controls">
+          <button class="btn btn-primary" id="ll-play" type="button" disabled>▶ 继续播放</button>
+          <button class="btn" id="ll-pause" type="button" disabled>⏸ 暂停</button>
+          <button class="btn" id="ll-step" type="button" disabled>单步</button>
+          <button class="btn" id="ll-reset" type="button">↺ 重置示例</button>
+          <button class="btn" id="ll-clear" type="button">清空</button>
+          <label><input id="ll-auto" type="checkbox" checked> 自动播放</label>
+          <label>间隔 <input id="ll-speed" type="range" min="100" max="1500" step="100" value="500"> <span id="ll-speed-value">500ms</span></label>
+        </div>
+        <p id="ll-message" class="ll-message" role="status">初始链表：10 → 20 → 30。选择一个操作开始。</p>
+        <div class="ll-head"><h2>执行记录</h2><span id="ll-progress" class="ll-badge">0 / 0</span></div>
+        <pre id="ll-log" class="ll-log" aria-label="链表操作记录"></pre>
+      </div>
+      <div class="ll-panel">
+        <div class="ll-head"><h2>节点与 next 引用</h2><span id="ll-status" class="ll-badge">READY</span></div>
+        <div id="ll-pointers" class="ll-pointers"></div>
+        <div id="ll-graph" class="ll-graph" aria-label="链表节点可视化"></div>
+        <div class="ll-stats"><span>已连接节点：<strong id="ll-size">3</strong> / 12</span><span>访问次数：<strong id="ll-visits">0</strong></span><span>返回值：<strong id="ll-result">—</strong></span></div>
+        <h2>从 head 开始遍历</h2>
+        <p id="ll-order" class="ll-order"></p>
+        <div class="ll-legend"><span><i class="ll-dot current"></i>当前访问／改指针</span><span><i class="ll-dot new"></i>新节点</span><span><i class="ll-dot removed"></i>已断开节点</span></div>
+        <div class="ll-explain">
+          <h3>如何理解链表？</h3>
+          <p>位置从 <strong>0</strong> 开始。插入允许位置 0 到长度，删除允许位置 0 到长度减 1。查找返回第一个匹配位置，未找到返回 -1。</p>
+          <p>C 示例用 Node 结构体保存 value 和 next 指针；Node **link 指向 head 或前驱的 next 字段，因此头部和中间插入／删除可统一处理。malloc/free 展示节点分配／释放，N1 等仅为可视化身份标识，不是真实内存地址。</p>
+          <p>反转时先保存后继，再将当前节点的 next 指向前驱，最后更新 head。中间状态可能出现暂时未从 head 连通的节点，仍会保留显示，避免隐藏指针变化。</p>
+          <p>左侧 C 代码用于教学展示，浏览器由 JavaScript 模型模拟相同操作并同步高亮，不编译执行 C。定位前驱、查找和反转需 O(n)，修改连接为 O(1)；演示限制最多 12 个节点。字符串最多 12 字节，界面值用于演示，不模拟 C 的字符编码和分配失败。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<link rel="stylesheet" href="/css/linked-list.css?v=mvtc44wg">
+<script src="/js/linked-list.js?v=mvuli828"></script>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=mvp45ddc"></script>
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="栈的后进先出可视化：交互体验入栈、出栈、查看栈顶和栈满栈空，支持代码同步高亮、自动播放、单步演示和操作记录。">
+  <meta name="keywords" content="markdown, 编辑器, xianbao, 写作">
+  <meta name="author" content="Xianbao">
+  <title>堆栈数据结构可视化 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="stylesheet" href="/css/style.css?v=mvp45ddc">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        <a href="/#features" class="nav-link">功能特性</a>
+      
+        <a href="/#themes" class="nav-link">主题</a>
+      
+        <a href="/archives/" class="nav-link">博客</a>
+      
+        <a href="/#download" class="nav-link">下载</a>
+      
+        <a href="/fbasic/" class="nav-link">FBASIC</a>
+      
+        <a href="/cobol/home.html" class="nav-link">COBOL</a>
+      
+        <a href="/keyboard/" class="nav-link">键盘测试</a>
+      
+        <a href="/typing/" class="nav-link">打字游戏</a>
+      
+        <a href="/#support" class="nav-link">支持</a>
+      
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          算法演示
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          
+          
+            <a href="/bubble-sort/" class="nav-dropdown-item">冒泡排序</a>
+          
+            <a href="/eight-queens/" class="nav-dropdown-item">八皇后</a>
+          
+            <a href="/linked-list/" class="nav-dropdown-item">链表</a>
+          
+            <a href="/quick-sort/" class="nav-dropdown-item">快速排序</a>
+          
+            <a href="/selection-sort/" class="nav-dropdown-item">选择排序</a>
+          
+            <a href="/stack/" class="nav-dropdown-item">堆栈</a>
+          
+        </div>
+      </div>
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <section class="st-page">
+  <div class="container">
+    <div class="st-hero">
+      <p class="st-kicker">Stack · Last In, First Out</p>
+      <h1>堆栈 · 后进先出可视化</h1>
+      <p>像叠盘子一样存放数据：只能从栈顶放入和取出。观察操作代码、栈顶指针和底层数组如何同步变化。</p>
+    </div>
+    <div class="st-workbench">
+      <div class="st-panel">
+        <div class="st-head"><h2>栈操作 · C</h2><span id="st-line" class="st-badge">READY</span></div>
+        <pre id="st-code" class="st-code" aria-label="栈操作示例代码"></pre>
+        <form id="st-form" class="st-controls">
+          <label for="st-value">入栈值</label>
+          <input id="st-value" type="text" maxlength="12" value="10" autocomplete="off" required aria-label="入栈值，最多12个字符">
+          <button class="btn btn-primary" id="st-push" type="submit">↓ 入栈</button>
+          <button class="btn" id="st-pop" type="button">↑ 出栈</button>
+          <button class="btn" id="st-peek" type="button">查看栈顶</button>
+        </form>
+        <div class="st-controls">
+          <label for="st-capacity">容量</label>
+          <select id="st-capacity"><option value="4">4</option><option value="6" selected>6</option><option value="8">8</option></select>
+          <button class="btn" id="st-clear" type="button">清空栈</button>
+          <button class="btn btn-ghost" id="st-reset" type="button">↺ 重置</button>
+        </div>
+        <div class="st-demo">
+          <h2>自动演示：入栈 → 查看 → 出栈 → 栈空</h2>
+          <div class="st-controls">
+            <button class="btn btn-primary" id="st-play" type="button">▶ 播放示例</button>
+            <button class="btn" id="st-pause" type="button" disabled>⏸ 暂停</button>
+            <button class="btn" id="st-step" type="button">操作单步</button>
+            <label>间隔 <input id="st-speed" type="range" min="300" max="1600" step="100" value="700"> <span id="st-speed-value">700ms</span></label>
+          </div>
+          <p id="st-progress">示例未开始；启动示例会清空当前栈。</p>
+        </div>
+        <p id="st-message" class="st-message" role="status">栈为空。输入一个值，点击入栈开始体验。</p>
+        <h2>操作记录</h2>
+        <pre id="st-log" class="st-log" aria-label="栈操作记录"></pre>
+      </div>
+      <div class="st-panel">
+        <div class="st-head"><h2>栈空间</h2><span id="st-status" class="st-badge">EMPTY</span></div>
+        <div class="st-flow"><span class="st-in">↓ PUSH 入栈</span><span class="st-out">↑ POP 出栈</span></div>
+        <div id="st-stack" class="st-stack" role="img" aria-label="空栈"></div>
+        <div class="st-stats">
+          <span>元素数：<strong id="st-size">0</strong> / <strong id="st-limit">6</strong></span>
+          <span>栈顶下标：<strong id="st-top">-1</strong></span>
+          <span>返回值：<strong id="st-result">—</strong></span>
+          <span>成功操作：<strong id="st-count">0</strong></span>
+        </div>
+        <h2>底层数组（从栈底到栈顶）</h2>
+        <div id="st-array" class="st-array" aria-label="底层数组"></div>
+        <div class="st-explain">
+          <h3>栈不是堆（Heap）</h3>
+          <p>这里展示的是<strong>栈（Stack）</strong>，也常被称为堆栈，不是堆排序中的堆。栈遵循 <strong>LIFO：Last In, First Out，后进先出</strong>。</p>
+          <p>入栈把值放在顶部；出栈移除顶部元素并返回；查看栈顶只读不删除。空栈出栈称为下溢，达到演示容量后再入栈称为上溢。</p>
+          <p>C 示例用 Stack 结构体保存字符串数组、top 和 capacity；push/pop/peek 返回 bool 表示是否成功。左侧 C 代码用于教学展示，浏览器由 JavaScript 模型模拟相同操作并同步高亮，不编译执行 C。单步执行一个栈操作。</p>
+          <p>常见用途包括函数调用栈、撤销操作、括号匹配和深度优先搜索。紫色边框表示栈顶，绿色表示入栈，粉色表示出栈或错误。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<link rel="stylesheet" href="/css/stack.css?v=mvt6hjow">
+<script src="/js/stack.js?v=mvulguog"></script>
+
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=mvp45ddc"></script>
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>

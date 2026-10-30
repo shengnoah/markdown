@@ -1,0 +1,23 @@
+/* quick-sort.css - 快速排序可视化页面的专属状态样式 */
+
+.bs-bar.pivot .bs-bar-col {
+  box-shadow:
+    0 0 0 3px #b06a2c,
+    0 8px 22px rgba(176, 106, 44, 0.28);
+}
+
+.bs-bar.pivot .bs-bar-value {
+  color: #96591f;
+}
+
+.bs-bar.range .bs-bar-col {
+  background: linear-gradient(180deg, rgba(122, 162, 247, 0.35), rgba(122, 162, 247, 0.18));
+}
+
+.qs-dot-pivot {
+  background: #b06a2c;
+}
+
+.qs-dot-range {
+  background: rgba(122, 162, 247, 0.55);
+}
