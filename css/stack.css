@@ -51,3 +51,25 @@
 @media (max-width: 960px) { .st-workbench { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .st-panel { padding: 12px; } .st-hero h1 { font-size: 1.5rem; } }
 @media (prefers-reduced-motion: reduce) { .st-slot { animation: none !important; } }
+
+/* 页面底部：与可视化代码行号对应的逐行说明。 */
+.st-code-guide { margin-top: 32px; padding: 28px; border: 1px solid var(--color-border, #e5e7eb); border-radius: 14px; background: var(--color-card-bg, #fff); line-height: 1.85; color: var(--color-text, #29364c); }
+.st-guide-header h2 { margin: 8px 0 12px; font-size: 1.6rem; }
+.st-guide-header p { margin: 0 0 12px; }
+.st-guide-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 28px; }
+.st-guide-nav a { padding: 6px 10px; border: 1px solid #dce2ec; border-radius: 6px; color: #46629f; background: #f5f7fc; font-size: .82rem; text-decoration: none; }
+.st-guide-nav a:hover { border-color: #4f6ef7; background: #edf1ff; }
+.st-guide-section { scroll-margin-top: 100px; margin-top: 30px; }
+.st-guide-section h3 { font-size: 1.1rem; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid #e5e7eb; }
+.st-guide-line { margin-bottom: 14px; padding: 14px 16px; border: 1px solid #e5eaf3; border-radius: 9px; }
+.st-guide-source { display: flex; align-items: baseline; gap: 14px; }
+.st-guide-number { flex-shrink: 0; color: #697991; font-size: .78rem; min-width: 55px; }
+.st-guide-source code { font-family: Consolas, monospace; font-size: .85rem; color: #36558e; white-space: pre-wrap; overflow-wrap: anywhere; }
+.st-guide-line p { margin: 8px 0 0; font-size: .9rem; color: var(--color-text-secondary, #586579); }
+.st-guide-section > p, .st-guide-section li { font-size: .9rem; }
+.st-guide-section ul { padding-left: 24px; }
+.st-guide-section li { margin-bottom: 12px; overflow-wrap: anywhere; }
+.st-guide-section li code, .st-guide-section > p code { padding: 2px 5px; border-radius: 4px; background: #f0f3f9; font-family: Consolas, monospace; font-size: .9em; }
+.st-guide-example { margin: 16px 0; padding: 16px; border-radius: 9px; background: #101418; color: #bed2ff; overflow-x: auto; font: .85rem/1.8 Consolas, monospace; }
+.st-guide-safety { padding: 18px; border-radius: 10px; background: #fff9ed; border: 1px solid #f1dfb7; }
+@media (max-width: 600px) { .st-code-guide { padding: 16px; } .st-guide-source { flex-direction: column; gap: 4px; } .st-guide-line { padding: 12px; } .st-guide-header h2 { font-size: 1.35rem; } }

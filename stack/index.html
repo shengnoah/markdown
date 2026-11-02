@@ -8,7 +8,7 @@
   <meta name="author" content="Xianbao">
   <title>堆栈数据结构可视化 — Xianbao</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="stylesheet" href="/css/style.css?v=mvp45ddc">
+  <link rel="stylesheet" href="/css/style.css?v=mvynsihc">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <meta name="generator" content="Hexo 7.3.0"></head>
@@ -24,23 +24,44 @@
     </a>
     <nav class="site-nav" id="site-nav">
       
-        <a href="/#features" class="nav-link">功能特性</a>
+        
+          <a href="/#features" class="nav-link">功能特性</a>
+        
       
-        <a href="/#themes" class="nav-link">主题</a>
+        
+          <a href="/#themes" class="nav-link">主题</a>
+        
       
-        <a href="/archives/" class="nav-link">博客</a>
+        
+          <a href="/archives/" class="nav-link">博客</a>
+        
       
-        <a href="/#download" class="nav-link">下载</a>
+        
+          <a href="/#download" class="nav-link">下载</a>
+        
       
-        <a href="/fbasic/" class="nav-link">FBASIC</a>
+        
+          <a href="/fbasic/" class="nav-link">FBASIC</a>
+        
       
-        <a href="/cobol/home.html" class="nav-link">COBOL</a>
+        
+          <a href="/lua/" class="nav-link nav-link-live" aria-label="Lua 在线运行" title="Lua 在线运行">
+            <span class="nav-live-dot" aria-hidden="true"></span>
+            <span class="nav-live-label">Lua</span>
+          </a>
+        
       
-        <a href="/keyboard/" class="nav-link">键盘测试</a>
+        
+          <a href="/cobol/home.html" class="nav-link">COBOL</a>
+        
       
-        <a href="/typing/" class="nav-link">打字游戏</a>
+        
+          <a href="/keyboard/" class="nav-link">键盘测试</a>
+        
       
-        <a href="/#support" class="nav-link">支持</a>
+        
+          <a href="/#support" class="nav-link">支持</a>
+        
       
       <div class="nav-dropdown" id="nav-dropdown">
         <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
@@ -66,6 +87,26 @@
           
         </div>
       </div>
+      
+      
+      <div class="nav-dropdown" id="nav-dropdown-games">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-games-toggle" aria-haspopup="true" aria-expanded="false">
+          小游戏
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          
+            <a href="/typing/" class="nav-dropdown-item">打字游戏</a>
+          
+            <a href="/happy-chicken/" class="nav-dropdown-item">快乐小鸡</a>
+          
+            <a href="/rhythm/" class="nav-dropdown-item">节奏敲击</a>
+          
+        </div>
+      </div>
+      
       <a href="#download" class="btn btn-primary nav-download">下载</a>
     </nav>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
@@ -134,11 +175,247 @@
         </div>
       </div>
     </div>
+    
+<section class="st-code-guide" aria-labelledby="st-guide-title">
+  <header class="st-guide-header">
+    <p class="st-kicker">C Code · Line by Line</p>
+    <h2 id="st-guide-title">C 代码逐行详解</h2>
+    <p>以下行号与上方“栈操作 · C”代码面板一一对应。第 9 行是空行，仅用于分隔类型定义和函数，不会执行任何操作。</p>
+  </header>
+  <nav class="st-guide-nav" aria-label="代码说明章节">
+    
+      <a href="#st-guide-0">一、头文件与栈结构（第 1–8 行）</a>
+    
+      <a href="#st-guide-1">二、入栈 push（第 10–15 行）</a>
+    
+      <a href="#st-guide-2">三、出栈 pop（第 16–21 行）</a>
+    
+      <a href="#st-guide-3">四、查看栈顶 peek（第 22–26 行）</a>
+    
+      <a href="#st-guide-4">五、清空 clear（第 27–29 行）</a>
+    
+    <a href="#st-guide-usage">初始化与调用示例</a>
+    <a href="#st-guide-safety">安全前提与常见误区</a>
+  </nav>
+  
+    <section class="st-guide-section" id="st-guide-0">
+      <h3>一、头文件与栈结构（第 1–8 行）</h3>
+      
+        <article class="st-guide-line" data-c-line="1">
+          <div class="st-guide-source"><span class="st-guide-number">第 1 行</span><code>#include &lt;stdbool.h&gt;</code></div>
+          <p>引入布尔类型支持。在本例使用的 C99/C11 写法中，bool 表示布尔类型，true 和 false 表示成功与失败。预处理器会在编译前处理 #include；它不是运行时执行的函数。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="2">
+          <div class="st-guide-source"><span class="st-guide-number">第 2 行</span><code>#include &lt;stdio.h&gt;</code></div>
+          <p>引入标准输入输出相关函数声明。本程序使用其中的 snprintf，把输入字符串写入指定长度的缓冲区；这里并不是用它向屏幕打印。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="3">
+          <div class="st-guide-source"><span class="st-guide-number">第 3 行</span><code>#include &lt;string.h&gt;</code></div>
+          <p>引入字符串处理函数声明。本程序使用 strcpy，将栈顶字符串复制到调用者提供的输出缓冲区。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="4">
+          <div class="st-guide-source"><span class="st-guide-number">第 4 行</span><code>#define MAX_CAPACITY 8</code></div>
+          <p>定义预处理宏 MAX_CAPACITY，其值为 8。编译前，相应宏名会被替换成 8。它决定结构体内部实际分配的槽位数；没有结尾分号，也不是可以在运行时修改的变量。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="5">
+          <div class="st-guide-source"><span class="st-guide-number">第 5 行</span><code>typedef struct {</code></div>
+          <p>开始定义一个匿名结构体，并通过 typedef 为它起类型别名。结构体把数据数组、栈顶位置和容量放在一起，方便作为一个完整的栈对象传递。左花括号开始成员声明区域。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="6">
+          <div class="st-guide-source"><span class="st-guide-number">第 6 行</span><code>    char data[MAX_CAPACITY][13];</code></div>
+          <p>定义一个二维字符数组，共 8 行，每行 13 个 char。每一行保存一个栈元素：最多 12 字节的字符串内容，加上 1 字节字符串结束符 \0。data[0] 是栈底槽位，data[top] 是当前栈顶字符串。数组直接包含在结构体内，不需要额外 malloc。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="7">
+          <div class="st-guide-source"><span class="st-guide-number">第 7 行</span><code>    int top, capacity;</code></div>
+          <p>声明两个整数成员。top 是栈顶下标，不是元素数量：空栈为 -1，一个元素时为 0，元素数等于 top + 1。capacity 是本次允许使用的有效容量，须为 1–8；即使页面选容量 4，结构体仍实际包含 8 个槽位，只允许使用前 4 个。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="8">
+          <div class="st-guide-source"><span class="st-guide-number">第 8 行</span><code>} Stack;</code></div>
+          <p>结束结构体定义，并把该结构体类型命名为 Stack。以后可以写 Stack s; 来声明一个栈对象。这里的分号是类型声明的一部分，不能省略。</p>
+        </article>
+      
+    </section>
+  
+    <section class="st-guide-section" id="st-guide-1">
+      <h3>二、入栈 push（第 10–15 行）</h3>
+      
+        <article class="st-guide-line" data-c-line="10">
+          <div class="st-guide-source"><span class="st-guide-number">第 10 行</span><code>bool push(Stack *s, const char *value) {</code></div>
+          <p>定义入栈函数，返回 bool。Stack *s 接收栈对象的地址，所以函数可以修改调用者的原始栈，而不是修改一个副本。const char *value 指向待复制的字符串；const 表示函数不会通过这个指针修改输入字符，不代表它会永久保存这个地址。左花括号开始函数体。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="11">
+          <div class="st-guide-source"><span class="st-guide-number">第 11 行</span><code>    if (s-&gt;top + 1 &gt;= s-&gt;capacity) return false;</code></div>
+          <p>先判断栈是否已满。s-&gt;top 通过指针访问成员，等价于 (*s).top；top + 1 就是当前元素数。若数量达到或超过有效容量，立即返回 false，不再执行后面的入栈语句，也不改变栈。必须先检查再递增，否则可能写出数组边界。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="12">
+          <div class="st-guide-source"><span class="st-guide-number">第 12 行</span><code>    ++s-&gt;top;</code></div>
+          <p>将栈顶下标加 1，为新元素选中一个槽位。空栈的 top 从 -1 变为 0；若原来 top=1，则新元素放入下标 2。这里的前缀 ++ 是递增操作；此行是独立语句，因此没有利用它的表达式返回值。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="13">
+          <div class="st-guide-source"><span class="st-guide-number">第 13 行</span><code>    snprintf(s-&gt;data[s-&gt;top], 13, &#34;%s&#34;, value);</code></div>
+          <p>把 value 中的字符串复制到新的栈顶槽位。第一个参数是目标字符数组，第二个参数 13 是包含结束符在内的目标容量，第三个参数 &#34;%s&#34; 表示按字符串格式写入，第四个参数是输入。目标容量大于 0 时，正常成功写入会以 \0 结束；最多保留 12 字节内容，超长内容会被截断。这里只复制字符，不保存输入指针。固定使用 &#34;%s&#34; 也避免把输入中的百分号当作格式指令。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="14">
+          <div class="st-guide-source"><span class="st-guide-number">第 14 行</span><code>    return true;</code></div>
+          <p>返回 true，告诉调用者入栈流程已完成。它不是返回入栈的字符串，也不是返回新的栈顶下标。注意本教学代码未检查 snprintf 的返回值，因此 true 不保证长输入完整保存，也未单独处理格式化失败。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="15">
+          <div class="st-guide-source"><span class="st-guide-number">第 15 行</span><code>}</code></div>
+          <p>结束 push 函数体。此处不是结构体类型声明，所以右花括号后不需要分号。</p>
+        </article>
+      
+    </section>
+  
+    <section class="st-guide-section" id="st-guide-2">
+      <h3>三、出栈 pop（第 16–21 行）</h3>
+      
+        <article class="st-guide-line" data-c-line="16">
+          <div class="st-guide-source"><span class="st-guide-number">第 16 行</span><code>bool pop(Stack *s, char out[13]) {</code></div>
+          <p>定义出栈函数。s 指向要修改的栈，out 是调用者提供的结果缓冲区，成功与否通过 bool 返回，取出的字符串通过 out 输出。特别注意：函数形参中的 char out[13] 会调整为 char *，数字 13 不会让编译器自动验证调用者确实分配了 13 字节。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="17">
+          <div class="st-guide-source"><span class="st-guide-number">第 17 行</span><code>    if (s-&gt;top &lt; 0) return false;</code></div>
+          <p>如果 top 小于 0，说明栈为空，不能访问 data[top]。函数立即返回 false，避免访问 data[-1]，这称为防止栈下溢。失败时没有复制字符串，out 的原有内容也不会由这一行清空。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="18">
+          <div class="st-guide-source"><span class="st-guide-number">第 18 行</span><code>    strcpy(out, s-&gt;data[s-&gt;top]);</code></div>
+          <p>先将当前栈顶字符串复制到 out，包括末尾的 \0。strcpy 不接收目标容量，也不会自动检查目标大小，因此 out 必须足够大，源字符串必须正确结束。这里先复制再移动 top，才能得到要被移除的那个元素。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="19">
+          <div class="st-guide-source"><span class="st-guide-number">第 19 行</span><code>    --s-&gt;top;</code></div>
+          <p>将栈顶下标减 1，逻辑上删除刚才的栈顶元素。例如 top 从 2 变为 1，原下标 2 不再属于有效栈范围；若最后一个元素被取出，top 从 0 变为 -1。此行并不擦除 data 中的旧字符，旧槽位以后入栈时会被覆盖。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="20">
+          <div class="st-guide-source"><span class="st-guide-number">第 20 行</span><code>    return true;</code></div>
+          <p>表示出栈成功。真正取出的字符串已经写入 out。调用者应先检查 bool 返回值，再使用 out；不能把 false 情况下遗留在 out 的旧内容当作新的出栈结果。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="21">
+          <div class="st-guide-source"><span class="st-guide-number">第 21 行</span><code>}</code></div>
+          <p>结束 pop 函数体。出栈只处理一个栈顶元素，因此后入栈的元素先被取出，这就是 LIFO。</p>
+        </article>
+      
+    </section>
+  
+    <section class="st-guide-section" id="st-guide-3">
+      <h3>四、查看栈顶 peek（第 22–26 行）</h3>
+      
+        <article class="st-guide-line" data-c-line="22">
+          <div class="st-guide-source"><span class="st-guide-number">第 22 行</span><code>bool peek(const Stack *s, char out[13]) {</code></div>
+          <p>定义只读的栈顶查看函数。const Stack *s 表示不能通过 s 修改栈的成员；例如在这个函数里写 --s-&gt;top 会违反 const 限制。out 仍是可写的输出缓冲区，const 只作用于 s 指向的栈对象。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="23">
+          <div class="st-guide-source"><span class="st-guide-number">第 23 行</span><code>    if (s-&gt;top &lt; 0) return false;</code></div>
+          <p>先检查空栈。若不存在栈顶元素，则立即返回 false，既不读取 data[-1]，也不修改 out。这个检查与 pop 的空栈保护相同。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="24">
+          <div class="st-guide-source"><span class="st-guide-number">第 24 行</span><code>    strcpy(out, s-&gt;data[s-&gt;top]);</code></div>
+          <p>将当前栈顶字符串复制到调用者的 out 缓冲区。复制规则和容量要求与 pop 相同。但这里没有后续的 top 递减操作，因此原元素仍留在栈里，元素数量保持不变。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="25">
+          <div class="st-guide-source"><span class="st-guide-number">第 25 行</span><code>    return true;</code></div>
+          <p>表示查看成功。调用者可以从 out 读取栈顶内容；再次 peek 会得到同一元素，除非中间进行了入栈、出栈或清空操作。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="26">
+          <div class="st-guide-source"><span class="st-guide-number">第 26 行</span><code>}</code></div>
+          <p>结束 peek 函数体。peek 与 pop 最重要的区别不是复制字符串的方式，而是它不修改栈顶位置。</p>
+        </article>
+      
+    </section>
+  
+    <section class="st-guide-section" id="st-guide-4">
+      <h3>五、清空 clear（第 27–29 行）</h3>
+      
+        <article class="st-guide-line" data-c-line="27">
+          <div class="st-guide-source"><span class="st-guide-number">第 27 行</span><code>void clear(Stack *s) {</code></div>
+          <p>定义清空函数。void 表示不返回结果值，Stack *s 表示通过地址修改原栈对象。该函数只改变逻辑状态，不释放栈对象占用的存储空间。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="28">
+          <div class="st-guide-source"><span class="st-guide-number">第 28 行</span><code>    s-&gt;top = -1;</code></div>
+          <p>把栈顶下标重置为空栈标志 -1，所有槽位在逻辑上都变为无效。capacity 不变，所以清空后仍可继续入栈。数组内旧字符串没有被擦除；这不是敏感数据的安全清除。如果要逐字节擦除数据，需要额外设计。</p>
+        </article>
+      
+        <article class="st-guide-line" data-c-line="29">
+          <div class="st-guide-source"><span class="st-guide-number">第 29 行</span><code>}</code></div>
+          <p>结束 clear 函数体。清空不需要逐个移动节点或释放内存，因为栈的数据直接存在固定二维数组中。</p>
+        </article>
+      
+    </section>
+  
+  <section class="st-guide-section" id="st-guide-usage">
+    <h3>六、必须先初始化，再调用函数</h3>
+    <p>上方展示的是类型与函数定义，不含完整的入口程序。真实 C 程序在调用前必须创建并初始化栈对象；只写 <code>Stack s;</code> 声明局部变量，会使成员值未初始化，不能直接拿来入栈。</p>
+    <pre class="st-guide-example"><code>Stack s = { .top = -1, .capacity = 6 };
+char out[13] = {0};
+
+if (push(&s, "10") && push(&s, "20")) {
+    if (peek(&s, out)) printf("TOP: %s\n", out);
+    if (pop(&s, out)) printf("POP: %s\n", out);
+}
+clear(&s);</code></pre>
+    <ul>
+      <li><code>Stack s = { .top = -1, .capacity = 6 };</code> 使用 C99 指定初始化器，把栈顶设为 -1、有效容量设为 6，未明确指定的数组成员会被零初始化。数组物理容量仍是 8。</li>
+      <li><code>char out[13] = {0};</code> 分配 13 字节结果缓冲区，并将其初始化为全零；作为字符串时初始值为空字符串。</li>
+      <li><code>&s</code> 是取地址操作，把栈对象的地址传给函数；<code>s</code> 是对象本身，<code>Stack *s</code> 是函数中的指针形参，三者不要混淆。</li>
+      <li>两次入栈成功后，顺序为栈底“10”、栈顶“20”，<code>top=1</code>。<code>&&</code> 具有短路行为：若第一次入栈失败，则第二次调用不会执行。两次调用也不是事务，第二次失败不会撤销第一次成功的入栈。</li>
+      <li>查看栈顶输出“20”，但 <code>top</code> 仍为 1；出栈输出“20”后 <code>top=0</code>，“10”成为新的栈顶；最后清空使 <code>top=-1</code>。</li>
+      <li><code>printf</code> 把结果写到标准输出，与上方 <code>snprintf</code> 写到字符缓冲区不同。这段示例须放在真实 C 程序的函数内，例如 <code>main</code> 中。</li>
+    </ul>
+  </section>
+  <section class="st-guide-section st-guide-safety" id="st-guide-safety">
+    <h3>七、安全前提与常见误区</h3>
+    <ul>
+      <li><strong>对象状态必须合法：</strong><code>1 <= capacity <= MAX_CAPACITY</code>，且 <code>-1 <= top < capacity</code>。本教学代码假设调用者维持这些条件，不会自动修复越界的容量或损坏的栈顶。</li>
+      <li><strong>指针必须有效：</strong>传入的栈指针不能为 NULL，输入必须是可读且以 <code>\0</code> 结束的字符串；输出缓冲区必须可写且至少有 13 字节。输入不要与当前入栈目标重叠，使用 <code>strcpy</code> 时源、目标也不能重叠。</li>
+      <li><strong>长度是字节，不是汉字个数：</strong>每个槽位只容纳 12 字节内容。UTF-8 汉字通常占多个字节，直接按字节截断可能切断一个字符。网页输入的“12 个字符”限制与真实 C 缓冲区的“12 字节”限制并不等价。</li>
+      <li><strong>生产代码应检查截断：</strong><code>snprintf</code> 的返回值是本来需要写入的字节数（不含结束符）；返回值大于等于 13 表示截断，小于 0 表示失败。若业务不允许截断，应先验证长度或检查结果，并设计明确的失败／回滚策略。</li>
+      <li><strong>返回值与结果分开：</strong><code>pop</code>、<code>peek</code> 返回成功标志，字符串通过 <code>out</code> 传出。失败不保证清空输出缓冲区，因此必须先检查返回值。</li>
+      <li><strong>逻辑移除不等于擦除：</strong>出栈和清空主要改变 <code>top</code>，不清除旧数据，也不调用 <code>free</code>。数组属于栈对象本身，其生命周期由栈对象决定。</li>
+      <li><strong>浏览器展示与实际执行不同：</strong>本页由 JavaScript 模型驱动动画，C 代码用于对应讲解，不会在浏览器中编译运行，也不完整模拟 C 的内存、字符编码和库函数错误。</li>
+    </ul>
+  </section>
+</section>
+
   </div>
 </section>
-<link rel="stylesheet" href="/css/stack.css?v=mvt6hjow">
+<link rel="stylesheet" href="/css/stack.css?v=mvuv7re8">
 <script src="/js/stack.js?v=mvulguog"></script>
 
+    
+      <div class="container">
+<section id="post-comment" class="site-comments" aria-labelledby="comments-title">
+  <h2 id="comments-title">评论与讨论</h2>
+  <p class="comments-note">评论保存在 GitHub Issues，登录 GitHub 后即可参与讨论。</p>
+  
+    <p class="comments-note">评论暂未开放，站点管理员尚未配置 GitHub OAuth。</p>
+  
+  <a class="comments-issues" href="https://github.com/shengnoah/markdown/issues" target="_blank" rel="noopener noreferrer">前往 GitHub Issues</a>
+</section>
+<link rel="stylesheet" href="/css/comments.css?v=mvuwlkls">
+
+</div>
+    
   </main>
   <footer class="site-footer" id="support">
   <div class="container footer-inner">
@@ -158,6 +435,8 @@
       
         <a href="/archives/">博客</a>
       
+        <a href="/happy-chicken/">快乐小鸡</a>
+      
         <a href="/#contact">联系我们</a>
       
         <a href="/#privacy">隐私政策</a>
@@ -169,7 +448,7 @@
   </div>
 </footer>
 
-  <script src="/js/main.js?v=mvp45ddc"></script>
+  <script src="/js/main.js?v=mvynsihc"></script>
   
   <script>
   var _hmt = _hmt || [];

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="纯 JavaScript 实现的 Lua 5.4 风格解释器：在浏览器中直接运行 Lua 代码，支持闭包、元表、协程、goto、模式匹配和常用标准库。">
+  <meta name="keywords" content="Lua, 在线 Lua, Lua 解释器, Lua 5.4, JavaScript, 在线编程, 元表, 协程">
+  <meta name="author" content="Xianbao">
+  <title>Lua 在线解释器 — Xianbao</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="stylesheet" href="/css/style.css?v=mvynsihc">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Xianbao</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      
+        
+          <a href="/#features" class="nav-link">功能特性</a>
+        
+      
+        
+          <a href="/#themes" class="nav-link">主题</a>
+        
+      
+        
+          <a href="/archives/" class="nav-link">博客</a>
+        
+      
+        
+          <a href="/#download" class="nav-link">下载</a>
+        
+      
+        
+          <a href="/fbasic/" class="nav-link">FBASIC</a>
+        
+      
+        
+          <a href="/lua/" class="nav-link nav-link-live" aria-label="Lua 在线运行" title="Lua 在线运行">
+            <span class="nav-live-dot" aria-hidden="true"></span>
+            <span class="nav-live-label">Lua</span>
+          </a>
+        
+      
+        
+          <a href="/cobol/home.html" class="nav-link">COBOL</a>
+        
+      
+        
+          <a href="/keyboard/" class="nav-link">键盘测试</a>
+        
+      
+        
+          <a href="/#support" class="nav-link">支持</a>
+        
+      
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          算法演示
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          
+          
+            <a href="/bubble-sort/" class="nav-dropdown-item">冒泡排序</a>
+          
+            <a href="/eight-queens/" class="nav-dropdown-item">八皇后</a>
+          
+            <a href="/linked-list/" class="nav-dropdown-item">链表</a>
+          
+            <a href="/quick-sort/" class="nav-dropdown-item">快速排序</a>
+          
+            <a href="/selection-sort/" class="nav-dropdown-item">选择排序</a>
+          
+            <a href="/stack/" class="nav-dropdown-item">堆栈</a>
+          
+        </div>
+      </div>
+      
+      
+      <div class="nav-dropdown" id="nav-dropdown-games">
+        <button class="nav-link nav-dropdown-toggle" id="nav-dropdown-games-toggle" aria-haspopup="true" aria-expanded="false">
+          小游戏
+          <svg class="nav-dropdown-arrow" width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          
+            <a href="/typing/" class="nav-dropdown-item">打字游戏</a>
+          
+            <a href="/happy-chicken/" class="nav-dropdown-item">快乐小鸡</a>
+          
+            <a href="/rhythm/" class="nav-dropdown-item">节奏敲击</a>
+          
+        </div>
+      </div>
+      
+      <a href="#download" class="btn btn-primary nav-download">下载</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    <section class="lua-page">
+  <div class="container">
+    <div class="lua-hero">
+      <p class="lua-kicker">Lua 5.4 · Powered by JavaScript</p>
+      <h1>在浏览器里运行 Lua</h1>
+      <p class="lua-lead">
+        一个用纯 JavaScript 从零实现的 Lua 解释器：词法分析、语法树、元表、协程、模式匹配，
+        不需要后端，也不需要安装任何东西。打开页面，写代码，按 <kbd>Ctrl</kbd> + <kbd>Enter</kbd>。
+      </p>
+      <div class="lua-badges" aria-label="特性">
+        <span>零依赖</span>
+        <span>完全离线</span>
+        <span>元表 / 协程</span>
+        <span>Lua 模式匹配</span>
+      </div>
+    </div>
+
+    <div class="lua-workbench">
+      <div class="lua-panel lua-editor-panel">
+        <div class="lua-panel-head">
+          <div class="lua-file-tab">
+            <span class="lua-dot lua-dot-red"></span>
+            <span class="lua-dot lua-dot-yellow"></span>
+            <span class="lua-dot lua-dot-green"></span>
+            <span class="lua-filename">main.lua</span>
+          </div>
+          <div class="lua-editor-actions">
+            <label class="lua-example-label">
+              <span>示例</span>
+              <select id="lua-example" aria-label="选择示例程序"></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="lua-editor" id="lua-editor">
+          <div class="lua-gutter" aria-hidden="true">
+            <div class="lua-gutter-inner" id="lua-gutter-inner">1</div>
+          </div>
+          <div class="lua-code-area">
+            <pre class="lua-highlight" id="lua-highlight" aria-hidden="true"></pre>
+            <textarea id="lua-code" spellcheck="false" autocomplete="off" autocapitalize="off"
+              autocorrect="off" wrap="off" aria-label="Lua 代码编辑器"></textarea>
+          </div>
+        </div>
+
+        <div class="lua-editor-foot">
+          <span class="lua-hint"><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> 运行 · <kbd>Tab</kbd> 缩进</span>
+          <span class="lua-counts" id="lua-counts">0 行</span>
+        </div>
+
+        <div class="lua-toolbar">
+          <div class="lua-toolbar-left">
+            <button class="btn lua-btn lua-btn-ghost" id="lua-reset" type="button" title="恢复为示例代码">↺ 重置</button>
+            <button class="btn lua-btn lua-btn-ghost" id="lua-share" type="button" title="复制包含代码的分享链接">🔗 分享</button>
+            <button class="btn lua-btn lua-btn-ghost" id="lua-download" type="button" title="下载 main.lua">⤓ 下载</button>
+          </div>
+          <button class="btn lua-btn lua-run" id="lua-run" type="button">
+            <span class="lua-run-icon">▶</span> 运行
+          </button>
+        </div>
+      </div>
+
+      <div class="lua-panel lua-output-panel">
+        <div class="lua-panel-head lua-output-head">
+          <div class="lua-tabs" role="tablist" aria-label="输出区域">
+            <button class="lua-tab active" id="lua-tab-output" type="button" role="tab" aria-selected="true">运行结果</button>
+            <button class="lua-tab" id="lua-tab-stdin" type="button" role="tab" aria-selected="false">标准输入</button>
+          </div>
+          <span class="lua-status" id="lua-status" data-state="ready">READY</span>
+        </div>
+
+        <div class="lua-output-body" id="lua-output-body">
+          <pre class="lua-output" id="lua-output"><span class="lua-placeholder">点击「运行」或按 Ctrl/⌘ + Enter 执行代码。print 的输出会显示在这里。</span></pre>
+          <div class="lua-error-wrap" id="lua-error-wrap" hidden>
+            <pre class="lua-error" id="lua-error"></pre>
+            <details class="lua-traceback" id="lua-traceback" hidden>
+              <summary>调用栈</summary>
+              <pre id="lua-traceback-text"></pre>
+            </details>
+          </div>
+          <div class="lua-output-note" id="lua-output-note" hidden></div>
+        </div>
+
+        <div class="lua-stdin-body" id="lua-stdin-body" hidden>
+          <p class="lua-stdin-hint">每行一条输入，供 <code>io.read()</code> 读取。例如输入 <code>42</code> 后，Lua 中 <code>io.read("n")</code> 就会得到 42。</p>
+          <textarea id="lua-stdin" spellcheck="false" placeholder="第一行输入&#10;第二行输入" aria-label="标准输入"></textarea>
+        </div>
+
+        <div class="lua-statbar">
+          <span class="lua-stat"><i class="lua-status-dot" id="lua-status-dot"></i><span id="lua-status-text">就绪</span></span>
+          <span class="lua-stat">用时 <strong id="lua-time">—</strong></span>
+          <span class="lua-stat">步数 <strong id="lua-steps">—</strong></span>
+          <span class="lua-stat lua-stat-right" id="lua-message">纯 JavaScript · 无网络请求</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lua-features">
+      <div class="lua-feature-card">
+        <div class="lua-feature-icon">🧩</div>
+        <h3>完整核心语法</h3>
+        <p>变量、闭包与 upvalue、可变参数、多返回值、goto/label、<code>&lt;const&gt;</code>、数值与泛型 for，语法覆盖 Lua 5.4 的主要部分。</p>
+      </div>
+      <div class="lua-feature-card">
+        <div class="lua-feature-icon">🧱</div>
+        <h3>元表与面向对象</h3>
+        <p><code>__index</code>、<code>__newindex</code>、<code>__call</code>、<code>__add</code>、<code>__tostring</code>、<code>__eq</code> 等元方法齐全，可以直接写 class、继承和运算符重载。</p>
+      </div>
+      <div class="lua-feature-card">
+        <div class="lua-feature-icon">🔁</div>
+        <h3>真正的协程</h3>
+        <p>求值器基于 JavaScript generator 构建，<code>coroutine.yield</code> 可以跨越嵌套函数、pcall、table.sort、gsub 回调挂起和恢复。</p>
+      </div>
+      <div class="lua-feature-card">
+        <div class="lua-feature-icon">🔤</div>
+        <h3>Lua 模式匹配</h3>
+        <p>独立实现的 Lua pattern 引擎：字符类、集合、捕获、位置捕获、反向引用、<code>%b</code> 平衡匹配与 <code>%f</code> 边界，不是简单替换成正则。</p>
+      </div>
+    </div>
+
+    <div class="lua-docs">
+      <div class="lua-docs-card">
+        <h2>已实现的标准库</h2>
+        <ul class="lua-lib-list">
+          <li><strong>base</strong> print, type, tostring, tonumber, ipairs, pairs, next, select, assert, error, pcall, xpcall, load, rawget/rawset, setmetatable/getmetatable</li>
+          <li><strong>string</strong> len, sub, byte, char, rep, reverse, upper, lower, format, find, match, gmatch, gsub</li>
+          <li><strong>table</strong> insert, remove, concat, sort, unpack, pack, move</li>
+          <li><strong>math</strong> abs, ceil, floor, sqrt, fmod, modf, max, min, random, randomseed, tointeger, type, 三角函数与常量</li>
+          <li><strong>coroutine</strong> create, resume, yield, status, wrap, running, isyieldable, close</li>
+          <li><strong>os / io / utf8</strong> os.time, os.date, os.clock, os.difftime；io.write, io.read；utf8.char, utf8.len, utf8.codepoint, utf8.codes</li>
+          <li><strong>debug</strong> traceback, getmetatable, setmetatable</li>
+        </ul>
+      </div>
+
+      <div class="lua-docs-card">
+        <h2>实现说明与差异</h2>
+        <p>整个解释器约 4000 行 JavaScript，分为词法分析、递归下降解析器、树遍历求值器和标准库四层。协程直接复用 JS generator，因此 yield 可以穿过任意深度的 Lua 调用。</p>
+        <table class="lua-diff-table">
+          <thead>
+            <tr><th>项目</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>数字</td><td>统一使用双精度浮点，没有独立的 64 位整数子类型；<code>2/1</code> 显示为 <code>2</code> 而非 <code>2.0</code>，超出 2<sup>53</sup> 的整数会损失精度；位运算通过 BigInt 模拟 64 位</td></tr>
+            <tr><td>字符串</td><td>按 UTF-16 索引，中文按字符处理，<code>string.char</code> 接受 Unicode 码点；Lua 原生按字节索引，<code>string.char</code> 只接受 0–255</td></tr>
+            <tr><td>文件 IO</td><td>浏览器不提供文件系统，<code>io.read</code> 从页面的「标准输入」读取，<code>io.write</code> 写入输出面板</td></tr>
+            <tr><td>模块</td><td>没有 <code>require</code> / <code>package</code>；可用 <code>load</code> 动态执行代码</td></tr>
+            <tr><td>递归</td><td>普通递归受 JavaScript 调用栈限制，约 200 层；尾调用 <code>return f(...)</code> 会复用栈帧，可无限递归</td></tr>
+            <tr><td>其他</td><td>不支持 <code>&lt;close&gt;</code>、<code>__gc</code>、<code>string.pack</code>；<code>goto</code> 不做局部变量作用域的静态检查</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lua-tips">
+      <h2>小技巧</h2>
+      <div class="lua-tip-grid">
+        <div><code>print</code> 会用制表符分隔多个值；表和函数默认显示地址。</div>
+        <div>用 <code>string.format("%q", s)</code> 查看字符串的转义形式。</div>
+        <div>按下「分享」会把代码放进 URL hash，发给别人打开即可看到同一段代码。</div>
+        <div>死循环会被自动中断：默认上限约 300 万步 / 5 秒。</div>
+      </div>
+    </div>
+
+    <noscript>
+      <p class="lua-noscript">需要启用 JavaScript 才能运行 Lua 解释器。</p>
+    </noscript>
+  </div>
+</section>
+
+<link rel="stylesheet" href="/css/lua.css?v=mvynsihc">
+<script src="/js/lua-core.js?v=mvynsihc"></script>
+<script src="/js/lua-stdlib.js?v=mvynsihc"></script>
+<script src="/js/lua-playground.js?v=mvynsihc"></script>
+    
+      <div class="container">
+<section id="post-comment" class="site-comments" aria-labelledby="comments-title">
+  <h2 id="comments-title">评论与讨论</h2>
+  <p class="comments-note">评论保存在 GitHub Issues，登录 GitHub 后即可参与讨论。</p>
+  
+    <p class="comments-note">评论暂未开放，站点管理员尚未配置 GitHub OAuth。</p>
+  
+  <a class="comments-issues" href="https://github.com/shengnoah/markdown/issues" target="_blank" rel="noopener noreferrer">前往 GitHub Issues</a>
+</section>
+<link rel="stylesheet" href="/css/comments.css?v=mvuwlkls">
+
+</div>
+    
+  </main>
+  <footer class="site-footer" id="support">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo footer-logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M6 9L9 15L12 11L15 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Xianbao</span>
+      </a>
+      <p class="footer-tagline">极简的 Markdown 编辑器与阅读器。</p>
+    </div>
+    <nav class="footer-links">
+      
+        <a href="/#about">关于我们</a>
+      
+        <a href="/archives/">博客</a>
+      
+        <a href="/happy-chicken/">快乐小鸡</a>
+      
+        <a href="/#contact">联系我们</a>
+      
+        <a href="/#privacy">隐私政策</a>
+      
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2015-2024 Xianbao. 保留所有权利。</p>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=mvynsihc"></script>
+  
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74a6c8c028d98427eec84fb00e9d6a60";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  
+</body>
+</html>
