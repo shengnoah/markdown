@@ -1,0 +1,542 @@
+/* ============================================================
+   Games Hub（游戏大厅 /games/）
+   自动汇总所有 demo_type: 小游戏 的页面。
+   视觉与站点一致：白底、品牌蓝、圆角卡片；
+   每张卡片用自身 --game 主题色做点缀。
+   ============================================================ */
+
+.games-page {
+  position: relative;
+  padding: 56px 0 72px;
+  overflow: hidden;
+}
+
+/* 背景柔光 */
+.games-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(720px 320px at 12% -6%, rgba(45, 156, 219, 0.10), transparent 70%),
+    radial-gradient(620px 300px at 88% 2%, rgba(79, 174, 91, 0.10), transparent 72%),
+    radial-gradient(520px 260px at 50% 108%, rgba(139, 92, 246, 0.08), transparent 70%);
+}
+
+.games-page .container {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+}
+
+/* ===== Hero ===== */
+.games-hero {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.games-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e6e9ed;
+  box-shadow: 0 2px 10px rgba(30, 60, 90, 0.05);
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7b8794;
+}
+
+.games-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4fae5b;
+  box-shadow: 0 0 0 3px rgba(79, 174, 91, 0.16);
+  animation: games-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes games-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.82); opacity: 0.72; }
+}
+
+.games-title {
+  margin: 0 0 14px;
+  font-size: 44px;
+  line-height: 1.24;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #2c3e50;
+}
+
+.games-subtitle {
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6a7684;
+}
+
+.games-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+}
+
+.games-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid #e6e9ed;
+  box-shadow: 0 2px 10px rgba(30, 60, 90, 0.04);
+}
+
+.games-stat strong {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2D9CDB;
+}
+
+.games-stat span {
+  font-size: 12.5px;
+  color: #8c99a6;
+}
+
+/* ===== 工具栏 ===== */
+.games-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 14px;
+}
+
+.games-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.games-chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e6e9ed;
+  background: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6a7684;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.games-chip:hover {
+  color: #2c3e50;
+  border-color: #c8d6e2;
+  transform: translateY(-1px);
+}
+
+.games-chip.is-active {
+  background: #2c3e50;
+  border-color: #2c3e50;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.22);
+}
+
+.games-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  min-width: 250px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid #e6e9ed;
+  background: #fff;
+  color: #9aa8b4;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.games-search:focus-within {
+  border-color: rgba(45, 156, 219, 0.5);
+  box-shadow: 0 0 0 3px rgba(45, 156, 219, 0.12);
+  color: #2D9CDB;
+}
+
+.games-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+.games-search input::placeholder {
+  color: #a8b3bd;
+}
+
+.games-search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.games-result {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: #8c99a6;
+}
+
+.games-result strong {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.games-result-hint {
+  margin-left: 6px;
+  color: #b0bac4;
+}
+
+/* ===== 卡片网格 ===== */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* 筛选后只剩一张卡片时居中显示，避免整行拉得太长 */
+.games-grid.is-solo {
+  grid-template-columns: minmax(0, 560px);
+  justify-content: center;
+}
+
+.games-grid.is-solo .game-card:not([hidden]) {
+  grid-column: auto;
+}
+
+.game-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 22px 20px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid #e6e9ed;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(30, 60, 90, 0.04);
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.3, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+  animation: game-card-in 0.45s ease both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+@keyframes game-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--game);
+  box-shadow:
+    0 18px 38px -12px var(--game-soft),
+    0 6px 16px rgba(30, 60, 90, 0.06);
+}
+
+/* [hidden] 自带 display:none，但 .game-card 的 display:flex 会把它覆盖掉 */
+.game-card[hidden] {
+  display: none;
+}
+
+.game-card:focus-visible {
+  outline: 3px solid var(--game);
+  outline-offset: 3px;
+}
+
+/* 顶部彩条 + 角落柔光 */
+.game-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--game);
+  opacity: 0.9;
+}
+
+.game-card-glow {
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: var(--game-soft);
+  filter: blur(10px);
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.9;
+}
+
+.game-card:hover .game-card-glow {
+  transform: scale(1.14);
+  opacity: 1;
+}
+
+.game-card-head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.game-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 15px;
+  background: var(--game-softer);
+  border: 1px solid var(--game-soft);
+  font-size: 28px;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.game-card-badge {
+  position: relative;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--game);
+  color: #fff;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 10px var(--game-soft);
+}
+
+.game-card-title-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.game-card-title {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #2c3e50;
+}
+
+.game-card-tag {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--game-softer);
+  color: var(--game);
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.game-card-desc {
+  position: relative;
+  flex: 1;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.68;
+  color: #6a7684;
+}
+
+.game-card-meta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.game-card-meta span {
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: #f7f9fb;
+  border: 1px solid #eef2f6;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 10.5px;
+  color: #8c99a6;
+}
+
+.game-card-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--game);
+  letter-spacing: 0.02em;
+}
+
+.game-card-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.game-card:hover .game-card-arrow {
+  transform: translateX(5px);
+}
+
+/* ===== 空状态 / 页脚 ===== */
+.games-empty {
+  padding: 44px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #8c99a6;
+  border: 1px dashed #dbe3ea;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.games-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid #eef2f6;
+  font-size: 13px;
+  color: #94a1ae;
+}
+
+.games-foot-link {
+  color: #2D9CDB;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.games-foot-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+  .games-title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .games-page {
+    padding: 36px 0 56px;
+  }
+
+  .games-title {
+    font-size: 30px;
+  }
+
+  .games-title-br {
+    display: none;
+  }
+
+  .games-subtitle {
+    font-size: 14.5px;
+  }
+
+  .games-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .games-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .game-card {
+    padding: 18px 18px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .games-stats {
+    gap: 8px;
+  }
+
+  .games-stat {
+    padding: 7px 13px;
+  }
+
+  .games-stat strong {
+    font-size: 17px;
+  }
+
+  .games-title {
+    font-size: 26px;
+  }
+
+  .game-card-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
+    border-radius: 13px;
+  }
+
+  .game-card-title {
+    font-size: 17px;
+  }
+
+  .game-card-desc {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-card,
+  .games-kicker-dot {
+    animation: none;
+  }
+
+  .game-card,
+  .game-card-glow,
+  .game-card-arrow {
+    transition: none;
+  }
+}

@@ -645,6 +645,26 @@
   color: #2c3e50;
 }
 
+/* 底部导航（返回游戏大厅 / 其他游戏） */
+.rg-more {
+  display: block;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #e2e8ee;
+  font-size: 13px;
+  color: #94a1ae;
+}
+
+.rg-more a {
+  color: #2d9cdb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rg-more a:hover {
+  text-decoration: underline;
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
   .rg-screen {
