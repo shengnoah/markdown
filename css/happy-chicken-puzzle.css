@@ -206,7 +206,7 @@
 }
 
 .hp-card {
-  width: min(470px, 100%);
+  width: min(520px, 100%);
   max-height: 100%;
   overflow: auto;
   background: #fff;
@@ -275,7 +275,7 @@
 
 .hp-page .hp-card-title {
   margin: 4px 0 0;
-  font-size: 27px;
+  font-size: 25px;
 }
 
 .hp-page .hp-card-en {
@@ -290,26 +290,29 @@
 }
 
 /* ===== 选图 ===== */
+/* 8 张画面：桌面 4 列 × 2 行，完整展示不做内部滚动 */
 .hp-pic-pick {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
   margin: 2px 0 10px;
+  padding: 2px;
 }
 
 .hp-pic-opt {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 6px 6px 7px;
+  gap: 3px;
+  padding: 4px 4px 5px;
   border: 1.5px solid #e6efe2;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fbfdf9;
   cursor: pointer;
   font-family: inherit;
   color: #6a7684;
   transition: all 0.18s ease;
+  min-width: 0;
 }
 
 .hp-pic-opt:hover {
@@ -330,35 +333,66 @@
 .hp-pic-opt.is-active::after {
   content: '';
   position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 9px;
-  height: 5px;
-  border-left: 2px solid #3f9e50;
-  border-bottom: 2px solid #3f9e50;
+  top: 7px;
+  right: 7px;
+  z-index: 2;
+  width: 8px;
+  height: 4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
   transform: rotate(-45deg);
   border-radius: 1px;
+  filter: drop-shadow(0 0 2px rgba(30, 90, 40, 0.6));
+}
+
+.hp-pic-thumb-wrap {
+  position: relative;
+  display: block;
+  border-radius: 7px;
+  overflow: hidden;
+  line-height: 0;
 }
 
 .hp-pic-thumb {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 8px;
   background: #eaf3e4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 2px 6px rgba(40, 80, 40, 0.12);
 }
 
+.hp-pic-emoji {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 4px rgba(30, 70, 40, 0.22);
+  font-size: 12px;
+  line-height: 1;
+}
+
 .hp-pic-name {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hp-pic-tag {
-  font-size: 10px;
+  font-size: 9.5px;
   color: #9aa8b4;
   font-family: 'SF Mono', Monaco, Consolas, monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hp-pic-opt.is-active .hp-pic-tag {
@@ -743,21 +777,37 @@
     line-height: 1.5;
   }
 
+  /* 手机端用 4 列 × 2 行，8 张缩略图一屏放完，开始按钮不用滚动 */
   .hp-pic-pick {
-    gap: 8px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
     margin-bottom: 8px;
   }
 
-  .hp-pic-opt {
-    padding: 5px 5px 6px;
-  }
-
   .hp-pic-name {
-    font-size: 11.5px;
+    font-size: 10px;
   }
 
   .hp-pic-tag {
-    font-size: 9.5px;
+    display: none;
+  }
+
+  .hp-pic-opt {
+    padding: 4px 4px 5px;
+  }
+
+  .hp-pic-name {
+    font-size: 11px;
+  }
+
+  .hp-pic-tag {
+    font-size: 9px;
+  }
+
+  .hp-pic-emoji {
+    width: 19px;
+    height: 19px;
+    font-size: 10.5px;
   }
 
   .hp-diff-pick {

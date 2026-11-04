@@ -29,25 +29,90 @@
   };
   var DIFF_ORDER = ['easy', 'normal', 'hard'];
 
+  // scene 决定用哪套场景绘制器；农场之外还有海底 / 太空 / 城市 / 雪山 / 沙滩
   var PICS = {
     chicken: {
       id: 'chicken',
       name: '晴日农场',
-      tag: '鸡太太 · 蓝天白云',
+      tag: '农场 · 鸡太太',
       emoji: '🐔',
+      scene: 'farm',
       pal: 'day',
-      star: 'chicken'
+      star: 'chicken',
+      fx: []
     },
     snake: {
       id: 'snake',
       name: '黄昏农场',
-      tag: '下蛋小蛇 · 落日余晖',
+      tag: '农场 · 下蛋小蛇',
       emoji: '🐍',
+      scene: 'farm',
       pal: 'dusk',
-      star: 'snake'
+      star: 'snake',
+      fx: []
+    },
+    ocean: {
+      id: 'ocean',
+      name: '海底世界',
+      tag: '珊瑚 · 小鱼',
+      emoji: '🐠',
+      scene: 'ocean',
+      pal: 'ocean',
+      star: 'snake',
+      fx: []
+    },
+    space: {
+      id: 'space',
+      name: '太空漫步',
+      tag: '星球 · 小行星',
+      emoji: '🚀',
+      scene: 'space',
+      pal: 'space',
+      star: 'chicken',
+      fx: []
+    },
+    city: {
+      id: 'city',
+      name: '城市夜色',
+      tag: '高楼 · 霓虹',
+      emoji: '🌃',
+      scene: 'city',
+      pal: 'city',
+      star: 'snake',
+      fx: []
+    },
+    snow: {
+      id: 'snow',
+      name: '雪山日出',
+      tag: '雪峰 · 松林',
+      emoji: '🏔️',
+      scene: 'snow',
+      pal: 'snow',
+      star: 'chicken',
+      fx: []
+    },
+    beach: {
+      id: 'beach',
+      name: '海边度假',
+      tag: '椰树 · 海浪',
+      emoji: '🏖️',
+      scene: 'beach',
+      pal: 'beach',
+      star: 'snake',
+      fx: []
+    },
+    desert: {
+      id: 'desert',
+      name: '沙漠绿洲',
+      tag: '仙人掌 · 沙丘',
+      emoji: '🏜️',
+      scene: 'desert',
+      pal: 'desert',
+      star: 'chicken',
+      fx: []
     }
   };
-  var PIC_ORDER = ['chicken', 'snake'];
+  var PIC_ORDER = ['chicken', 'snake', 'ocean', 'space', 'city', 'snow', 'beach', 'desert'];
 
   // ---------- 调色板 ----------
   var PALETTES = {
@@ -74,6 +139,78 @@
       bunting: ['#ff8a7a', '#ffd15c', '#6fd0c8', '#c7a1ff', '#ff9f5c'],
       haze: 'rgba(255,206,140,.28)',
       vignette: 'rgba(120,60,30,.16)'
+    },
+    ocean: {
+      sky0: '#0b3d63', sky1: '#12688f', sky2: '#2fa3bf',
+      sun: '#bfefff', sunGlow: 'rgba(150,230,255,.4)', sunFace: '#7ec8e0',
+      cloud: '#a8e6f5', hillFar: '#1a7a92',
+      yard0: '#e6d3a8', yard1: '#d4bd8c', yard2: '#bda574',
+      grass: 'rgba(70,170,160,.4)', flowerA: '#ffd6e8', flowerB: '#ffe9b0',
+      fence: '#d9c9a3', barn: '#e07a6a', barnDark: '#c05f52', hay: '#d9b45e',
+      shade: 'rgba(10,60,80,.24)',
+      bunting: ['#ff9bb5', '#ffd15c', '#6fd0c8', '#a9a7ff', '#ff8a5c'],
+      haze: 'rgba(60,190,215,.2)',
+      vignette: 'rgba(6,36,60,.3)'
+    },
+    space: {
+      sky0: '#0a0a1f', sky1: '#161238', sky2: '#2b1f52',
+      sun: '#fff2b8', sunGlow: 'rgba(255,220,150,.4)', sunFace: '#c9a04a',
+      cloud: '#5a4a8c', hillFar: '#3a2a68',
+      yard0: '#3d2f6b', yard1: '#302452', yard2: '#231a3c',
+      grass: 'rgba(160,140,255,.3)', flowerA: '#c9b6ff', flowerB: '#8fe8ff',
+      fence: '#8f7fc0', barn: '#7a4a8c', barnDark: '#5c3669', hay: '#b08a3a',
+      shade: 'rgba(10,8,30,.34)',
+      bunting: ['#ffd166', '#8fe8ff', '#ff9bb5', '#a6ffcb', '#c7a1ff'],
+      haze: 'rgba(40,20,70,.3)',
+      vignette: 'rgba(4,4,16,.42)'
+    },
+    city: {
+      sky0: '#141c3a', sky1: '#2d2a55', sky2: '#6b3f6e',
+      sun: '#ffe9b8', sunGlow: 'rgba(255,200,140,.42)', sunFace: '#c9924a',
+      cloud: '#4a4470', hillFar: '#2a2450',
+      yard0: '#3a3a52', yard1: '#2f2f45', yard2: '#24242f',
+      grass: 'rgba(120,120,180,.3)', flowerA: '#ffd6a8', flowerB: '#ffb0d0',
+      fence: '#5d5d7a', barn: '#6b4a6e', barnDark: '#523850', hay: '#a88a48',
+      shade: 'rgba(10,10,30,.34)',
+      bunting: ['#ff9bb5', '#ffd15c', '#6fd0c8', '#a9a7ff', '#ff8a5c'],
+      haze: 'rgba(70,40,90,.3)',
+      vignette: 'rgba(8,8,24,.36)'
+    },
+    snow: {
+      sky0: '#8fb8e0', sky1: '#c3dcf0', sky2: '#eef7ff',
+      sun: '#ffe9b0', sunGlow: 'rgba(255,230,170,.5)', sunFace: '#c9a05a',
+      cloud: '#ffffff', hillFar: '#dbeaf7',
+      yard0: '#ffffff', yard1: '#eaf4ff', yard2: '#d3e6f7',
+      grass: 'rgba(130,170,210,.35)', flowerA: '#ffffff', flowerB: '#d6ebff',
+      fence: '#f4faff', barn: '#c26a6a', barnDark: '#a05454', hay: '#d9c48a',
+      shade: 'rgba(90,130,170,.2)',
+      bunting: ['#ff9bb5', '#ffd15c', '#6fd0c8', '#a9a7ff', '#ff8a5c'],
+      haze: 'rgba(220,240,255,.28)',
+      vignette: 'rgba(60,100,140,.16)'
+    },
+    beach: {
+      sky0: '#7fd0f5', sky1: '#c3ecff', sky2: '#fff6e2',
+      sun: '#ffe27a', sunGlow: 'rgba(255,235,150,.55)', sunFace: '#cf9b3a',
+      cloud: '#ffffff', hillFar: '#8fd8d8',
+      yard0: '#f5e3bd', yard1: '#efd8a8', yard2: '#e2c88c',
+      grass: 'rgba(120,180,140,.35)', flowerA: '#ffd6e8', flowerB: '#fff0b8',
+      fence: '#fffdf6', barn: '#e08a5a', barnDark: '#c06f45', hay: '#e8c257',
+      shade: 'rgba(140,110,60,.18)',
+      bunting: ['#ff9bb5', '#ffd15c', '#6fd0c8', '#a9a7ff', '#ff8a5c'],
+      haze: 'rgba(255,235,190,.2)',
+      vignette: 'rgba(120,100,50,.12)'
+    },
+    desert: {
+      sky0: '#ffc98a', sky1: '#ffdcae', sky2: '#fff3dc',
+      sun: '#ffd166', sunGlow: 'rgba(255,210,120,.55)', sunFace: '#b9762a',
+      cloud: '#fff2d8', hillFar: '#e8b478',
+      yard0: '#e8c48a', yard1: '#dcb271', yard2: '#c99c5c',
+      grass: 'rgba(150,120,60,.35)', flowerA: '#ffd6a8', flowerB: '#f0b0c0',
+      fence: '#e8d4a8', barn: '#c98a5a', barnDark: '#a86f45', hay: '#d9b45e',
+      shade: 'rgba(130,90,40,.2)',
+      bunting: ['#e8994a', '#f2c14e', '#a8c46a', '#d9754b', '#f0d9a8'],
+      haze: 'rgba(255,215,160,.26)',
+      vignette: 'rgba(130,90,40,.16)'
     }
   };
 
@@ -108,18 +245,7 @@
           '<h2 class="hp-card-title">快乐小鸡拼图</h2>' +
           '<p class="hp-card-en">Happy Chicken Jigsaw</p>' +
           '<p class="hp-card-desc">把散落的拼图块拖回画框，拼出这张农场合影。拖到正确位置附近会自动吸附。</p>' +
-          '<div class="hp-pic-pick" role="group" aria-label="选择画面">' +
-            '<button type="button" class="hp-pic-opt is-active" data-pic="chicken">' +
-              '<canvas class="hp-pic-thumb" width="220" height="165" aria-hidden="true"></canvas>' +
-              '<span class="hp-pic-name">晴日农场</span>' +
-              '<span class="hp-pic-tag">鸡太太</span>' +
-            '</button>' +
-            '<button type="button" class="hp-pic-opt" data-pic="snake">' +
-              '<canvas class="hp-pic-thumb" width="220" height="165" aria-hidden="true"></canvas>' +
-              '<span class="hp-pic-name">黄昏农场</span>' +
-              '<span class="hp-pic-tag">下蛋小蛇</span>' +
-            '</button>' +
-          '</div>' +
+          '<div class="hp-pic-pick" role="group" aria-label="选择画面" id="hp-pic-pick"></div>' +
           '<div class="hp-diff-pick" role="group" aria-label="选择难度">' +
             '<button type="button" data-diff="easy">轻松<em>6 片</em></button>' +
             '<button type="button" data-diff="normal" class="is-active">标准<em>12 片</em></button>' +
@@ -196,6 +322,27 @@
   var peekBtn2 = crt.querySelector('#hp-peek-btn2');
   var toastEl = crt.querySelector('#hp-toast');
   var startBest = crt.querySelector('#hp-start-best');
+
+  // 画面选择器按 PICS 自动生成，新增图片无需改 HTML
+  (function buildPicPicker() {
+    var host = crt.querySelector('#hp-pic-pick');
+    if (!host) return;
+    var html = '';
+    for (var i = 0; i < PIC_ORDER.length; i++) {
+      var p = PICS[PIC_ORDER[i]];
+      html +=
+        '<button type="button" class="hp-pic-opt' + (i === 0 ? ' is-active' : '') + '" data-pic="' + p.id + '" title="' + p.tag + '">' +
+          '<span class="hp-pic-thumb-wrap">' +
+            '<canvas class="hp-pic-thumb" width="200" height="150" aria-hidden="true"></canvas>' +
+            '<span class="hp-pic-emoji" aria-hidden="true">' + p.emoji + '</span>' +
+          '</span>' +
+          '<span class="hp-pic-name">' + p.name + '</span>' +
+          '<span class="hp-pic-tag">' + p.tag.split(' · ')[0] + '</span>' +
+        '</button>';
+    }
+    host.innerHTML = html;
+  })();
+
   var picOpts = crt.querySelectorAll('.hp-pic-opt');
   var diffOpts = crt.querySelectorAll('.hp-diff-opt, .hp-diff-pick [data-diff]');
   var thumbs = crt.querySelectorAll('.hp-pic-thumb');
@@ -1226,40 +1373,285 @@
   }
 
   // ---------- 场景合成 ----------
-  function drawScene(g, picId) {
-    var p = PICS[picId] || PICS.chicken;
-    var P = PALETTES[p.pal];
-    var starIsChicken = p.star === 'chicken';
-    var groundY = 648;
+  function drawMoon(g, x, y, r) {
+    g.save();
+    g.translate(x, y);
+    var glow = g.createRadialGradient(0, 0, r * 0.6, 0, 0, r * 2.8);
+    glow.addColorStop(0, 'rgba(224,236,255,.42)');
+    glow.addColorStop(1, 'rgba(224,236,255,0)');
+    g.fillStyle = glow;
+    g.beginPath();
+    g.arc(0, 0, r * 2.8, 0, TAU);
+    g.fill();
 
-    g.clearRect(0, 0, SCENE_W, SCENE_H);
+    g.beginPath();
+    g.arc(0, 0, r, 0, TAU);
+    g.fillStyle = '#fdfbe8';
+    g.fill();
 
-    // 天空
-    var sky = g.createLinearGradient(0, 0, 0, 360);
+    // 环形山
+    g.fillStyle = 'rgba(198,200,180,.5)';
+    var craters = [[-0.3, -0.24, 0.2], [0.26, 0.1, 0.14], [-0.06, 0.36, 0.11], [0.34, -0.36, 0.09]];
+    for (var i = 0; i < craters.length; i++) {
+      g.beginPath();
+      g.arc(craters[i][0] * r, craters[i][1] * r, craters[i][2] * r, 0, TAU);
+      g.fill();
+    }
+
+    // 睡脸
+    g.strokeStyle = 'rgba(150,150,130,.85)';
+    g.lineWidth = Math.max(1.4, r * 0.06);
+    g.lineCap = 'round';
+    g.beginPath();
+    g.arc(-r * 0.26, -r * 0.02, r * 0.13, 0.15 * Math.PI, 0.85 * Math.PI);
+    g.stroke();
+    g.beginPath();
+    g.arc(r * 0.24, -r * 0.02, r * 0.13, 0.15 * Math.PI, 0.85 * Math.PI);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawStars(g, rnd, count, maxY, color) {
+    for (var i = 0; i < count; i++) {
+      var x = rnd() * SCENE_W;
+      var y = rnd() * maxY;
+      var r = 0.8 + rnd() * 1.9;
+      var a = 0.35 + rnd() * 0.6;
+      g.beginPath();
+      g.arc(x, y, r, 0, TAU);
+      g.fillStyle = 'rgba(255,255,255,' + a.toFixed(2) + ')';
+      g.fill();
+      // 少数大星带十字光芒
+      if (r > 2.3) {
+        g.strokeStyle = 'rgba(255,255,255,' + (a * 0.55).toFixed(2) + ')';
+        g.lineWidth = 1;
+        g.beginPath();
+        g.moveTo(x - r * 2.4, y); g.lineTo(x + r * 2.4, y);
+        g.moveTo(x, y - r * 2.4); g.lineTo(x, y + r * 2.4);
+        g.stroke();
+      }
+    }
+  }
+
+
+
+
+
+
+  function shadeColor(hex, amount) {
+    var m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || '');
+    if (!m) return hex;
+    function c(i) { return clamp(parseInt(m[i], 16) + amount, 0, 255); }
+    return '#' + ((1 << 24) + (c(1) << 16) + (c(2) << 8) + c(3)).toString(16).slice(1);
+  }
+
+
+  function drawBlossom(g, x, y, s, petal, center) {
+    for (var i = 0; i < 5; i++) {
+      var a = i * TAU / 5 - Math.PI / 2;
+      ell(g, x + Math.cos(a) * 3.6 * s, y + Math.sin(a) * 3.6 * s, 3.4 * s, 3.4 * s, 0, petal);
+    }
+    ell(g, x, y, 2.2 * s, 2.2 * s, 0, center);
+  }
+
+// ---------- 角色配件（不同场景的小道具） ----------
+  function chickenHead(x, groundY, s, dir) {
+    return { x: x + dir * 26 * s, y: groundY - 98 * s, r: 23 * s, s: s, dir: dir };
+  }
+
+  function drawDiveMask(g, hp) {
+    var s = hp.s;
+    var d = hp.dir;
+    g.save();
+    // 面镜玻璃
+    g.beginPath();
+    g.ellipse(hp.x + d * 8 * s, hp.y - 5 * s, 17 * s, 11 * s, -0.08 * d, 0, TAU);
+    g.fillStyle = 'rgba(150,230,255,.45)';
+    g.fill();
+    g.strokeStyle = 'rgba(36,64,74,.8)';
+    g.lineWidth = 2.6 * s;
+    g.stroke();
+    // 玻璃高光
+    g.beginPath();
+    g.ellipse(hp.x + d * 2 * s, hp.y - 9 * s, 5.5 * s, 2.8 * s, -0.4 * d, 0, TAU);
+    g.fillStyle = 'rgba(255,255,255,.7)';
+    g.fill();
+    // 头带
+    g.strokeStyle = 'rgba(232,120,90,.9)';
+    g.lineWidth = 4 * s;
+    g.lineCap = 'round';
+    g.beginPath();
+    g.moveTo(hp.x - d * 9 * s, hp.y - 5 * s);
+    g.quadraticCurveTo(hp.x - d * 22 * s, hp.y - 12 * s, hp.x - d * 26 * s, hp.y + 2 * s);
+    g.stroke();
+    // 呼吸管
+    g.strokeStyle = '#ffd166';
+    g.lineWidth = 4.2 * s;
+    g.beginPath();
+    g.moveTo(hp.x - d * 16 * s, hp.y + 4 * s);
+    g.quadraticCurveTo(hp.x - d * 30 * s, hp.y + 12 * s, hp.x - d * 32 * s, hp.y - 26 * s);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawSpaceHelmet(g, hp) {
+    var s = hp.s;
+    g.save();
+    g.beginPath();
+    g.arc(hp.x, hp.y - 2 * s, 28 * s, 0, TAU);
+    g.fillStyle = 'rgba(180,235,255,.24)';
+    g.fill();
+    g.strokeStyle = 'rgba(200,230,255,.85)';
+    g.lineWidth = 2.6 * s;
+    g.stroke();
+    // 高光
+    g.beginPath();
+    g.arc(hp.x - 9 * s, hp.y - 13 * s, 8 * s, Math.PI * 0.9, Math.PI * 1.55);
+    g.strokeStyle = 'rgba(255,255,255,.8)';
+    g.lineWidth = 3 * s;
+    g.stroke();
+    // 颈环
+    g.fillStyle = 'rgba(190,205,225,.85)';
+    g.fillRect(hp.x - 20 * s, hp.y + 24 * s, 40 * s, 7 * s);
+    g.restore();
+  }
+
+  function drawScarf(g, hp) {
+    var s = hp.s;
+    var d = hp.dir;
+    g.save();
+    g.fillStyle = '#e8543f';
+    // 围巾主体
+    g.beginPath();
+    g.ellipse(hp.x - d * 8 * s, hp.y + 24 * s, 19 * s, 7 * s, -0.06 * d, 0, TAU);
+    g.fill();
+    // 飘带
+    g.beginPath();
+    g.moveTo(hp.x - d * 20 * s, hp.y + 24 * s);
+    g.quadraticCurveTo(hp.x - d * 38 * s, hp.y + 18 * s, hp.x - d * 44 * s, hp.y + 34 * s);
+    g.lineTo(hp.x - d * 38 * s, hp.y + 40 * s);
+    g.quadraticCurveTo(hp.x - d * 32 * s, hp.y + 28 * s, hp.x - d * 26 * s, hp.y + 30 * s);
+    g.closePath();
+    g.fillStyle = '#d8462f';
+    g.fill();
+    g.restore();
+  }
+
+  function drawShades(g, hp) {
+    var s = hp.s;
+    var d = hp.dir;
+    g.save();
+    g.fillStyle = 'rgba(38,48,62,.88)';
+    g.beginPath();
+    g.ellipse(hp.x + d * 4 * s, hp.y - 5 * s, 10 * s, 7 * s, -0.1 * d, 0, TAU);
+    g.fill();
+    g.beginPath();
+    g.ellipse(hp.x + d * 20 * s, hp.y - 4 * s, 8 * s, 6 * s, -0.1 * d, 0, TAU);
+    g.fill();
+    g.strokeStyle = 'rgba(38,48,62,.88)';
+    g.lineWidth = 2.4 * s;
+    g.beginPath();
+    g.moveTo(hp.x + d * 12 * s, hp.y - 6 * s);
+    g.lineTo(hp.x + d * 14 * s, hp.y - 6 * s);
+    g.stroke();
+    // 高光
+    g.fillStyle = 'rgba(255,255,255,.5)';
+    g.beginPath();
+    g.ellipse(hp.x + d * 1 * s, hp.y - 7 * s, 3 * s, 1.6 * s, -0.3, 0, TAU);
+    g.fill();
+    g.restore();
+  }
+
+  function drawStrawHat(g, hp) {
+    var s = hp.s;
+    g.save();
+    // 帽檐
+    g.beginPath();
+    g.ellipse(hp.x, hp.y - 20 * s, 34 * s, 10 * s, 0, 0, TAU);
+    g.fillStyle = '#f0cf82';
+    g.fill();
+    g.strokeStyle = 'rgba(160,120,50,.45)';
+    g.lineWidth = 1.6 * s;
+    g.stroke();
+    // 帽顶
+    g.beginPath();
+    g.ellipse(hp.x, hp.y - 28 * s, 19 * s, 12 * s, 0, 0, TAU);
+    g.fillStyle = '#f7dc9a';
+    g.fill();
+    // 帽带
+    g.beginPath();
+    g.ellipse(hp.x, hp.y - 22 * s, 19 * s, 5 * s, 0, 0, TAU);
+    g.fillStyle = '#e0614f';
+    g.fill();
+    g.restore();
+  }
+
+  // ---------- 角色阵容 ----------
+  function drawCast(g, groundY, starIsChicken, acc) {
+    var chickScale = starIsChicken ? 1.5 : 1.14;
+    var snakeScale = starIsChicken ? 1.2 : 1.48;
+    var cx = starIsChicken ? 322 : 272;
+    var sx = starIsChicken ? 700 : 662;
+    var su = 1;
+
+    artChicken(g, cx, groundY, chickScale, 1, 2.4);
+    artSnake(g, sx, groundY + 6, snakeScale, -1, 1.7);
+
+    // 配件
+    var hp = chickenHead(cx, groundY, chickScale * su, 1);
+    if (acc === 'mask') drawDiveMask(g, hp);
+    else if (acc === 'helmet') drawSpaceHelmet(g, hp);
+    else if (acc === 'scarf') drawScarf(g, hp);
+    else if (acc === 'shades') drawShades(g, hp);
+    else if (acc === 'hat') drawStrawHat(g, hp);
+
+    // 蛋和小鸡
+    artEgg(g, 512, groundY + 4, 56, 74, -0.06, true);
+    artEgg(g, 578, groundY + 10, 44, 58, 0.1, false);
+    artEgg(g, 790, groundY + 14, 40, 54, -0.12, false);
+    artChick(g, 208, groundY + 4, 1.24, 1, 0.4);
+    artChick(g, 256, groundY + 14, 0.94, 1, 1.9);
+  }
+
+  function drawSceneVignette(g, P) {
+    var vg = g.createRadialGradient(SCENE_W / 2, SCENE_H * 0.42, SCENE_H * 0.32, SCENE_W / 2, SCENE_H * 0.5, SCENE_H * 0.8);
+    vg.addColorStop(0, 'rgba(255,255,255,0)');
+    vg.addColorStop(1, P.vignette);
+    g.fillStyle = vg;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+  }
+
+  function skyGradient(g, P) {
+    var sky = g.createLinearGradient(0, 0, 0, SCENE_H);
     sky.addColorStop(0, P.sky0);
     sky.addColorStop(0.55, P.sky1);
     sky.addColorStop(1, P.sky2);
     g.fillStyle = sky;
     g.fillRect(0, 0, SCENE_W, SCENE_H);
+  }
 
-    // 太阳（黄昏时更低）
+  // ============================================================
+  //  场景 1：农场
+  // ============================================================
+  function drawFarmScene(g, P, p) {
+    var starIsChicken = p.star === 'chicken';
+    var groundY = 648;
+    var rnd = mulberry32(20261103);
+
+    skyGradient(g, P);
+
     drawSun(g, starIsChicken ? 806 : 742, starIsChicken ? 166 : 210, 44, P);
 
-    // 云
     drawCloud(g, 146, 112, 1.12, P.cloud);
     drawCloud(g, 392, 208, 0.74, P.cloud);
     drawCloud(g, 700, 238, 0.9, P.cloud);
     drawCloud(g, 862, 150, 0.6, P.cloud);
 
-    // 小鸟
     drawBird(g, 296, 172, 0.95, 'rgba(90,110,120,.55)');
     drawBird(g, 334, 150, 0.72, 'rgba(90,110,120,.45)');
     drawBird(g, 700, 226, 0.82, 'rgba(90,110,120,.5)');
 
-    // 彩旗
     drawBunting(g, P);
-
-    // 远景
     drawFarHills(g, P);
     drawBarn(g, 206, 396, 238, 156, P);
     drawYard(g, P);
@@ -1267,36 +1659,1129 @@
     drawHay(g, 802, 449, 116, 70, P);
     drawGroundDecor(g, P);
 
-    // 傍晚暖色薄雾
     if (P.haze !== 'rgba(255,255,255,0)') {
       g.fillStyle = P.haze;
       g.fillRect(0, 300, SCENE_W, 120);
     }
 
-    // 角色：主角大一点，另一位在旁边
-    var chickScale = starIsChicken ? 1.62 : 1.24;
-    var snakeScale = starIsChicken ? 1.26 : 1.58;
-    artChicken(g, starIsChicken ? 330 : 286, groundY, chickScale, 1, 2.4);
-    artSnake(g, starIsChicken ? 712 : 686, groundY + 8, snakeScale, -1, 1.7);
+    drawCast(g, groundY, starIsChicken, p.holiday || null);
 
-    // 蛋和小鸡
-    artEgg(g, 520, groundY + 6, 58, 76, -0.06, true);
-    artEgg(g, 586, groundY + 12, 46, 60, 0.1, false);
-    artEgg(g, 790, groundY + 16, 42, 56, -0.12, false);
-    artChick(g, 212, groundY + 6, 1.3, 1, 0.4);
-    artChick(g, 264, groundY + 16, 0.98, 1, 1.9);
-
-    // 蝴蝶
     drawButterfly(g, 468, 388, 1.0, 0.28);
     drawButterfly(g, 760, 356, 0.86, 1);
     drawButterfly(g, 178, 552, 0.8, 0.6);
 
-    // 暗角
-    var vg = g.createRadialGradient(SCENE_W / 2, SCENE_H * 0.42, SCENE_H * 0.32, SCENE_W / 2, SCENE_H * 0.5, SCENE_H * 0.8);
-    vg.addColorStop(0, 'rgba(255,255,255,0)');
-    vg.addColorStop(1, P.vignette);
-    g.fillStyle = vg;
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 2：海底世界
+  // ============================================================
+  function drawCoral(g, x, y, s, color) {
+    g.save();
+    g.translate(x, y);
+    g.strokeStyle = color;
+    g.lineCap = 'round';
+    g.lineWidth = 9 * s;
+    // 主干
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.quadraticCurveTo(-3 * s, -22 * s, 0, -42 * s);
+    g.stroke();
+    // 分枝
+    g.lineWidth = 7 * s;
+    g.beginPath();
+    g.moveTo(0, -20 * s);
+    g.quadraticCurveTo(12 * s, -30 * s, 16 * s, -46 * s);
+    g.moveTo(-1 * s, -30 * s);
+    g.quadraticCurveTo(-14 * s, -38 * s, -17 * s, -52 * s);
+    g.moveTo(1 * s, -12 * s);
+    g.quadraticCurveTo(14 * s, -14 * s, 22 * s, -24 * s);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawSeaweed(g, x, y, h, s, color) {
+    g.save();
+    g.translate(x, y);
+    g.strokeStyle = color;
+    g.lineCap = 'round';
+    g.lineWidth = 7 * s;
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.bezierCurveTo(-14 * s, -h * 0.32, 14 * s, -h * 0.62, -5 * s, -h);
+    g.stroke();
+    g.lineWidth = 5 * s;
+    g.beginPath();
+    g.moveTo(-2 * s, -h * 0.45);
+    g.quadraticCurveTo(12 * s, -h * 0.6, 15 * s, -h * 0.78);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawFish(g, x, y, s, dir, body, fin) {
+    g.save();
+    g.translate(x, y);
+    g.scale(dir, 1);
+    var grad = g.createLinearGradient(0, -12 * s, 0, 12 * s);
+    grad.addColorStop(0, body);
+    grad.addColorStop(1, shadeColor(body, -28));
+    g.beginPath();
+    g.ellipse(0, 0, 22 * s, 13 * s, 0, 0, TAU);
+    g.fillStyle = grad;
+    g.fill();
+    // 尾鳍
+    g.beginPath();
+    g.moveTo(-19 * s, 0);
+    g.lineTo(-34 * s, -11 * s);
+    g.lineTo(-30 * s, 0);
+    g.lineTo(-34 * s, 11 * s);
+    g.closePath();
+    g.fillStyle = fin;
+    g.fill();
+    // 背鳍
+    g.beginPath();
+    g.moveTo(-2 * s, -11 * s);
+    g.quadraticCurveTo(4 * s, -22 * s, 13 * s, -10 * s);
+    g.closePath();
+    g.fillStyle = fin;
+    g.fill();
+    // 眼
+    g.beginPath();
+    g.arc(13 * s, -2 * s, 3.4 * s, 0, TAU);
+    g.fillStyle = '#fff';
+    g.fill();
+    g.beginPath();
+    g.arc(14.2 * s, -2 * s, 1.8 * s, 0, TAU);
+    g.fillStyle = '#22303a';
+    g.fill();
+    // 鳃线
+    g.strokeStyle = 'rgba(255,255,255,.35)';
+    g.lineWidth = 1.6 * s;
+    g.beginPath();
+    g.arc(8 * s, 0, 9 * s, -1.1, 1.1);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawBubble(g, x, y, r) {
+    g.beginPath();
+    g.arc(x, y, r, 0, TAU);
+    g.fillStyle = 'rgba(220,248,255,.26)';
+    g.fill();
+    g.strokeStyle = 'rgba(240,255,255,.7)';
+    g.lineWidth = 1.4;
+    g.stroke();
+    g.beginPath();
+    g.arc(x - r * 0.32, y - r * 0.34, r * 0.24, 0, TAU);
+    g.fillStyle = 'rgba(255,255,255,.85)';
+    g.fill();
+  }
+
+  function drawStarfish(g, x, y, r, color) {
+    g.save();
+    g.translate(x, y);
+    g.beginPath();
+    for (var i = 0; i < 10; i++) {
+      var rr = i % 2 === 0 ? r : r * 0.42;
+      var a = -Math.PI / 2 + i * Math.PI / 5;
+      if (i === 0) g.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+      else g.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+    }
+    g.closePath();
+    g.fillStyle = color;
+    g.fill();
+    g.fillStyle = 'rgba(255,255,255,.35)';
+    g.beginPath();
+    g.arc(0, 0, r * 0.22, 0, TAU);
+    g.fill();
+    g.restore();
+  }
+
+  function drawOceanScene(g, P, p) {
+    var rnd = mulberry32(20261205);
+    var groundY = 640;
+
+    // 海水：上方亮、下方深，底部接近海床
+    var water = g.createLinearGradient(0, 0, 0, SCENE_H);
+    water.addColorStop(0, '#3fb4cf');
+    water.addColorStop(0.35, '#1c86ab');
+    water.addColorStop(0.72, '#0e6288');
+    water.addColorStop(1, '#07405e');
+    g.fillStyle = water;
     g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    // 水面波纹（顶部）
+    g.save();
+    g.strokeStyle = 'rgba(230,255,255,.5)';
+    g.lineWidth = 3;
+    for (var w = 0; w < 5; w++) {
+      g.beginPath();
+      var wy = 14 + w * 12;
+      g.moveTo(-20, wy);
+      for (var wx = 0; wx <= SCENE_W + 40; wx += 40) {
+        g.quadraticCurveTo(wx + 10, wy - 7, wx + 20, wy);
+        g.quadraticCurveTo(wx + 30, wy + 7, wx + 40, wy);
+      }
+      g.stroke();
+    }
+    g.restore();
+
+    // 光柱
+    g.save();
+    g.globalCompositeOperation = 'lighter';
+    for (var r = 0; r < 5; r++) {
+      var x0 = 130 + r * 175;
+      var grad2 = g.createLinearGradient(x0, 0, x0 + 90, SCENE_H);
+      grad2.addColorStop(0, 'rgba(190,250,255,.22)');
+      grad2.addColorStop(1, 'rgba(190,250,255,0)');
+      g.fillStyle = grad2;
+      g.beginPath();
+      g.moveTo(x0, 0);
+      g.lineTo(x0 + 46, 0);
+      g.lineTo(x0 + 150, SCENE_H);
+      g.lineTo(x0 + 60, SCENE_H);
+      g.closePath();
+      g.fill();
+    }
+    g.restore();
+
+    // 海床
+    g.beginPath();
+    g.moveTo(0, 640);
+    g.quadraticCurveTo(180, 604, 380, 636);
+    g.quadraticCurveTo(580, 668, 760, 630);
+    g.quadraticCurveTo(880, 608, SCENE_W, 634);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    var sand = g.createLinearGradient(0, 610, 0, SCENE_H);
+    sand.addColorStop(0, '#e8d6ac');
+    sand.addColorStop(1, '#cbb184');
+    g.fillStyle = sand;
+    g.fill();
+
+    // 海床上的小石子与贝壳
+    for (var st = 0; st < 16; st++) {
+      var stx = 30 + rnd() * (SCENE_W - 60);
+      var sty = 664 + rnd() * 46;
+      ell(g, stx, sty, 4 + rnd() * 7, 3 + rnd() * 4, 0, 'rgba(160,135,95,.5)');
+    }
+
+    // 珊瑚
+    drawCoral(g, 96, 664, 1.25, '#ff8f9e');
+    drawCoral(g, 148, 676, 0.95, '#ffb36b');
+    drawCoral(g, 806, 662, 1.2, '#b48bff');
+    drawCoral(g, 858, 674, 0.9, '#6fd8c8');
+
+    // 海草
+    drawSeaweed(g, 208, 684, 150, 1.1, '#3f9f74');
+    drawSeaweed(g, 240, 690, 116, 0.9, '#4fb884');
+    drawSeaweed(g, 730, 682, 132, 1.0, '#3f9f74');
+    drawSeaweed(g, 764, 692, 104, 0.85, '#4fb884');
+
+    // 礁石
+    ell(g, 400, 700, 64, 26, 0, '#2c6f86');
+    ell(g, 372, 690, 30, 18, 0, '#35809a');
+
+    // 海星
+    drawStarfish(g, 610, 694, 16, '#ff9f6b');
+    drawStarfish(g, 300, 706, 12, '#ffd166');
+
+    // 鱼群
+    drawFish(g, 300, 300, 1.05, 1, '#ffd166', '#ff9f43');
+    drawFish(g, 396, 250, 0.8, 1, '#7fe0ff', '#3fb4d8');
+    drawFish(g, 660, 320, 0.95, -1, '#ff9bb5', '#e0668a');
+    drawFish(g, 740, 250, 0.7, -1, '#a9e77f', '#63b74c');
+    drawFish(g, 520, 200, 0.62, 1, '#c7a1ff', '#8f6fd8');
+    drawFish(g, 178, 420, 0.72, 1, '#7fe0ff', '#3fb4d8');
+    drawFish(g, 880, 420, 0.66, -1, '#ffd166', '#e0a83f');
+
+    // 气泡
+    var bubbles = [[360, 250, 5], [372, 210, 3.4], [356, 176, 2.6], [700, 240, 4], [712, 200, 3], [150, 330, 3.6], [160, 292, 2.6]];
+    for (var b = 0; b < bubbles.length; b++) {
+      drawBubble(g, bubbles[b][0], bubbles[b][1], bubbles[b][2]);
+    }
+
+    drawCast(g, groundY, p.star === 'chicken', 'mask');
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 3：太空
+  // ============================================================
+  function drawPlanet(g, x, y, r) {
+    g.save();
+    // 光环
+    g.save();
+    g.translate(x, y);
+    g.rotate(-0.32);
+    g.beginPath();
+    g.ellipse(0, 0, r * 1.72, r * 0.44, 0, 0, TAU);
+    g.strokeStyle = 'rgba(255,220,160,.42)';
+    g.lineWidth = r * 0.14;
+    g.stroke();
+    g.beginPath();
+    g.ellipse(0, 0, r * 1.95, r * 0.52, 0, 0, TAU);
+    g.strokeStyle = 'rgba(255,235,190,.24)';
+    g.lineWidth = r * 0.07;
+    g.stroke();
+    g.restore();
+
+    // 星球本体
+    var grad = g.createRadialGradient(x - r * 0.34, y - r * 0.36, r * 0.16, x, y, r);
+    grad.addColorStop(0, '#ffd9a8');
+    grad.addColorStop(0.45, '#f0a06a');
+    grad.addColorStop(1, '#a85a44');
+    g.beginPath();
+    g.arc(x, y, r, 0, TAU);
+    g.fillStyle = grad;
+    g.fill();
+
+    // 条纹
+    g.save();
+    g.beginPath();
+    g.arc(x, y, r, 0, TAU);
+    g.clip();
+    g.fillStyle = 'rgba(255,240,210,.28)';
+    for (var i = -2; i <= 2; i++) {
+      g.beginPath();
+      g.ellipse(x, y + i * r * 0.42, r * 1.05, r * 0.11, 0.06, 0, TAU);
+      g.fill();
+    }
+    g.restore();
+
+    // 明暗交界
+    g.beginPath();
+    g.arc(x + r * 0.3, y + r * 0.18, r, 0, TAU);
+    g.fillStyle = 'rgba(20,10,40,.18)';
+    g.fill();
+    g.restore();
+  }
+
+  function drawAsteroid(g, x, y, r, rot) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(rot || 0);
+    g.beginPath();
+    var pts = 8;
+    for (var i = 0; i < pts; i++) {
+      var a = i / pts * TAU;
+      var rr = r * (0.78 + ((i * 37) % 11) / 34);
+      if (i === 0) g.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+      else g.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+    }
+    g.closePath();
+    g.fillStyle = '#6b6480';
+    g.fill();
+    g.strokeStyle = 'rgba(40,36,60,.6)';
+    g.lineWidth = 1.2;
+    g.stroke();
+    // 坑
+    ell(g, -r * 0.2, -r * 0.1, r * 0.22, r * 0.17, 0, 'rgba(40,36,60,.45)');
+    ell(g, r * 0.28, r * 0.22, r * 0.14, r * 0.11, 0, 'rgba(40,36,60,.38)');
+    g.restore();
+  }
+
+  function drawSpaceScene(g, P, p) {
+    var rnd = mulberry32(20261207);
+    var groundY = 636;
+
+    // 深空
+    var space = g.createLinearGradient(0, 0, 0, SCENE_H);
+    space.addColorStop(0, '#07071a');
+    space.addColorStop(0.5, '#141033');
+    space.addColorStop(1, '#2a1c4e');
+    g.fillStyle = space;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    // 星云
+    g.save();
+    g.globalCompositeOperation = 'lighter';
+    var neb = [
+      [190, 170, 300, 'rgba(120,80,220,.20)'],
+      [780, 120, 250, 'rgba(60,140,240,.16)'],
+      [520, 300, 340, 'rgba(200,80,180,.11)'],
+      [880, 360, 200, 'rgba(80,200,220,.12)']
+    ];
+    for (var n = 0; n < neb.length; n++) {
+      var ng = g.createRadialGradient(neb[n][0], neb[n][1], 0, neb[n][0], neb[n][1], neb[n][2]);
+      ng.addColorStop(0, neb[n][3]);
+      ng.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = ng;
+      g.beginPath();
+      g.arc(neb[n][0], neb[n][1], neb[n][2], 0, TAU);
+      g.fill();
+    }
+    g.restore();
+
+    drawStars(g, rnd, 150, 640);
+
+    // 带环行星
+    drawPlanet(g, 796, 168, 74);
+
+    // 卫星
+    drawMoon(g, 206, 132, 30);
+
+    // 小行星
+    drawAsteroid(g, 420, 168, 17, 0.4);
+    drawAsteroid(g, 486, 236, 11, 1.2);
+    drawAsteroid(g, 636, 120, 13, -0.6);
+    drawAsteroid(g, 120, 300, 9, 0.8);
+
+    // 流星
+    g.save();
+    var mg = g.createLinearGradient(600, 300, 700, 380);
+    mg.addColorStop(0, 'rgba(255,255,255,0)');
+    mg.addColorStop(0.7, 'rgba(200,230,255,.7)');
+    mg.addColorStop(1, 'rgba(255,255,255,.95)');
+    g.strokeStyle = mg;
+    g.lineWidth = 2.6;
+    g.lineCap = 'round';
+    g.beginPath();
+    g.moveTo(600, 300);
+    g.lineTo(706, 384);
+    g.stroke();
+    g.restore();
+
+    // 月面地平线
+    g.beginPath();
+    g.moveTo(0, 660);
+    g.quadraticCurveTo(200, 616, 420, 648);
+    g.quadraticCurveTo(660, 682, 900, 640);
+    g.quadraticCurveTo(940, 632, SCENE_W, 636);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    var moonGrad = g.createLinearGradient(0, 620, 0, SCENE_H);
+    moonGrad.addColorStop(0, '#b9b4c9');
+    moonGrad.addColorStop(1, '#8b86a0');
+    g.fillStyle = moonGrad;
+    g.fill();
+
+    // 环形山
+    var craters = [[120, 690, 34, 12], [250, 706, 22, 8], [640, 700, 30, 11], [810, 686, 20, 7], [420, 712, 16, 6]];
+    for (var c = 0; c < craters.length; c++) {
+      ell(g, craters[c][0], craters[c][1], craters[c][2], craters[c][3], 0, 'rgba(96,92,120,.55)');
+      ell(g, craters[c][0], craters[c][1] - 2, craters[c][2] * 0.82, craters[c][3] * 0.72, 0, 'rgba(140,136,164,.7)');
+    }
+
+    drawCast(g, groundY, p.star === 'chicken', 'helmet');
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 4：城市夜色
+  // ============================================================
+  function drawBuildings(g, baseY, rnd, opts) {
+    var x = -20;
+    while (x < SCENE_W + 40) {
+      var w = 52 + rnd() * 62;
+      var h = opts.minH + rnd() * opts.hRange;
+      var top = baseY - h;
+      var shade = opts.tint;
+      g.fillStyle = shade;
+      g.fillRect(x, top, w, h + 40);
+
+      // 楼顶结构
+      if (rnd() < 0.4) {
+        g.fillRect(x + w * 0.3, top - 12, w * 0.32, 12);
+      }
+
+      // 窗户
+      var cols = Math.max(2, Math.floor(w / 16));
+      var rows = Math.max(3, Math.floor(h / 24));
+      var gapX = w / cols;
+      var gapY = h / rows;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          if (rnd() < opts.darkChance) continue;
+          var wx = x + gapX * (c + 0.26);
+          var wy = top + gapY * (r + 0.28);
+          var lit = rnd();
+          var col = lit < 0.55 ? '#ffd98a' : (lit < 0.82 ? '#ffe9b8' : '#a9e7ff');
+          g.fillStyle = col;
+          g.globalAlpha = 0.55 + rnd() * 0.45;
+          g.fillRect(wx, wy, gapX * 0.44, gapY * 0.42);
+          g.globalAlpha = 1;
+        }
+      }
+      x += w + 6 + rnd() * 10;
+    }
+  }
+
+  function drawCityScene(g, P, p) {
+    var rnd = mulberry32(20261209);
+    var groundY = 626;
+
+    // 夜空
+    var sky = g.createLinearGradient(0, 0, 0, 640);
+    sky.addColorStop(0, '#0e1430');
+    sky.addColorStop(0.45, '#2b2450');
+    sky.addColorStop(0.8, '#63356b');
+    sky.addColorStop(1, '#8f4a63');
+    g.fillStyle = sky;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    drawStars(g, rnd, 80, 360);
+    drawMoon(g, 806, 124, 38);
+
+    // 远处楼群（更暗更矮）
+    drawBuildings(g, 610, rnd, { minH: 120, hRange: 150, tint: '#241d43', darkChance: 0.6 });
+
+    // 近处楼群
+    drawBuildings(g, 646, rnd, { minH: 170, hRange: 210, tint: '#171431', darkChance: 0.42 });
+
+    // 霓虹招牌
+    var neons = [['#ff6ba8', 150, 400, 44, 16], ['#5fe0ff', 300, 350, 34, 14], ['#ffd166', 690, 380, 40, 15], ['#a9ff9b', 838, 320, 30, 13]];
+    for (var i = 0; i < neons.length; i++) {
+      var n = neons[i];
+      g.save();
+      g.shadowColor = n[0];
+      g.shadowBlur = 16;
+      fillRScreen(g, n[1], n[2], n[3], n[4], 4, n[0]);
+      g.restore();
+    }
+
+    // 前景天台地面
+    g.beginPath();
+    g.moveTo(0, 640);
+    g.lineTo(SCENE_W, 640);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    var roof = g.createLinearGradient(0, 636, 0, SCENE_H);
+    roof.addColorStop(0, '#241f3d');
+    roof.addColorStop(1, '#15122a');
+    g.fillStyle = roof;
+    g.fill();
+
+    // 天台边缘
+    fillRScreen(g, 0, 630, SCENE_W, 10, 3, '#332c53');
+
+    // 路灯
+    g.save();
+    g.strokeStyle = '#3c3559';
+    g.lineWidth = 5;
+    g.beginPath();
+    g.moveTo(96, 640);
+    g.lineTo(96, 528);
+    g.stroke();
+    g.beginPath();
+    g.arc(96, 522, 8, 0, TAU);
+    g.fillStyle = '#ffe9b8';
+    g.fill();
+    var lg = g.createRadialGradient(96, 522, 2, 96, 522, 46);
+    lg.addColorStop(0, 'rgba(255,233,184,.5)');
+    lg.addColorStop(1, 'rgba(255,233,184,0)');
+    g.fillStyle = lg;
+    g.beginPath();
+    g.arc(96, 522, 46, 0, TAU);
+    g.fill();
+    g.restore();
+
+    drawCast(g, groundY, p.star === 'chicken', null);
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 5：雪山日出
+  // ============================================================
+  function drawPine(g, x, y, s, dark) {
+    g.save();
+    g.translate(x, y);
+    // 树干
+    g.fillStyle = '#5b4634';
+    g.fillRect(-3 * s, -18 * s, 6 * s, 20 * s);
+    // 三层树冠
+    for (var i = 0; i < 3; i++) {
+      var w = (38 - i * 9) * s;
+      var top = (-30 - i * 26) * s;
+      var bot = (-6 - i * 20) * s;
+      g.beginPath();
+      g.moveTo(0, top);
+      g.lineTo(w * 0.5, bot);
+      g.lineTo(-w * 0.5, bot);
+      g.closePath();
+      g.fillStyle = i === 0 ? dark : shadeColor(dark, 10 + i * 6);
+      g.fill();
+      // 积雪
+      g.beginPath();
+      g.moveTo(0, top);
+      g.lineTo(w * 0.26, top + (bot - top) * 0.42);
+      g.quadraticCurveTo(0, top + (bot - top) * 0.56, -w * 0.26, top + (bot - top) * 0.42);
+      g.closePath();
+      g.fillStyle = 'rgba(255,255,255,.85)';
+      g.fill();
+    }
+    g.restore();
+  }
+
+  function drawSnowPeak(g, x, baseY, w, h, P) {
+    g.save();
+    // 山体：圆润的三角峰
+    g.beginPath();
+    g.moveTo(x - w / 2, baseY);
+    g.quadraticCurveTo(x - w * 0.18, baseY - h * 0.72, x, baseY - h);
+    g.quadraticCurveTo(x + w * 0.2, baseY - h * 0.7, x + w / 2, baseY);
+    g.closePath();
+    var grad = g.createLinearGradient(x - w / 2, baseY - h, x + w / 2, baseY);
+    grad.addColorStop(0, '#c2dcef');
+    grad.addColorStop(0.48, '#93b8d8');
+    grad.addColorStop(1, '#6b90b6');
+    g.fillStyle = grad;
+    g.fill();
+
+    // 雪顶：裁剪在山体内部，底缘做成参差的雪线
+    g.save();
+    g.beginPath();
+    g.moveTo(x - w / 2, baseY);
+    g.quadraticCurveTo(x - w * 0.18, baseY - h * 0.72, x, baseY - h);
+    g.quadraticCurveTo(x + w * 0.2, baseY - h * 0.7, x + w / 2, baseY);
+    g.closePath();
+    g.clip();
+
+    var snowY = baseY - h * 0.62;
+    g.beginPath();
+    g.moveTo(x - w / 2, snowY + 16);
+    var steps = 7;
+    for (var i = 0; i <= steps; i++) {
+      var px = x - w / 2 + (w * i) / steps;
+      var py = snowY + ((i % 2 === 0) ? 0 : 14) + Math.sin(i * 1.7) * 5;
+      g.lineTo(px, py);
+    }
+    g.lineTo(x + w / 2, baseY - h - 20);
+    g.lineTo(x - w / 2, baseY - h - 20);
+    g.closePath();
+    g.fillStyle = '#ffffff';
+    g.fill();
+    g.restore();
+
+    // 背光面
+    g.save();
+    g.beginPath();
+    g.moveTo(x, baseY - h);
+    g.quadraticCurveTo(x + w * 0.2, baseY - h * 0.7, x + w / 2, baseY);
+    g.lineTo(x + w * 0.02, baseY);
+    g.closePath();
+    g.fillStyle = 'rgba(86,124,162,.26)';
+    g.fill();
+    g.restore();
+
+    // 山脊高光
+    g.strokeStyle = 'rgba(255,255,255,.55)';
+    g.lineWidth = 2;
+    g.beginPath();
+    g.moveTo(x, baseY - h + 2);
+    g.quadraticCurveTo(x - w * 0.1, baseY - h * 0.7, x - w * 0.24, baseY - h * 0.34);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawSnowScene(g, P, p) {
+    var rnd = mulberry32(20261211);
+    var groundY = 632;
+
+    var sky = g.createLinearGradient(0, 0, 0, 640);
+    sky.addColorStop(0, '#7fb0dc');
+    sky.addColorStop(0.5, '#bcd8ee');
+    sky.addColorStop(1, '#f0f7ff');
+    g.fillStyle = sky;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    // 日出暖光
+    var sg = g.createRadialGradient(780, 210, 10, 780, 210, 260);
+    sg.addColorStop(0, 'rgba(255,226,160,.55)');
+    sg.addColorStop(1, 'rgba(255,226,160,0)');
+    g.fillStyle = sg;
+    g.fillRect(0, 0, SCENE_W, 600);
+    drawSun(g, 780, 210, 38, P);
+
+    // 远山
+    drawSnowPeak(g, 200, 560, 420, 300, P);
+    drawSnowPeak(g, 560, 566, 360, 250, P);
+    drawSnowPeak(g, 860, 560, 300, 200, P);
+
+    // 中景雪坡
+    g.beginPath();
+    g.moveTo(0, 560);
+    g.quadraticCurveTo(240, 528, 480, 556);
+    g.quadraticCurveTo(720, 584, SCENE_W, 548);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    var snowGrad = g.createLinearGradient(0, 530, 0, SCENE_H);
+    snowGrad.addColorStop(0, '#ffffff');
+    snowGrad.addColorStop(1, '#d7e8f7');
+    g.fillStyle = snowGrad;
+    g.fill();
+
+    // 松树
+    drawPine(g, 92, 622, 1.25, '#2c5a48');
+    drawPine(g, 148, 634, 0.95, '#2c5a48');
+    drawPine(g, 828, 618, 1.35, '#2c5a48');
+    drawPine(g, 888, 634, 1.0, '#2c5a48');
+    drawPine(g, 730, 640, 0.8, '#2c5a48');
+
+    // 地面雪堆
+    ell(g, 420, 700, 120, 26, 0, 'rgba(255,255,255,.75)');
+    ell(g, 640, 712, 90, 20, 0, 'rgba(255,255,255,.6)');
+
+    // 雪花
+    for (var i = 0; i < 90; i++) {
+      var fx = rnd() * SCENE_W;
+      var fy = rnd() * SCENE_H;
+      var fr = 1 + rnd() * 2.6;
+      g.beginPath();
+      g.arc(fx, fy, fr, 0, TAU);
+      g.fillStyle = 'rgba(255,255,255,' + (0.45 + rnd() * 0.5).toFixed(2) + ')';
+      g.fill();
+    }
+
+    drawCast(g, groundY, p.star === 'chicken', 'scarf');
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 6：海边度假
+  // ============================================================
+  function drawPalm(g, x, baseY, s, lean) {
+    g.save();
+    g.translate(x, baseY);
+    // 树干
+    g.strokeStyle = '#a8783f';
+    g.lineWidth = 13 * s;
+    g.lineCap = 'round';
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.quadraticCurveTo(lean * 0.4 * s, -80 * s, lean * s, -152 * s);
+    g.stroke();
+    // 树干纹路
+    g.strokeStyle = 'rgba(120,80,35,.45)';
+    g.lineWidth = 2 * s;
+    for (var t = 1; t < 9; t++) {
+      var ty = -t * 17 * s;
+      var tx = lean * Math.pow(t / 9, 1.4) * s;
+      g.beginPath();
+      g.moveTo(tx - 6 * s, ty);
+      g.lineTo(tx + 6 * s, ty - 2 * s);
+      g.stroke();
+    }
+    // 叶子
+    var topX = lean * s;
+    var topY = -152 * s;
+    for (var i = 0; i < 6; i++) {
+      var a = -Math.PI / 2 + (i - 2.5) * 0.52;
+      g.save();
+      g.translate(topX, topY);
+      g.rotate(a);
+      var lg = g.createLinearGradient(0, 0, 0, -60 * s);
+      lg.addColorStop(0, '#2f8b4a');
+      lg.addColorStop(1, '#63c96a');
+      g.beginPath();
+      g.moveTo(0, 0);
+      g.quadraticCurveTo(20 * s, -30 * s, 2 * s, -62 * s);
+      g.quadraticCurveTo(-18 * s, -30 * s, 0, 0);
+      g.fillStyle = lg;
+      g.fill();
+      g.strokeStyle = 'rgba(30,90,45,.4)';
+      g.lineWidth = 1.4 * s;
+      g.beginPath();
+      g.moveTo(0, 0);
+      g.lineTo(1 * s, -58 * s);
+      g.stroke();
+      g.restore();
+    }
+    // 椰子
+    ell(g, topX - 6 * s, topY + 8 * s, 7 * s, 7 * s, 0, '#8a5a2a');
+    ell(g, topX + 7 * s, topY + 10 * s, 6 * s, 6 * s, 0, '#7a4a22');
+    g.restore();
+  }
+
+  function drawUmbrella(g, x, baseY, s) {
+    g.save();
+    g.translate(x, baseY);
+    // 伞杆
+    g.strokeStyle = '#c9a878';
+    g.lineWidth = 5 * s;
+    g.beginPath();
+    g.moveTo(0, 0);
+    g.lineTo(0, -104 * s);
+    g.stroke();
+    // 伞面
+    var cols = ['#ff8a8a', '#fff4e2', '#ffd166', '#fff4e2', '#7fd4ff', '#fff4e2'];
+    for (var i = 0; i < 6; i++) {
+      var a0 = Math.PI + i * Math.PI / 6;
+      var a1 = Math.PI + (i + 1) * Math.PI / 6;
+      g.beginPath();
+      g.moveTo(0, -104 * s);
+      g.arc(0, -104 * s, 76 * s, a0, a1);
+      g.closePath();
+      g.fillStyle = cols[i];
+      g.fill();
+    }
+    g.strokeStyle = 'rgba(150,110,70,.35)';
+    g.lineWidth = 2 * s;
+    g.beginPath();
+    g.arc(0, -104 * s, 76 * s, Math.PI, TAU);
+    g.stroke();
+    g.restore();
+  }
+
+  function drawBeachScene(g, P, p) {
+    var rnd = mulberry32(20261213);
+    var groundY = 656;
+
+    // 天空
+    var sky = g.createLinearGradient(0, 0, 0, 460);
+    sky.addColorStop(0, '#67c4f0');
+    sky.addColorStop(0.6, '#b6e6fb');
+    sky.addColorStop(1, '#fff3dd');
+    g.fillStyle = sky;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    drawSun(g, 782, 148, 42, P);
+    drawCloud(g, 170, 104, 1.05, '#ffffff');
+    drawCloud(g, 430, 168, 0.7, '#ffffff');
+    drawCloud(g, 646, 118, 0.82, '#ffffff');
+
+    // 海鸥
+    for (var b = 0; b < 3; b++) {
+      drawBird(g, 300 + b * 44, 210 + b * 18, 0.8 - b * 0.1, 'rgba(80,100,120,.55)');
+    }
+
+    // 海面（远景 → 近景颜色逐渐变亮）
+    var sea = g.createLinearGradient(0, 336, 0, 566);
+    sea.addColorStop(0, '#2b8fc4');
+    sea.addColorStop(0.35, '#33a8d3');
+    sea.addColorStop(0.75, '#5cc6e0');
+    sea.addColorStop(1, '#9fe6e6');
+    g.fillStyle = sea;
+    g.fillRect(0, 336, SCENE_W, 230);
+
+    // 海平线
+    g.strokeStyle = 'rgba(255,255,255,.55)';
+    g.lineWidth = 2;
+    g.beginPath();
+    g.moveTo(0, 337);
+    g.lineTo(SCENE_W, 337);
+    g.stroke();
+
+    // 海浪：越靠前越粗越缓
+    g.save();
+    g.strokeStyle = 'rgba(255,255,255,.62)';
+    for (var w = 0; w < 9; w++) {
+      var wy = 352 + w * 24;
+      var amp = 4 + w * 0.9;
+      g.lineWidth = 1.8 + w * 0.45;
+      g.beginPath();
+      g.moveTo(-20, wy);
+      for (var wx = 0; wx <= SCENE_W + 60; wx += 60) {
+        g.quadraticCurveTo(wx + 15, wy - amp, wx + 30, wy);
+        g.quadraticCurveTo(wx + 45, wy + amp, wx + 60, wy);
+      }
+      g.stroke();
+    }
+    g.restore();
+
+    // 远处帆船
+    g.save();
+    g.fillStyle = 'rgba(255,255,255,.85)';
+    g.beginPath();
+    g.moveTo(232, 344);
+    g.lineTo(232, 318);
+    g.lineTo(250, 344);
+    g.closePath();
+    g.fill();
+    g.fillStyle = 'rgba(210,120,90,.8)';
+    g.beginPath();
+    g.moveTo(222, 345);
+    g.lineTo(256, 345);
+    g.lineTo(249, 352);
+    g.lineTo(229, 352);
+    g.closePath();
+    g.fill();
+    g.restore();
+
+    // 沙滩
+    g.beginPath();
+    g.moveTo(0, 566);
+    g.quadraticCurveTo(240, 548, 480, 568);
+    g.quadraticCurveTo(720, 588, SCENE_W, 560);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    var sand = g.createLinearGradient(0, 552, 0, SCENE_H);
+    sand.addColorStop(0, '#f7e7c4');
+    sand.addColorStop(1, '#e6cf9f');
+    g.fillStyle = sand;
+    g.fill();
+
+    // 浪花边缘
+    g.strokeStyle = 'rgba(255,255,255,.8)';
+    g.lineWidth = 5;
+    g.beginPath();
+    g.moveTo(0, 568);
+    g.quadraticCurveTo(240, 550, 480, 570);
+    g.quadraticCurveTo(720, 590, SCENE_W, 562);
+    g.stroke();
+
+    // 沙粒点
+    for (var s = 0; s < 60; s++) {
+      var sx = rnd() * SCENE_W;
+      var sy = 580 + rnd() * 130;
+      g.beginPath();
+      g.arc(sx, sy, 1 + rnd() * 1.6, 0, TAU);
+      g.fillStyle = 'rgba(190,160,110,.35)';
+      g.fill();
+    }
+
+    // 椰树 / 遮阳伞 / 沙滩球
+    drawPalm(g, 120, 706, 1.15, 46);
+    drawUmbrella(g, 842, 700, 1.0);
+
+    ell(g, 700, 706, 16, 16, 0, '#ffffff');
+    ell(g, 700, 706, 15, 15, 0, '#ff8a8a');
+    g.save();
+    g.beginPath();
+    g.arc(700, 706, 15, 0, TAU);
+    g.clip();
+    g.fillStyle = '#fff4e2';
+    g.beginPath();
+    g.ellipse(700, 706, 15, 5, 0.4, 0, TAU);
+    g.fill();
+    g.fillStyle = '#7fd4ff';
+    g.beginPath();
+    g.ellipse(700, 706, 5, 15, 0.2, 0, TAU);
+    g.fill();
+    g.restore();
+
+    // 贝壳
+    drawStarfish(g, 560, 706, 12, '#ffb36b');
+    ell(g, 380, 712, 11, 7, -0.2, '#ffe0d0');
+    ell(g, 300, 700, 8, 5, 0.3, '#ffd6e8');
+
+    drawCast(g, groundY, p.star === 'chicken', 'shades');
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  场景 7：沙漠绿洲
+  // ============================================================
+  function drawCactus(g, x, baseY, s, color) {
+    g.save();
+    g.translate(x, baseY);
+    g.fillStyle = color;
+    // 主干
+    fillRR(g, -10 * s, -96 * s, 20 * s, 96 * s, 10 * s, color);
+    // 左臂
+    fillRR(g, -30 * s, -70 * s, 12 * s, 44 * s, 6 * s, color);
+    fillRR(g, -30 * s, -34 * s, 24 * s, 12 * s, 6 * s, color);
+    // 右臂
+    fillRR(g, 18 * s, -82 * s, 12 * s, 34 * s, 6 * s, color);
+    fillRR(g, 4 * s, -56 * s, 26 * s, 12 * s, 6 * s, color);
+    // 纹理
+    g.strokeStyle = 'rgba(20,70,40,.3)';
+    g.lineWidth = 1.4 * s;
+    for (var i = 0; i < 4; i++) {
+      g.beginPath();
+      g.moveTo(-3 * s + i * 5 * s, -88 * s);
+      g.lineTo(-3 * s + i * 5 * s, -6 * s);
+      g.stroke();
+    }
+    // 花
+    ell(g, 0, -100 * s, 5 * s, 4 * s, 0, '#ff8fa8');
+    g.restore();
+  }
+
+  function drawDune(g, y, amp, color, phase) {
+    g.beginPath();
+    g.moveTo(0, y + amp);
+    g.bezierCurveTo(SCENE_W * 0.22, y - amp, SCENE_W * 0.36, y + amp * 0.6, SCENE_W * 0.55, y - amp * 0.2);
+    g.bezierCurveTo(SCENE_W * 0.74, y - amp * 1.1, SCENE_W * 0.86, y + amp * 0.5, SCENE_W, y - amp * 0.3);
+    g.lineTo(SCENE_W, SCENE_H);
+    g.lineTo(0, SCENE_H);
+    g.closePath();
+    g.fillStyle = color;
+    g.fill();
+  }
+
+  function drawMesa(g, x, baseY, w, h, color) {
+    // 平顶台地：陡峭崖壁 + 平坦顶部，底部延伸到地平线以下
+    var topW = w * 0.52;
+    var topX = x - topW / 2;
+    var topY = baseY - h;
+    var bottom = baseY + 60;
+
+    g.beginPath();
+    g.moveTo(x - w / 2, bottom);
+    g.lineTo(x - w * 0.34, baseY - h * 0.16);
+    g.lineTo(topX - 4, topY + h * 0.05);
+    g.lineTo(topX + topW * 0.16, topY);
+    g.lineTo(topX + topW * 0.84, topY);
+    g.lineTo(topX + topW + 4, topY + h * 0.05);
+    g.lineTo(x + w * 0.34, baseY - h * 0.16);
+    g.lineTo(x + w / 2, bottom);
+    g.closePath();
+    g.fillStyle = color;
+    g.fill();
+
+    // 崖壁阴影：右侧背光
+    g.save();
+    g.beginPath();
+    g.moveTo(x - w / 2, bottom);
+    g.lineTo(x - w * 0.34, baseY - h * 0.16);
+    g.lineTo(topX - 4, topY + h * 0.05);
+    g.lineTo(topX + topW * 0.16, topY);
+    g.lineTo(topX + topW * 0.84, topY);
+    g.lineTo(topX + topW + 4, topY + h * 0.05);
+    g.lineTo(x + w * 0.34, baseY - h * 0.16);
+    g.lineTo(x + w / 2, bottom);
+    g.closePath();
+    g.clip();
+
+    g.fillStyle = 'rgba(140,82,42,.22)';
+    g.beginPath();
+    g.moveTo(x + w * 0.1, topY - 6);
+    g.lineTo(x + w / 2, bottom);
+    g.lineTo(x + w * 0.02, bottom);
+    g.closePath();
+    g.fill();
+
+    // 不规则的竖向岩缝（不是横条纹，避免像蛋糕）
+    g.strokeStyle = 'rgba(140,82,42,.14)';
+    g.lineWidth = 2;
+    var seams = [-0.28, -0.12, 0.06, 0.2, 0.32];
+    for (var i = 0; i < seams.length; i++) {
+      var sx = x + w * seams[i];
+      g.beginPath();
+      g.moveTo(sx, topY + 2);
+      g.quadraticCurveTo(sx + 5, topY + h * 0.5, sx - 4, bottom);
+      g.stroke();
+    }
+    g.restore();
+
+    // 顶部台面（受光）
+    g.beginPath();
+    g.ellipse(x, topY + 2, topW * 0.5, 5, 0, 0, TAU);
+    g.fillStyle = 'rgba(255,236,196,.5)';
+    g.fill();
+
+    // 顶部的碎石与稀疏灌木
+    ell(g, topX + topW * 0.24, topY - 1, 9, 4, 0, 'rgba(150,96,50,.3)');
+    ell(g, topX + topW * 0.7, topY - 2, 6, 3, 0, 'rgba(150,96,50,.22)');
+    g.strokeStyle = 'rgba(110,100,50,.34)';
+    g.lineWidth = 1.6;
+    for (var b2 = 0; b2 < 3; b2++) {
+      var bx2 = topX + topW * (0.34 + b2 * 0.16);
+      g.beginPath();
+      g.moveTo(bx2, topY);
+      g.lineTo(bx2 - 3, topY - 8);
+      g.moveTo(bx2, topY);
+      g.lineTo(bx2 + 4, topY - 7);
+      g.stroke();
+    }
+  }
+
+  function drawDesertScene(g, P, p) {
+    var rnd = mulberry32(20261215);
+    var groundY = 640;
+
+    // 天空
+    var sky = g.createLinearGradient(0, 0, 0, 560);
+    sky.addColorStop(0, '#f7a96b');
+    sky.addColorStop(0.45, '#ffd39a');
+    sky.addColorStop(1, '#fff2d8');
+    g.fillStyle = sky;
+    g.fillRect(0, 0, SCENE_W, SCENE_H);
+
+    // 大太阳
+    g.save();
+    var sg = g.createRadialGradient(700, 200, 20, 700, 200, 300);
+    sg.addColorStop(0, 'rgba(255,225,150,.6)');
+    sg.addColorStop(1, 'rgba(255,225,150,0)');
+    g.fillStyle = sg;
+    g.fillRect(0, 0, SCENE_W, 560);
+    g.restore();
+    drawSun(g, 700, 200, 54, P);
+
+    // 远山（台地）
+    // 台地都放在角色两侧的空白区，中间留给角色
+    drawMesa(g, 118, 552, 200, 92, '#d9a06a');
+    drawMesa(g, 872, 550, 186, 86, '#d9a06a');
+    drawMesa(g, 700, 556, 120, 58, '#cf945f');
+
+    // 沙丘三层
+    drawDune(g, 540, 34, '#e8c08a', 0);
+    drawDune(g, 598, 28, '#dcae74', 1);
+    drawDune(g, 652, 22, '#cfa062', 2);
+
+    // 沙子纹理
+    g.save();
+    g.strokeStyle = 'rgba(180,130,70,.28)';
+    g.lineWidth = 1.6;
+    for (var i = 0; i < 16; i++) {
+      var sy2 = 600 + i * 8;
+      g.beginPath();
+      g.moveTo(30 + rnd() * 120, sy2);
+      g.quadraticCurveTo(300, sy2 - 6, 640 + rnd() * 120, sy2);
+      g.stroke();
+    }
+    g.restore();
+
+    // 仙人掌
+    drawCactus(g, 132, 700, 1.25, '#3f8f5a');
+    drawCactus(g, 200, 712, 0.85, '#4aa066');
+    drawCactus(g, 852, 700, 1.1, '#3f8f5a');
+
+    // 石块
+    ell(g, 330, 712, 26, 12, 0, '#b98c58');
+    ell(g, 690, 700, 20, 9, 0, '#c49a63');
+    ell(g, 760, 716, 14, 7, 0, '#b98c58');
+
+    // 风滚草
+    g.save();
+    g.translate(480, 690);
+    g.strokeStyle = 'rgba(150,110,60,.75)';
+    g.lineWidth = 2;
+    for (var k = 0; k < 7; k++) {
+      g.beginPath();
+      g.ellipse(0, 0, 13, 13, k * 0.45, 0, TAU);
+      g.stroke();
+    }
+    g.restore();
+
+    // 秃鹫
+    drawBird(g, 300, 150, 1.1, 'rgba(110,80,55,.5)');
+    drawBird(g, 356, 126, 0.8, 'rgba(110,80,55,.4)');
+
+    drawCast(g, groundY, p.star === 'chicken', 'hat');
+
+    drawSceneVignette(g, P);
+  }
+
+  // ============================================================
+  //  入口：按 scene 分发
+  // ============================================================
+  function drawScene(g, picId) {
+    var p = PICS[picId] || PICS.chicken;
+    var P = PALETTES[p.pal];
+
+    g.clearRect(0, 0, SCENE_W, SCENE_H);
+
+    switch (p.scene) {
+      case 'ocean': drawOceanScene(g, P, p); break;
+      case 'space': drawSpaceScene(g, P, p); break;
+      case 'city': drawCityScene(g, P, p); break;
+      case 'snow': drawSnowScene(g, P, p); break;
+      case 'beach': drawBeachScene(g, P, p); break;
+      case 'desert': drawDesertScene(g, P, p); break;
+      default: drawFarmScene(g, P, p);
+    }
   }
 
   function getScene(picId) {
@@ -2456,7 +3941,8 @@
   function drawThumbs() {
     for (var i = 0; i < thumbs.length; i++) {
       var cv = thumbs[i];
-      var opt = cv.parentNode;
+      var opt = cv.closest('.hp-pic-opt');
+      if (!opt) continue;
       var id = opt.getAttribute('data-pic');
       var src = getScene(id);
       var g = cv.getContext('2d');
